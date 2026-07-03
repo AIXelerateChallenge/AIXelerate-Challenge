@@ -3,165 +3,201 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AIXelerate Challenge</title>
-  <style>
-    :root {
-      --bg: #030303;
-      --text: #f3f4f6;
-      --accent: #5865f2;
-      --accent-glow: rgba(88, 101, 242, 0.4);
-      --card-bg: #0a0a0c;
-      --border: #1f2937;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 2rem;
-    }
-
-    /* Navbar styling */
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1.5rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      background: linear-gradient(to right, #fff, #9ca3af);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .logo span {
-      color: var(--accent);
-      -webkit-text-fill-color: initial;
-    }
-
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 6rem 0 4rem 0;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.75rem;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border);
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      margin-bottom: 1.5rem;
-    }
-
-    h1 {
-      font-size: 3.5rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero p {
-      font-size: 1.25rem;
-      color: #9ca3af;
-      max-width: 600px;
-      margin: 0 auto 2.5rem auto;
-    }
-
-    .cta-btn {
-      display: inline-block;
-      background: var(--accent);
-      color: white;
-      padding: 0.75rem 2rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: 0 4px 20px var(--accent-glow);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .cta-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px var(--accent-glow);
-    }
-
-    /* Details Grid */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-      margin-top: 4rem;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      border-radius: 0.75rem;
-    }
-
-    .card h3 {
-      font-size: 1.25rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .card p {
-      color: #9ca3af;
-    }
-  </style>
+  <title>AIXelerate Challenge - Home</title>
+  <link rel="stylesheet" href="global.css">
+  <meta name="description" content="AIXelerate Challenge - Build AI that changes the world. A free, student-led AI competition and flagship hackathon on July 18th for high schoolers.">
+  <script src="scroll-anim.js" defer></script>
 </head>
 <body>
-
-  <div class="container">
-    <nav>
-      <div class="logo">AIXelerate<span>.</span></div>
-    </nav>
-
-    <main>
-      <section class="hero">
-        <div class="badge">July 18th — Flagship Event</div>
-        <h1>Build the Future of <br>Agentic Intelligence.</h1>
-        <p>A high-impact hackathon designed for the next generation of AI builders, system architects, and technical problem solvers.</p>
-        <a href="#" class="cta-btn">Register for the Challenge</a>
-      </section>
-
-      <section class="grid">
-        <div class="card">
-          <h3>🤖 Intelligent Agents</h3>
-          <p>Focus on optimization mechanics, advanced neural architectures, and robust autonomous systems.</p>
+  <!-- MASTER HEADER -->
+  <header>
+    <div class="nav-wrap">
+      <a href="index.html" class="logo">
+        <em>AI</em>Xelerate
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="about.html">About</a>
+        <a href="hackathon.html">Hackathon</a>
+        <a href="events.html">Dynamic Events</a>
+        <a href="join.html">Join Us</a>
+      </nav>
+      <div class="nav-right">
+        <a href="https://hcb.hackclub.com/donations/start/aixelerate-challenge" target="_blank" rel="noopener noreferrer" class="btn btn-gold-nav">Support Our Mission</a>
+      </div>
+    </div>
+  </header>
+  <!-- MAIN LANDING CONTENT -->
+  <main style="padding-top: 80px;">
+    <!-- HERO SECTION -->
+    <section class="section section-dark" style="padding: 8rem 2rem 6rem; position: relative; overflow: hidden;">
+      <div class="wrap" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: center;">
+        <div>
+          <div class="eyebrow" style="color: var(--gold2); margin-bottom: 1.5rem;">Applications Open — 2027 Season</div>
+          <h1 class="display-xl" style="color: var(--white); margin-bottom: 1.5rem;">Build AI That<br><em class="serif" style="color: var(--gold2); font-style: italic;">Changes</em><br>The World.</h1>
+          <p class="body-text" style="color: rgba(255,255,255,0.7); font-size: 1.1rem; max-width: 540px; margin-bottom: 2.5rem;">
+            A free, student-led AI competition for high schoolers aged 14–18. No coding experience needed — just bold ideas and the drive to make an impact.
+          </p>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3.5rem;">
+            <a href="join.html" class="btn btn-primary">Apply Now &rarr;</a>
+            <a href="hackathon.html" class="btn btn-navy" style="border: 1px solid rgba(255,255,255,0.15);">Explore Flagship Hackathon</a>
+          </div>
+          <div style="display: flex; gap: 3rem;">
+            <div>
+              <div class="serif" style="font-size: 2.2rem; font-weight: 800; color: var(--gold2);">14–18</div>
+              <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem;">Age Range</div>
+            </div>
+            <div>
+              <div class="serif" style="font-size: 2.2rem; font-weight: 800; color: var(--gold2);">Free</div>
+              <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem;">To Enter</div>
+            </div>
+            <div>
+              <div class="serif" style="font-size: 2.2rem; font-weight: 800; color: var(--gold2);">July 18</div>
+              <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem;">Flagship Date</div>
+            </div>
+          </div>
         </div>
-        <div class="card">
-          <h3>⚡ Build & Deploy</h3>
-          <p>Go from absolute concept to fully realized, production-ready AI systems over the course of a weekend.</p>
+        <!-- HERO EVENT CALLOUT CARD -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--r24); padding: 2.5rem; backdrop-filter: blur(12px); position: relative;">
+          <div style="position: absolute; top: -12px; left: 24px; background: var(--grad-gold); color: var(--navy); font-size: 0.7rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em;">Key Event</div>
+          <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">🚀</span>
+          <h3 class="serif" style="font-size: 1.5rem; color: var(--white); margin-bottom: 0.75rem;">Flagship Hackathon</h3>
+          <p style="font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 1.5rem;">
+            Join us on <strong style="color: var(--gold2);">July 18th</strong> for a high-intensity, global event to build, collaborate, and pitch your AI concepts with expert mentorship.
+          </p>
+          <a href="hackathon.html" class="btn btn-outline" style="border-color: var(--gold2); color: var(--gold2); width: 100%; justify-content: center; text-align: center; font-size: 0.8rem; padding: 0.7rem;">
+            Hackathon Details &rarr;
+          </a>
         </div>
-        <div class="card">
-          <h3>🏆 Compete & Win</h3>
-          <p>Submit your project to domain-specific tracks, showcase your work, and pitch to industry-expert judges.</p>
+      </div>
+    </section>
+    <!-- CORE MESSAGING / PITCH -->
+    <section class="section">
+      <div class="wrap">
+        <div class="tc">
+          <div class="eyebrow">Our Vision</div>
+          <h2 class="display-lg">AI Driven by <span class="gold-text">Purpose.</span></h2>
+          <p class="body-text" style="max-width: 700px; margin: 1.5rem auto 0; font-size: 1.1rem;">
+            We believe that technology is most powerful when directed toward solving human problems. The AIXelerate Challenge is a launchpad for young minds to translate complex technology into real-world, ethical solutions.
+          </p>
         </div>
-      </section>
-    </main>
-  </div>
-
+        <div class="card-grid">
+          <!-- Pitch 1 -->
+          <div class="card scroll-3d delay-1">
+            <span style="font-size: 2rem; display: block; margin-bottom: 1.25rem;">💡</span>
+            <h3 class="serif" style="font-size: 1.25rem; color: var(--navy); margin-bottom: 0.75rem;">Ideate &amp; Innovate</h3>
+            <p class="body-text" style="font-size: 0.95rem;">
+              Identify meaningful real-world challenges in areas like education, sustainability, healthcare, and accessibility, and formulate an AI-based solution.
+            </p>
+          </div>
+          <!-- Pitch 2 -->
+          <div class="card scroll-3d delay-2">
+            <span style="font-size: 2rem; display: block; margin-bottom: 1.25rem;">🤝</span>
+            <h3 class="serif" style="font-size: 1.25rem; color: var(--navy); margin-bottom: 0.75rem;">Expert Mentorship</h3>
+            <p class="body-text" style="font-size: 0.95rem;">
+              Receive guidance from industry veterans and academic researchers to shape your system architecture, project feasibility, and presentation style.
+            </p>
+          </div>
+          <!-- Pitch 3 -->
+          <div class="card scroll-3d delay-3">
+            <span style="font-size: 2rem; display: block; margin-bottom: 1.25rem;">⚖️</span>
+            <h3 class="serif" style="font-size: 1.25rem; color: var(--navy); margin-bottom: 0.75rem;">Ethical Frameworks</h3>
+            <p class="body-text" style="font-size: 0.95rem;">
+              Analyze bias, data privacy, and societal implications. We evaluate projects not just on code complexity, but on how responsibly they address hazards.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- FLAGSHIP TIMELINE HIGHLIGHT -->
+    <section class="section" style="background: var(--cream2); padding: 5rem 2rem;">
+      <div class="wrap">
+        <div class="tc">
+          <div class="eyebrow">Milestones</div>
+          <h2 class="display-lg">Key Dates to <span class="gold-text">Remember.</span></h2>
+        </div>
+        <div class="tl-wrap">
+          <div class="tl-item scroll-3d-left delay-1">
+            <div class="tl-dot-wrap"><div class="tl-dot active">01</div></div>
+            <div class="tl-body">
+              <div class="tl-date">Now Open</div>
+              <div class="tl-title">Registrations Open</div>
+              <div class="tl-desc">Sign up as a student participant or mentor to get early access to resources, workspace tools, and community channels.</div>
+            </div>
+          </div>
+          <div class="tl-item scroll-3d-left delay-2">
+            <div class="tl-dot-wrap"><div class="tl-dot">02</div></div>
+            <div class="tl-body">
+              <div class="tl-date">July 18, 2027</div>
+              <div class="tl-title">Flagship AIXelerate Hackathon</div>
+              <div class="tl-desc">Our primary online event where teams spend the day refining prototypes, working with mentors, and preparing pitch presentations.</div>
+            </div>
+          </div>
+          <div class="tl-item scroll-3d-left delay-3">
+            <div class="tl-dot-wrap"><div class="tl-dot">03</div></div>
+            <div class="tl-body">
+              <div class="tl-date">July 30, 2027</div>
+              <div class="tl-title">Final Submissions &amp; Pitch Review</div>
+              <div class="tl-desc">Completed pitches, ethics assessments, and codebase repository links are finalized for evaluation by our expert panel of judges.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- CTA SECTION -->
+    <section class="section section-dark tc" style="padding: 6rem 2rem;">
+      <div class="wrap" style="max-width: 800px; margin: 0 auto;">
+        <div class="eyebrow" style="color: var(--gold2); justify-content: center; margin-bottom: 1.5rem;">Join the Movement</div>
+        <h2 class="display-lg" style="color: var(--white); margin-bottom: 1.5rem;">Ready to Build Your AI Project?</h2>
+        <p class="body-text" style="color: rgba(255,255,255,0.6); max-width: 500px; margin: 0 auto 2.5rem;">
+          Connect with peers worldwide, access top-tier computing resources, and build tools that solve problems. Free. Open. Impactful.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="join.html" class="btn btn-primary">Apply as a Student</a>
+          <a href="join.html" class="btn btn-outline" style="border-color: rgba(255,255,255,0.2); color: var(--white);">Become a Mentor</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <!-- MASTER FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <a href="index.html" class="flogo"><em>AI</em>Xelerate</a>
+          <p>Empowering the next generation of AI builders, innovators, and leaders to create ethical, high-impact solutions.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="hackathon.html">Hackathon</a></li>
+            <li><a href="events.html">Dynamic Events</a></li>
+            <li><a href="join.html">Join Us</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Support Us</h4>
+          <ul>
+            <li><a href="https://hcb.hackclub.com/donations/start/aixelerate-challenge" target="_blank" rel="noopener noreferrer">Give to AIXelerate</a></li>
+            <li><a href="join.html">Mentor Sign-Up</a></li>
+            <li><a href="join.html">Sponsorships</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="mailto:team@aixelerate.org">Email Us</a></li>
+            <li><a href="https://hackclub.com" target="_blank" rel="noopener noreferrer">Hack Club</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 AIXelerate Challenge. A member of the Hack Club Bank network. All rights reserved.</p>
+        <span class="free-badge" style="font-size: 0.75rem; font-weight: 600; color: var(--gold2); border: 1px solid rgba(201,168,76,0.3); padding: 0.3rem 0.8rem; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em;">Free &amp; Open Access</span>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

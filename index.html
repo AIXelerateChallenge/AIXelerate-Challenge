@@ -5,38 +5,52 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AIXelerate Challenge - Home</title>
   <link rel="stylesheet" href="global.css">
-  <meta name="description" content="AIXelerate Challenge - Build AI that changes the world. A free, student-led AI competition and flagship hackathon on July 18th for high schoolers.">
+  <meta name="description" content="AIXelerate Challenge - Build AI that changes the world. A free, student-led AI competition and flagship hackathon on July 25th in the Portland Metro Area for middle and high schoolers.">
   <script src="scroll-anim.js" defer></script>
+  <script src="nav.js" defer></script>
 </head>
 <body>
   <!-- MASTER HEADER -->
   <header>
     <div class="nav-wrap">
       <a href="index.html" class="logo">
-        <em>AI</em>Xelerate
+        <img src="images/mark.svg" alt="" class="brand-mark"><em>AI</em>Xelerate Challenge
       </a>
       <nav class="nav-links">
         <a href="index.html" class="active">Home</a>
         <a href="about.html">About</a>
         <a href="hackathon.html">Hackathon</a>
-        <a href="events.html">Dynamic Events</a>
+        <a href="faq.html">FAQ</a>
+        <a href="sponsors.html">Sponsors</a>
+        <a href="events.html">Events</a>
         <a href="join.html">Join Us</a>
       </nav>
       <div class="nav-right">
         <a href="https://hcb.hackclub.com/donations/start/aixelerate-challenge" target="_blank" rel="noopener noreferrer" class="btn btn-gold-nav">Support Our Mission</a>
+        <button class="hamburger" id="hamburger-btn" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
       </div>
     </div>
+    <nav class="mobile-menu" id="mobile-menu">
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="hackathon.html">Hackathon</a>
+      <a href="faq.html">FAQ</a>
+      <a href="sponsors.html">Sponsors</a>
+      <a href="events.html">Events</a>
+      <a href="join.html">Join Us</a>
+      <a href="https://hcb.hackclub.com/donations/start/aixelerate-challenge" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Support Our Mission</a>
+    </nav>
   </header>
   <!-- MAIN LANDING CONTENT -->
   <main style="padding-top: 80px;">
     <!-- HERO SECTION -->
     <section class="section section-dark" style="padding: 8rem 2rem 6rem; position: relative; overflow: hidden;">
       <div class="wrap" style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: center;">
-        <div>
-          <div class="eyebrow" style="color: var(--gold2); margin-bottom: 1.5rem;">Applications Open — 2027 Season</div>
+        <div class="fade-up">
+          <div class="eyebrow" style="color: var(--gold2); margin-bottom: 1.5rem;">Registrations Open — 2026 Season</div>
           <h1 class="display-xl" style="color: var(--white); margin-bottom: 1.5rem;">Build AI That<br><em class="serif" style="color: var(--gold2); font-style: italic;">Changes</em><br>The World.</h1>
           <p class="body-text" style="color: rgba(255,255,255,0.7); font-size: 1.1rem; max-width: 540px; margin-bottom: 2.5rem;">
-            A free, student-led AI competition for high schoolers aged 14–18. No coding experience needed — just bold ideas and the drive to make an impact.
+            A free, student-led AI competition for middle and high schoolers. No coding experience needed — just bold ideas and the drive to make an impact.
           </p>
           <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3.5rem;">
             <a href="join.html" class="btn btn-primary">Apply Now &rarr;</a>
@@ -44,26 +58,26 @@
           </div>
           <div style="display: flex; gap: 3rem;">
             <div>
-              <div class="serif" style="font-size: 2.2rem; font-weight: 800; color: var(--gold2);">14–18</div>
-              <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem;">Age Range</div>
+              <div class="serif" style="font-size: 2.2rem; font-weight: 800; color: var(--gold2);">MS–HS</div>
+              <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem;">Grade Range</div>
             </div>
             <div>
               <div class="serif" style="font-size: 2.2rem; font-weight: 800; color: var(--gold2);">Free</div>
               <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem;">To Enter</div>
             </div>
             <div>
-              <div class="serif" style="font-size: 2.2rem; font-weight: 800; color: var(--gold2);">July 18</div>
+              <div class="serif" style="font-size: 2.2rem; font-weight: 800; color: var(--gold2);">July 25</div>
               <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 0.25rem;">Flagship Date</div>
             </div>
           </div>
         </div>
         <!-- HERO EVENT CALLOUT CARD -->
-        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--r24); padding: 2.5rem; backdrop-filter: blur(12px); position: relative;">
+        <div class="fade-zoom" style="transition-delay:.15s;background: rgba(255,255,255,0.03); border: 1px solid rgba(201,168,76,0.25); border-radius: var(--r24); padding: 2.5rem; backdrop-filter: blur(12px); position: relative;">
           <div style="position: absolute; top: -12px; left: 24px; background: var(--grad-gold); color: var(--navy); font-size: 0.7rem; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 100px; text-transform: uppercase; letter-spacing: 0.05em;">Key Event</div>
           <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">🚀</span>
           <h3 class="serif" style="font-size: 1.5rem; color: var(--white); margin-bottom: 0.75rem;">Flagship Hackathon</h3>
           <p style="font-size: 0.9rem; color: rgba(255,255,255,0.6); line-height: 1.6; margin-bottom: 1.5rem;">
-            Join us on <strong style="color: var(--gold2);">July 18th</strong> for a high-intensity, global event to build, collaborate, and pitch your AI concepts with expert mentorship.
+            Join us on <strong style="color: var(--gold2);">July 25th</strong> at DMM Events in Hillsboro, OR for an in-person day of building, mentorship, and a live judging expo.
           </p>
           <a href="hackathon.html" class="btn btn-outline" style="border-color: var(--gold2); color: var(--gold2); width: 100%; justify-content: center; text-align: center; font-size: 0.8rem; padding: 0.7rem;">
             Hackathon Details &rarr;
@@ -128,17 +142,17 @@
           <div class="tl-item scroll-3d-left delay-2">
             <div class="tl-dot-wrap"><div class="tl-dot">02</div></div>
             <div class="tl-body">
-              <div class="tl-date">July 18, 2027</div>
-              <div class="tl-title">Flagship AIXelerate Hackathon</div>
-              <div class="tl-desc">Our primary online event where teams spend the day refining prototypes, working with mentors, and preparing pitch presentations.</div>
+              <div class="tl-date">July 25, 2026 · 10 AM–7 PM</div>
+              <div class="tl-title">AIXelerate Build Sprint (Flagship Hackathon)</div>
+              <div class="tl-desc">Teams gather in person at DMM Events in Hillsboro, OR to build MVPs, get mentor feedback, and demo at our judging expo.</div>
             </div>
           </div>
           <div class="tl-item scroll-3d-left delay-3">
             <div class="tl-dot-wrap"><div class="tl-dot">03</div></div>
             <div class="tl-body">
-              <div class="tl-date">July 30, 2027</div>
-              <div class="tl-title">Final Submissions &amp; Pitch Review</div>
-              <div class="tl-desc">Completed pitches, ethics assessments, and codebase repository links are finalized for evaluation by our expert panel of judges.</div>
+              <div class="tl-date">July 25, 2026 · Evening</div>
+              <div class="tl-title">Awards &amp; Closing Ceremony</div>
+              <div class="tl-desc">Judges finalize scoring, winners are announced on-site, and standout projects are featured across our platforms afterward.</div>
             </div>
           </div>
         </div>
@@ -164,7 +178,7 @@
     <div class="footer-inner">
       <div class="footer-top">
         <div class="footer-brand">
-          <a href="index.html" class="flogo"><em>AI</em>Xelerate</a>
+          <a href="index.html" class="flogo"><img src="images/mark.svg" alt="" class="brand-mark"><em>AI</em>Xelerate Challenge</a>
           <p>Empowering the next generation of AI builders, innovators, and leaders to create ethical, high-impact solutions.</p>
         </div>
         <div class="footer-col">
@@ -173,6 +187,8 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="hackathon.html">Hackathon</a></li>
+            <li><a href="faq.html">FAQ</a></li>
+            <li><a href="sponsors.html">Sponsors</a></li>
             <li><a href="events.html">Dynamic Events</a></li>
             <li><a href="join.html">Join Us</a></li>
           </ul>
@@ -180,9 +196,9 @@
         <div class="footer-col">
           <h4>Support Us</h4>
           <ul>
-            <li><a href="https://hcb.hackclub.com/donations/start/aixelerate-challenge" target="_blank" rel="noopener noreferrer">Give to AIXelerate</a></li>
+            <li><a href="https://hcb.hackclub.com/donations/start/aixelerate-challenge" target="_blank" rel="noopener noreferrer">Give to AIXelerate Challenge</a></li>
             <li><a href="join.html">Mentor Sign-Up</a></li>
-            <li><a href="join.html">Sponsorships</a></li>
+            <li><a href="sponsors.html">Sponsorships</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -190,6 +206,7 @@
           <ul>
             <li><a href="mailto:team@aixelerate.org">Email Us</a></li>
             <li><a href="https://hackclub.com" target="_blank" rel="noopener noreferrer">Hack Club</a></li>
+            <li><a href="https://www.instagram.com/aixeleratechallenge/" target="_blank" rel="noopener noreferrer" class="social-icon"><svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:currentColor;flex-shrink:0"><path d="M12 2.2c3.2 0 3.58.01 4.85.07 1.17.05 1.97.24 2.43.4a4.9 4.9 0 0 1 1.77 1.15 4.9 4.9 0 0 1 1.15 1.77c.16.46.35 1.26.4 2.43.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.24 1.97-.4 2.43a4.9 4.9 0 0 1-1.15 1.77 4.9 4.9 0 0 1-1.77 1.15c-.46.16-1.26.35-2.43.4-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.97-.24-2.43-.4a4.9 4.9 0 0 1-1.77-1.15 4.9 4.9 0 0 1-1.15-1.77c-.16-.46-.35-1.26-.4-2.43-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.24-1.97.4-2.43a4.9 4.9 0 0 1 1.15-1.77A4.9 4.9 0 0 1 4.72 2.67c.46-.16 1.26-.35 2.43-.4C8.42 2.21 8.8 2.2 12 2.2Zm0 1.8c-3.14 0-3.5.01-4.73.07-.96.04-1.48.2-1.82.34-.46.18-.79.39-1.13.74-.35.34-.56.67-.74 1.13-.14.34-.3.86-.34 1.82C3.18 8.53 3.17 8.89 3.17 12s.01 3.47.07 4.7c.04.96.2 1.48.34 1.82.18.46.39.79.74 1.13.34.35.67.56 1.13.74.34.14.86.3 1.82.34 1.23.06 1.59.07 4.73.07s3.5-.01 4.73-.07c.96-.04 1.48-.2 1.82-.34.46-.18.79-.39 1.13-.74.35-.34.56-.67.74-1.13.14-.34.3-.86.34-1.82.06-1.23.07-1.59.07-4.7s-.01-3.47-.07-4.7c-.04-.96-.2-1.48-.34-1.82a3.07 3.07 0 0 0-.74-1.13 3.07 3.07 0 0 0-1.13-.74c-.34-.14-.86-.3-1.82-.34C15.5 4.01 15.14 4 12 4Zm0 3.05A4.95 4.95 0 1 1 7.05 12 4.95 4.95 0 0 1 12 7.05Zm0 1.8A3.15 3.15 0 1 0 15.15 12 3.15 3.15 0 0 0 12 8.85Zm5.15-2a1.16 1.16 0 1 1-1.16 1.16 1.16 1.16 0 0 1 1.16-1.16Z"/></svg>Instagram</a></li>
           </ul>
         </div>
       </div>

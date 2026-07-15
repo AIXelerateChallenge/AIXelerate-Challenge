@@ -21,7 +21,7 @@ const TOKEN = "";
 
 // One tab per form, with the exact column order we want written.
 const SHEET_CONFIG = {
-  "Competitor": ["submittedAt","firstName","lastName","email","age","school","grade","country","track","teamName","projectIdea"],
+  "Competitor": ["submittedAt","firstName","lastName","email","age","school","grade","country","track","teamPreference","emergencyPhone","teamName","teammates","projectIdea","agreeRules","agreePhotos"],
   "Volunteer": ["submittedAt","firstName","lastName","email","availability","whyVolunteer"],
   "Mentor/Judge": ["submittedAt","firstName","lastName","email","role","expertise"],
   "Board Member": ["submittedAt","firstName","lastName","email","location","background","intent"]

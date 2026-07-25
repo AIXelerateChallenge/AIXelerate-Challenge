@@ -1,0 +1,459 @@
+    background: rgba(183,156,240,0.08); border:1px solid var(--violet); border-radius:6px; padding:16px 18px;
+  }
+  .qbox .qtitle{
+    font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--violet);
+    text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; font-weight:700;
+  }
+  .qbox ul{ list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .qbox li{ font-size:13.5px; line-height:1.5; padding-left:18px; position:relative; }
+  .qbox li::before{ content:"?"; position:absolute; left:0; color: var(--violet); font-family:'JetBrains Mono',monospace; font-weight:700; }
+
+  /* CODE NOTE */
+  .code-note{
+    background: #071522; border:1px solid var(--blue-line); border-radius:6px;
+    padding:14px 16px; font-family:'JetBrains Mono', monospace; font-size:12.5px;
+    color: var(--green); line-height:1.7; overflow-x:auto; margin-top:8px;
+  }
+  .code-note .c{ color: var(--ink-dim); }
+
+  /* ANNOTATED COMMAND BLOCK */
+  .cmd-block{
+    background:#071522; border:1px solid var(--blue-line); border-radius:6px; padding:14px 16px;
+  }
+  .cmd-title{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--cyan);
+    text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px; font-weight:700;
+  }
+  .cmd-row{
+    display:grid; grid-template-columns: 230px 1fr; gap:14px; align-items:baseline;
+    padding:7px 0; border-top:1px dashed var(--blue-line);
+  }
+  .cmd-row:first-of-type{ border-top:none; padding-top:0; }
+  .cmd-row code{ font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--green); overflow-wrap:anywhere; }
+  .cmd-row span{ font-size:12.5px; color: var(--ink-dim); line-height:1.5; }
+
+  /* AI PROMPT BOX */
+  .ai-prompt{
+    background: rgba(255,182,72,0.08); border:1px solid var(--amber); border-radius:6px;
+    padding:14px 16px; margin-top:14px;
+  }
+  .ai-prompt .label{
+    font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--amber);
+    text-transform:uppercase; letter-spacing:0.08em; margin-bottom:8px; font-weight:700;
+  }
+  .ai-prompt .prompt{
+    font-size:13px; color: var(--ink); font-style:italic; line-height:1.6;
+  }
+  .ai-prompt .prompt::before{ content:'\201C'; color: var(--amber); font-style:normal; }
+  .ai-prompt .prompt::after{ content:'\201D'; color: var(--amber); font-style:normal; }
+
+  /* CHECKLIST (reused) */
+  .checklist{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px 20px; }
+  .check-item{
+    display:flex; gap:12px; align-items:flex-start; padding:12px;
+    background: var(--blue-panel); border:1px solid var(--blue-line); border-radius:6px;
+  }
+  .box{ width:18px; height:18px; min-width:18px; border:2px solid var(--cyan); border-radius:4px; margin-top:2px; }
+  .check-item .txt strong{ display:block; font-size:14px; font-weight:600; }
+  .check-item .txt span{ display:block; font-size:12.5px; color: var(--ink-dim); margin-top:2px; line-height:1.4; }
+
+  /* TIMELINE (reused) */
+  .timeline{ position:relative; padding-left: 28px; }
+  .timeline::before{
+    content:""; position:absolute; left:9px; top:6px; bottom:6px; width:2px;
+    background: linear-gradient(var(--cyan), var(--blue-line));
+  }
+  .tl-item{ position:relative; padding-bottom: 20px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:""; position:absolute; left:-28px; top:3px; width:12px; height:12px;
+    border-radius:50%; background: var(--blue-deep); border:2px solid var(--cyan);
+  }
+  .tl-item.big::before{ background: var(--amber); border-color: var(--amber); box-shadow: 0 0 10px rgba(255,182,72,0.5); }
+  .tl-time{ font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--amber); font-weight:700; }
+  .tl-title{ font-family:'Space Grotesk', sans-serif; font-size:15.5px; font-weight:600; margin-top:2px; }
+  .tl-desc{ font-size:13px; color: var(--ink-dim); margin-top:3px; max-width:540px; line-height:1.45; }
+
+  /* FOLDER TREE */
+  .tree{
+    background:#071522; border:1px solid var(--blue-line); border-radius:6px; padding:16px 18px;
+    font-family:'JetBrains Mono', monospace; font-size:12.5px; color: var(--ink-dim); line-height:1.9;
+  }
+  .tree .folder{ color: var(--cyan); }
+  .tree .file{ color: var(--ink); }
+  .tree .cmt{ color:#5b7284; }
+
+  /* DEMO STRUCTURE */
+  .demo-flow{ display:flex; gap:10px; flex-wrap:wrap; }
+  .demo-part{
+    flex:1; min-width:150px; background: var(--blue-panel); border:1px solid var(--blue-line);
+    border-radius:6px; padding:14px;
+  }
+  .demo-part .time{ font-family:'JetBrains Mono', monospace; font-size:11px; color: var(--amber); }
+  .demo-part h3{ font-family:'Space Grotesk', sans-serif; font-size:14.5px; margin-top:5px; font-weight:600; }
+  .demo-part p{ font-size:12px; color: var(--ink-dim); margin-top:5px; line-height:1.5; }
+
+  footer{ padding-top: 30px; text-align:center; }
+  footer .logo{ font-family:'JetBrains Mono', monospace; font-size:12px; color: var(--cyan); }
+  footer .tag{ font-size:12px; color: var(--ink-dim); margin-top:4px; }
+
+  @media (max-width: 640px){
+    .define-grid{ grid-template-columns: 1fr; }
+    .checklist{ grid-template-columns: 1fr; }
+    .demo-flow{ flex-direction:column; }
+    .cmd-row{ grid-template-columns: 1fr; gap:3px; }
+    .quicknav{ padding:8px 14px; }
+  }
+
+  @media print{
+    .quicknav{ display:none; }
+    *{
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+      color-adjust: exact !important;
+    }
+    section{ break-inside: avoid-page; }
+  }
+</style>
+</head>
+<body>
+<nav class="quicknav">
+  <a href="#basics">01 Basics</a>
+  <a href="#brainstorm">02 Brainstorm</a>
+  <a href="#plan">03 Plan/MVP</a>
+  <a href="#setup">04 Setup</a>
+  <a href="#github">05 GitHub</a>
+  <a href="#roles">06 Roles</a>
+  <a href="#debug">07 Debug</a>
+  <a href="#notfinished">08 If Not Finished</a>
+  <a href="#demo">09 Demo</a>
+  <a href="#final">10 Final Check</a>
+</nav>
+<main class="sheet">
+
+  <header>
+    <span class="brief-stamp">Field Manual — Build & Code</span>
+    <h1>How to actually <span>build</span> the thing.</h1>
+    <p class="subhead">For teammates who've never opened a code editor before. What the words mean, how to plan before you type, and what to do when it breaks.</p>
+  </header>
+
+  <!-- A: BASICS -->
+  <section id="basics">
+    <div class="section-head"><span class="section-tag">01</span><h2>The basics — what coding actually is</h2></div>
+    <p class="section-sub">Coding is giving a computer exact, step-by-step instructions in a language it understands. That's it. Here are the words you'll hear all day and what they really mean.</p>
+    <div class="define-grid">
+      <div class="define"><div class="term">IDE</div><p><span class="analogy">Think: a word processor, but for code.</span> The app where you write, run, and test your code. Examples: VS Code, Replit, Cursor. It highlights your code and shows you errors.</p></div>
+      <div class="define"><div class="term">Frontend</div><p><span class="analogy">Think: the dashboard of a car.</span> Everything the user sees and clicks — buttons, colors, pages. Built with HTML (structure), CSS (style), JavaScript (behavior).</p></div>
+      <div class="define"><div class="term">Backend</div><p><span class="analogy">Think: the engine under the hood.</span> The logic running behind the scenes — processes data, makes decisions, talks to storage. Common languages: Python, JavaScript (Node.js).</p></div>
+      <div class="define"><div class="term">Database</div><p><span class="analogy">Think: a filing cabinet that never forgets.</span> Where information is saved so it's still there after you close the tab or restart the app.</p></div>
+      <div class="define"><div class="term">API</div><p><span class="analogy">Think: a waiter taking your order to the kitchen.</span> An API lets different programs talk to each other. Your app can use one to get weather data, process a payment, or ask an AI model for a response.</p></div>
+      <div class="define"><div class="term">AI Model</div><p><span class="analogy">Think: the "smart assistant" powering your app.</span> It doesn't store your app or run your website — it just helps your app think, answer questions, or generate content when your backend asks it, through an API.</p></div>
+    </div>
+
+    <div class="stack-vertical">
+      <div class="stack-box"><div class="t">Frontend</div><div class="s">what the user sees</div></div>
+      <div class="vert-arrow">⇅</div>
+      <div class="stack-box"><div class="t">Backend</div><div class="s">the logic</div></div>
+      <div class="branch-connector">↙&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↘</div>
+      <div class="branch-row">
+        <div class="stack-box"><div class="t">AI Model</div><div class="s">the intelligence</div></div>
+        <div class="stack-box db"><div class="t">Database</div><div class="s">the memory</div></div>
+      </div>
+    </div>
+    <p class="diagram-note">Not every app uses AI, and not every app needs a database. The backend decides when to call either one — sometimes both in the same request.</p>
+
+    <p class="section-sub" style="margin-top:26px; margin-bottom:10px;">And here's what coding actually feels like, minute to minute — this loop, not one clean pass:</p>
+    <div class="loop-flow">
+      <div class="loop-step">Write code</div><div class="loop-arrow">→</div>
+      <div class="loop-step">Run it</div><div class="loop-arrow">→</div>
+      <div class="loop-step">Something breaks</div><div class="loop-arrow">→</div>
+      <div class="loop-step">Fix it</div><div class="loop-arrow">→</div>
+      <div class="loop-step">Test again</div><div class="loop-arrow loop-back">↻ repeat</div>
+    </div>
+    <p class="diagram-note">Professional developers spend most of their time in this loop, not writing perfect code the first time. If your code breaks constantly, that's not a sign you're bad at this — that's just what building something looks like.</p>
+  </section>
+
+  <!-- B: BRAINSTORM -->
+  <section id="brainstorm">
+    <div class="section-head"><span class="section-tag">02</span><h2>Brainstorming your idea</h2></div>
+    <p class="section-sub">Good hackathon ideas are small and specific — not "an app for mental health," but one clear tool for one clear person. Don't touch the keyboard until this part is done.</p>
+
+    <div class="qbox">
+      <div class="qtitle">Round 1 — Understand the problem before the solution</div>
+      <ul>
+        <li>Who exactly are we helping? Can we describe one real person, not a category?</li>
+        <li>What do they struggle with right now, specifically — not in general?</li>
+        <li>Why does this problem matter to them today, not someday?</li>
+        <li>How do they deal with this right now, without our tool?</li>
+        <li>What would have to be true for them to actually stop and use what we build?</li>
+      </ul>
+    </div>
+
+    <div class="qbox" style="margin-top:16px; border-color: var(--cyan); background: rgba(79,209,232,0.08);">
+      <div class="qtitle" style="color: var(--cyan);">Round 2 — Pressure-test the idea</div>
+      <ul>
+        <li>Is this a real problem, or one we're inventing because it sounds impressive?</li>
+        <li>Would someone actually open this a second time, or just once out of curiosity?</li>
+        <li>Can we build a rough, working version of this in the hours we actually have?</li>
+        <li>Does AI make this meaningfully better — or are we bolting it on because it's an AI hackathon?</li>
+        <li>If we had to cut everything but one feature, which one would we protect?</li>
+        <li>What's the simplest version of this that would still be worth showing a judge?</li>
+      </ul>
+    </div>
+
+    <div class="define-grid" style="margin-top:16px;">
+      <div class="define" style="border-color: var(--coral);"><div class="term" style="color: var(--coral);">Too big</div><p>"Build the next Google Classroom." No team can finish this in one day — and judges can tell when a goal was never realistic.</p></div>
+      <div class="define" style="border-color: var(--green);"><div class="term" style="color: var(--green);">Right-sized</div><p>"Help a student summarize their homework reading using AI." One person, one problem, one clear feature — and it's actually finishable.</p></div>
+    </div>
+  </section>
+
+  <!-- C: PLANNING & MVP -->
+  <section id="plan">
+    <div class="section-head"><span class="section-tag">03</span><h2>Plan it on paper, then scope it down</h2></div>
+    <p class="section-sub">Spend 20–30 minutes planning before anyone starts typing. It saves hours later.</p>
+    <div class="steps">
+      <div class="step"><div class="body"><strong>Sketch your screens</strong><span>Draw boxes on paper for each screen — what's on it, what buttons do. This is called a wireframe.</span></div></div>
+      <div class="step"><div class="body"><strong>Decide what needs a backend</strong><span>Does data need to be saved or shared? That needs a backend + database. A static info tool might not.</span></div></div>
+      <div class="step"><div class="body"><strong>Draw how information moves</strong><span>User clicks a button → what happens → what's shown back. Trace it end to end before coding.</span></div></div>
+      <div class="step"><div class="body"><strong>Assign one owner per piece</strong><span>Someone owns frontend, someone owns backend/logic, someone owns the pitch — even in a small team.</span></div></div>
+    </div>
+
+    <div class="define-grid" style="margin-top:22px;">
+      <div class="define"><div class="term">MVP — Minimum Viable Product</div><p>The smallest version of your idea that actually works end to end. Not a preview of the idea — a working slice of it.</p></div>
+      <div class="define"><div class="term">Example: AI Study Assistant</div><p><span class="analogy">MVP:</span> ask a question, AI answers. Done. <span class="analogy">Not MVP:</span> login, profiles, friends, notifications, dark mode.</p></div>
+    </div>
+
+    <div class="qbox" style="margin-top:16px;">
+      <div class="qtitle">Split every feature into two lists</div>
+      <ul>
+        <li><strong>Must Have</strong> — the feature is broken without it. Finish these first, completely, before anything else.</li>
+        <li><strong>Nice to Have</strong> — polish, extras, and ideas you'll only touch once every Must Have actually works.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- E: SETUP -->
+  <section id="setup">
+    <div class="section-head"><span class="section-tag">04</span><h2>Set up your project, step by step</h2></div>
+    <p class="section-sub">This is the literal sequence — where you click, what you name things, and where each piece lives.</p>
+    <div class="steps">
+      <div class="step"><div class="body"><strong>Create one folder on your computer</strong><span>Desktop or Documents, anywhere you'll find it again. Name it after your project, no spaces — <em>ai-study-assistant</em>, not <em>Project 1</em>.</span></div></div>
+      <div class="step"><div class="body"><strong>Open that folder in VS Code</strong><span><em>File → Open Folder</em>, select it. This becomes your one workspace for the whole day — everything you build lives inside this window.</span></div></div>
+      <div class="step"><div class="body"><strong>Sort your features into frontend or backend</strong><span>Before creating a single file, use the test below on each feature you listed as Must Have.</span></div></div>
+      <div class="step"><div class="body"><strong>Create the folders inside VS Code</strong><span>Hover the file explorer on the left → the "new folder" icon → make <em>frontend</em> and <em>backend</em>. Skip <em>backend</em> if nothing needs saving or AI calls yet.</span></div></div>
+      <div class="step"><div class="body"><strong>Create your first files</strong><span>Inside <em>frontend</em>: <code style="color:var(--cyan);">index.html</code>. Inside <em>backend</em>, if you have one: a single server file to start.</span></div></div>
+      <div class="step"><div class="body"><strong>Actually see it running</strong><span>Frontend: right-click <code style="color:var(--cyan);">index.html</code> in VS Code → "Open with Live Server" (or just double-click the file to open it in a browser tab), then refresh after every change. Backend: it won't run by opening the file — start it from the terminal, e.g. <code style="color:var(--cyan);">python server.py</code> or <code style="color:var(--cyan);">node server.js</code>.</span></div></div>
+    </div>
+
+    <div class="define-grid" style="margin-top:20px;">
+      <div class="define"><div class="term">Goes in Frontend</div><p><span class="analogy">Ask: does it draw or display something on screen?</span> Buttons, layout, colors, text the user reads, the input box, what shows up after clicking.</p></div>
+      <div class="define"><div class="term">Goes in Backend</div><p><span class="analogy">Ask: does it decide, calculate, or remember something?</span> Talking to an AI model, checking if an answer is valid, saving or looking up data.</p></div>
+    </div>
+
+    <div class="ai-prompt">
+      <div class="label">Try asking your AI assistant</div>
+      <div class="prompt">I'm a beginner building [describe your idea] for a one-day hackathon. Based on this, what should go in my frontend vs backend, and what's a simple starter folder structure? Explain briefly why each piece goes where it does.</div>
+    </div>
+
+    <p class="section-sub" style="margin-top:22px; margin-bottom:10px;">What that folder structure looks like once it's set up:</p>
+    <div class="tree">
+      <span class="cmt">my-project/</span><br>
+      ├── <span class="folder">frontend/</span> <span class="cmt">— everything the user sees</span><br>
+      │ ├── <span class="file">index.html</span><br>
+      │ ├── <span class="file">style.css</span><br>
+      │ └── <span class="file">app.js</span><br>
+      ├── <span class="folder">backend/</span> <span class="cmt">— logic and data handling</span><br>
+      │ └── <span class="file">server.py</span><br>
+      └── <span class="file">README.md</span> <span class="cmt">— what your project does, in plain words</span>
+    </div>
+    <div class="qbox" style="margin-top:16px;">
+      <div class="qtitle">Three habits that save you time later</div>
+      <ul>
+        <li>Name files and folders after what they do, not "test1" or "final2."</li>
+        <li>Leave a short comment above tricky code explaining what it's for.</li>
+        <li>Save your work often — don't wait until the end to check it still runs.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- F: GITHUB -->
+  <section id="github">
+    <div class="section-head"><span class="section-tag">05</span><h2>Publishing your project to GitHub</h2></div>
+    <p class="section-sub">GitHub is where your code lives online so your team can share it, save versions, and judges can actually open it. Most submissions ask for a repo link — here's how to get one, continuing from the folder you just opened in VS Code.</p>
+
+    <div class="steps">
+      <div class="step"><div class="body"><strong>Create a GitHub account</strong><span>Free, at github.com. Do this before the event if you can — one account per person is fine.</span></div></div>
+      <div class="step"><div class="body"><strong>Create a new repository ("repo") on GitHub</strong><span>Click "New," give it the same name as your local folder, leave it empty (no README, no .gitignore yet), and set it to Public so judges can view it.</span></div></div>
+      <div class="step"><div class="body"><strong>Copy the repo's URL</strong><span>GitHub shows it right after you create the repo — you'll paste it into the terminal in the next step.</span></div></div>
+      <div class="step"><div class="body"><strong>Push your code into it, from VS Code's terminal</strong><span>Run the commands below, inside the same project folder you already have open.</span></div></div>
+      <div class="step"><div class="body"><strong>Add your teammates as collaborators</strong><span>Repo Settings → Collaborators — so everyone can push changes, not just one person.</span></div></div>
+    </div>
+
+    <p class="section-sub" style="margin-top:18px; margin-bottom:8px;">Where you actually type these: open your project folder in VS Code, then press <code style="color:var(--cyan);">Ctrl + `</code> (or <em>Terminal → New Terminal</em> in the menu) to open a terminal panel inside the editor. That's where every command below gets typed, one at a time, followed by Enter. Using Replit instead? Look for the "Shell" tab — same idea.</p>
+
+    <div class="cmd-block">
+      <div class="cmd-title">One time only — connect your folder to GitHub</div>
+      <div class="cmd-row"><code>git init</code><span>Turns this folder into a git project so it can start tracking every change you make.</span></div>
+      <div class="cmd-row"><code>git add .</code><span>Stages every file in the folder — tells git "these are the changes I want to save next."</span></div>
+      <div class="cmd-row"><code>git commit -m "first version"</code><span>Actually saves that snapshot, with a short message describing what's in it.</span></div>
+      <div class="cmd-row"><code>git branch -M main</code><span>Names your main line of work "main" — the standard default branch name.</span></div>
+      <div class="cmd-row"><code>git remote add origin https://github.com/your-username/your-repo.git</code><span>Tells your folder where the GitHub repo lives online. Swap in the actual URL GitHub gave you in the last step — don't leave "your-username" as-is.</span></div>
+      <div class="cmd-row"><code>git push -u origin main</code><span>Uploads your saved snapshot to GitHub for the first time, and links this folder to that repo from now on.</span></div>
+    </div>
+
+    <div class="cmd-block" style="margin-top:14px;">
+      <div class="cmd-title">Every time you save progress after that</div>
+      <div class="cmd-row"><code>git add .</code><span>Stages whatever you've changed since your last save.</span></div>
+      <div class="cmd-row"><code>git commit -m "..."</code><span>Saves a new snapshot — write what actually changed, like "added AI response box," not "update."</span></div>
+      <div class="cmd-row"><code>git push</code><span>Sends that snapshot up to GitHub, so teammates (and later, judges) can see it.</span></div>
+    </div>
+
+    <p class="section-sub" style="margin-top:14px; margin-bottom:0; font-size:12.5px;">Why bother committing more than once? Each commit is a checkpoint you can return to. If a change breaks everything an hour later, you haven't lost the working version that came before it.</p>
+
+    <div class="qbox" style="margin-top:18px; border-color: var(--coral); background: rgba(255,122,104,0.08);">
+      <div class="qtitle" style="color: var(--coral);">Keep these out of your repo</div>
+      <ul>
+        <li>API keys or passwords — never commit them directly in your code.</li>
+        <li>Large media files or auto-generated folders (like <em>node_modules</em>).</li>
+        <li>Anything you wouldn't want a judge or stranger to see, since Public means anyone can view it.</li>
+      </ul>
+    </div>
+
+    <p class="section-sub" style="margin-top:20px; margin-bottom:10px;">What your README should include — this is often the first thing a judge reads.</p>
+    <div class="checklist">
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Project name & one-line description</strong><span>What it is, in a single sentence.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>The problem & who it's for</strong><span>The same answer from your brainstorming — say it plainly.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>How to run it</strong><span>The exact steps someone else would follow to get it working on their own computer.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Tech stack & AI tools used</strong><span>Languages, frameworks, and which AI model or API powers it.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Screenshot or short demo clip</strong><span>Lets a judge see it working even if they never open the live app.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Team member names</strong><span>Everyone who contributed, listed clearly.</span></div></div>
+    </div>
+  </section>
+
+  <!-- G: TEAM ROLES -->
+  <section id="roles">
+    <div class="section-head"><span class="section-tag">06</span><h2>Cover these jobs — however your team splits them</h2></div>
+    <p class="section-sub">These aren't fixed job titles. On a team of 2–4, several people can code at once, and one person can wear more than one hat. What matters is that every job below is covered by someone — nothing falls through the cracks.</p>
+    <div class="checklist">
+      <div class="check-item"><div class="box" style="border-radius:50%;"></div><div class="txt"><strong>Coding</strong><span>Building features and connecting the pieces — can be split across as many teammates as are comfortable coding, working on different parts at once.</span></div></div>
+      <div class="check-item"><div class="box" style="border-radius:50%;"></div><div class="txt"><strong>Design</strong><span>Shaping what the user sees — layout, colors, clarity. Often the coder handling frontend does this too.</span></div></div>
+      <div class="check-item"><div class="box" style="border-radius:50%;"></div><div class="txt"><strong>Product direction</strong><span>Keeping everyone focused on the Must Haves and deciding what gets cut. Whoever's least deep in the code right now can hold this.</span></div></div>
+      <div class="check-item"><div class="box" style="border-radius:50%;"></div><div class="txt"><strong>Research</strong><span>Digging up facts, examples, or numbers that make the pitch credible — useful for whoever isn't actively coding at a given moment.</span></div></div>
+      <div class="check-item"><div class="box" style="border-radius:50%;"></div><div class="txt"><strong>Presenting</strong><span>Owning the demo script and rehearsing it. Doesn't have to be one fixed person — just needs to be someone who's confident explaining the project by 2:30.</span></div></div>
+    </div>
+    <div class="qbox" style="margin-top:16px;">
+      <div class="qtitle">Team check-in, every 30 minutes</div>
+      <ul>
+        <li>What's working right now?</li>
+        <li>What's broken right now?</li>
+        <li>Are we still building toward the MVP, or have we drifted?</li>
+        <li>Do we need a mentor before we lose more time?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- G: DEBUGGING -->
+  <section id="debug">
+    <div class="section-head"><span class="section-tag">07</span><h2>Finding and fixing bugs</h2></div>
+    <p class="section-sub">A bug is just a gap between what you expected and what actually happened. Debugging is closing that gap on purpose.</p>
+    <div class="steps">
+      <div class="step"><div class="body"><strong>Read the error message fully</strong><span>It usually names the exact file and line — don't skip past it.</span></div></div>
+      <div class="step"><div class="body"><strong>Find the smallest case that breaks</strong><span>Narrow it down: does it break on every click, or just one specific one?</span></div></div>
+      <div class="step"><div class="body"><strong>Change one thing at a time</strong><span>Changing five things at once makes it impossible to know what fixed it — or what broke it further.</span></div></div>
+      <div class="step"><div class="body"><strong>Explain it out loud</strong><span>Describing the problem to a teammate (or a rubber duck) often reveals the fix before they even answer.</span></div></div>
+      <div class="step"><div class="body"><strong>Ask a mentor if you're stuck 15+ minutes</strong><span>That's what they're there for — don't burn your build window alone.</span></div></div>
+    </div>
+    <div class="qbox" style="margin-top:20px;">
+      <div class="qtitle">Ask yourself when something breaks</div>
+      <ul>
+        <li>What did I expect to happen?</li>
+        <li>What actually happened instead?</li>
+        <li>What's the last thing I changed before it broke?</li>
+        <li>Did it ever work — or was it always broken this way?</li>
+        <li>Can I reproduce the bug on purpose, every time?</li>
+      </ul>
+    </div>
+    <div class="checklist" style="margin-top:16px;">
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Check spelling & file names first</strong><span>A huge share of bugs are typos — a missing letter or wrong filename, not a real logic error.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Restart before you dig deeper</strong><span>Some bugs disappear after restarting the app or the IDE — rule that out early.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Print the values you're unsure about</strong><span>If you're not sure what a variable actually holds, print it and look.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Search it — most bugs are already solved</strong><span>Paste the exact error into Google or an AI assistant before assuming it's unique to you.</span></div></div>
+    </div>
+    <div class="ai-prompt">
+      <div class="label">Try asking your AI assistant</div>
+      <div class="prompt">I expected [what should happen] but instead [what actually happened]. Here's the exact error message: [paste it]. Here's the relevant code: [paste it]. What's likely causing this, and what's the smallest fix?</div>
+    </div>
+  </section>
+
+  <!-- H2: IF YOU DON'T FINISH -->
+  <section id="notfinished">
+    <div class="section-head"><span class="section-tag">08</span><h2>If you're not going to finish in time</h2></div>
+    <p class="section-sub">Every team hits this. What you do in the last 30–60 minutes matters more than what you didn't build.</p>
+    <div class="steps">
+      <div class="step"><div class="body"><strong>Cut scope, not corners</strong><span>Drop a Nice to Have feature entirely rather than leaving three features half-working. One solid feature beats three broken ones.</span></div></div>
+      <div class="step"><div class="body"><strong>Spend what's left of your Claude credits wisely</strong><span>You've got $50 in Claude credits for the day — put what's left into getting your one core feature actually working, not polishing what already works.</span></div></div>
+      <div class="step"><div class="body"><strong>It's okay to fake the unfinished part</strong><span>A button that leads to a static, pre-written result is fine to show — just say so honestly if a judge asks.</span></div></div>
+      <div class="step"><div class="body"><strong>Record a backup before time runs out</strong><span>Screen-record or screenshot the last version that worked, before you touch anything else.</span></div></div>
+      <div class="step"><div class="body"><strong>Show up and demo it anyway</strong><span>A project that's honestly 60% done and explained well usually beats one abandoned at the last minute.</span></div></div>
+    </div>
+    <div class="qbox" style="margin-top:18px;">
+      <div class="qtitle">Ask this with 30 minutes left</div>
+      <ul>
+        <li>What's the one thing that has to work for our demo to make sense?</li>
+        <li>What can we cut without the story falling apart?</li>
+        <li>Do we have a backup if the live version doesn't cooperate?</li>
+        <li>Have we recorded proof of the last version that actually worked?</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- H: DEMO -->
+  <section id="demo">
+    <div class="section-head"><span class="section-tag">09</span><h2>What your demo needs</h2></div>
+    <p class="section-sub">Judges score communication, not just code. You get about 3 minutes — here's how to spend it across six questions, in order.</p>
+    <div class="demo-flow">
+      <div class="demo-part"><div class="time">Q1 · 20 SEC</div><h3>What problem?</h3><p>State the problem plainly before anything else.</p></div>
+      <div class="demo-part"><div class="time">Q2 · 15 SEC</div><h3>Who's it for?</h3><p>Show the audience — make them specific, not generic.</p></div>
+      <div class="demo-part"><div class="time">Q3 · 20 SEC</div><h3>How does AI help?</h3><p>Name what the AI is actually doing in your project.</p></div>
+      <div class="demo-part"><div class="time">Q4 · 90 SEC</div><h3>Show it working</h3><p>Live demo. Don't explain it — show it. This is half your time, on purpose.</p></div>
+      <div class="demo-part"><div class="time">Q5 · 20 SEC</div><h3>Why is it useful?</h3><p>Name the real impact for the person you're helping.</p></div>
+      <div class="demo-part"><div class="time">Q6 · 15 SEC</div><h3>What's next?</h3><p>What would you build with more time?</p></div>
+    </div>
+    <p class="section-sub" style="margin-top:14px; margin-bottom:0; font-size:12.5px;">That adds up to 3 minutes flat — practice with a timer once, so no one has to guess how long 90 seconds of demo actually feels like.</p>
+    <div class="checklist" style="margin-top:20px;">
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>A working demo — or a backup</strong><span>Have a short screen recording or screenshots ready in case wifi or your app misbehaves.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>One designated presenter</strong><span>Doesn't have to be the whole team talking — pick who leads, others jump in for questions.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Know your "why"</strong><span>Be ready to explain why you built it this way, not just what it does.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Practiced it out loud once</strong><span>Even one run-through catches awkward transitions and missing pieces.</span></div></div>
+    </div>
+  </section>
+
+  <!-- I: FINAL SELF CHECK -->
+  <section id="final">
+    <div class="section-head"><span class="section-tag">10</span><h2>Final self-check before judging</h2></div>
+    <div class="qbox">
+      <div class="qtitle">Run through this before submitting</div>
+      <ul>
+        <li>Can we explain our project in one sentence?</li>
+        <li>Does our demo actually run, right now, on this laptop?</li>
+        <li>Have we tested it the way a stranger would use it — not just the way we know to use it?</li>
+        <li>Do we know who our project is for, and can we say why it helps them?</li>
+        <li>Does everyone on the team know their part of the pitch?</li>
+      </ul>
+    </div>
+    <div class="checklist" style="margin-top:16px;">
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Project runs without crashing</strong><span>Open it fresh, right before you submit, to be sure.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Submission link works</strong><span>Click it yourself from a different tab before you consider it done.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>README written</strong><span>A few plain sentences on what it does and who it's for.</span></div></div>
+      <div class="check-item"><div class="box"></div><div class="txt"><strong>Team names & internet tested</strong><span>Confirm names are on the submission and wifi holds up for the live demo.</span></div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="logo">AIXelerate Challenge — Build & Code Field Manual</div>
+    <div class="tag">Companion to the Build Sprint Survival Guide</div>
+  </footer>
+
+</main>
+</body>
+</html>

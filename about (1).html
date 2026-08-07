@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — AIXelerate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:            #0a0713;
+    --bg-2:          #100b1c;
+    --ink:           #f5f3f9;
+    --ink-dim:       #a29cb8;
+    --ink-faint:     #5c5474;
+    --purple-1:      #7e22ce;
+    --purple-2:      #c084fc;
+    --line:          rgba(255,255,255,0.08);
+    --focus:         #c084fc;
+
+    --font-display:  'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body:     'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono:     'Space Grotesk', ui-monospace, monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ background:var(--bg); scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; }
+
+  :focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* ---------------------------------- */
+  /* Nav (matches main site)             */
+  /* ---------------------------------- */
+
+  .nav-bar{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(10,7,19,0.72);
+    border-bottom:1px solid var(--line);
+    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(18px);
+  }
+
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    max-width:1240px;
+    margin:0 auto;
+    padding:13px 32px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+  }
+
+  .brand-mark{
+    width:24px; height:24px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:13px;
+    color:#0a0a0a;
+    flex-shrink:0;
+  }
+
+  .nav-pills{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    background:rgba(255,255,255,0.035);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px;
+    backdrop-filter:blur(12px);
+  }
+
+  .nav-pills a{
+    display:block;
+    padding:8px 18px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink-dim);
+    border-radius:999px;
+    transition:color .2s ease, background .2s ease;
+    white-space:nowrap;
+  }
+
+  .nav-pills a:hover{
+    color:var(--ink);
+    background:rgba(255,255,255,0.06);
+  }
+
+  .nav-pills a.is-current{
+    color:var(--ink);
+    background:rgba(255,255,255,0.08);
+  }
+
+  @media (max-width:860px){
+    .nav-pills{ display:none; }
+  }
+
+  /* ---------------------------------- */
+  /* Ambient glow behind the nav         */
+  /* ---------------------------------- */
+
+  .scene{
+    position:relative;
+    width:100%;
+    min-height:120px;
+    overflow:hidden;
+    isolation:isolate;
+  }
+
+  .glow{
+    position:absolute;
+    top:-18%;
+    left:50%;
+    width:1100px;
+    height:1100px;
+    transform:translateX(-50%);
+    background:radial-gradient(circle at 50% 40%, rgba(126,34,206,0.24), rgba(126,34,206,0.06) 38%, transparent 62%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------------------------------- */
+  /* About / How We Work                 */
+  /* Colors sampled directly from the    */
+  /* reference screenshot — a separate   */
+  /* navy/gold palette scoped to this    */
+  /* section only, so the purple hero    */
+  /* theme above is left untouched.      */
+  /* ---------------------------------- */
+
+  .about-section{
+    --about-bg:       var(--bg);
+    --about-card:     rgba(255,255,255,0.03);
+    --about-gold:     var(--purple-2);
+    --about-gold-dim: var(--purple-1);
+    --about-ink:      var(--ink);
+    --about-ink-dim:  var(--ink-dim);
+
+    position:relative;
+    z-index:5;
+    background:var(--about-bg);
+    padding:0 0 1px;
+  }
+
+  .about-header{
+    max-width:900px;
+    margin:0 auto;
+    padding:120px 32px 56px;
+    text-align:center;
+  }
+
+  .about-eyebrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    color:var(--about-gold);
+    text-transform:uppercase;
+    margin-bottom:22px;
+  }
+  .about-eyebrow::before, .about-eyebrow::after{
+    content:'';
+    width:26px;
+    height:1px;
+    background:var(--about-gold);
+    opacity:0.6;
+  }
+
+  h1.about-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(2.2rem, 5.4vw, 4rem);
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    color:var(--about-ink);
+  }
+  h1.about-title .about-gold-text{ color:var(--about-gold); }
+
+  p.about-sub{
+    margin:22px auto 0;
+    max-width:58ch;
+    font-size:16.5px;
+    line-height:1.75;
+    color:var(--about-ink-dim);
+  }
+
+  .how-we-work-inner{
+    max-width:1160px;
+    margin:0 auto;
+    padding:56px 32px 0;
+    text-align:center;
+  }
+
+  h2.about-section-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(1.8rem, 4vw, 2.7rem);
+    color:var(--about-ink);
+    letter-spacing:-0.02em;
+  }
+
+  /* ---------------------------------- */
+  /* ScrollStack                         */
+  /* vanilla-JS/CSS port of the React    */
+  /* Bits component (github.com/        */
+  /* DavidHDev/react-bits,               */
+  /* "ScrollStack-JS-CSS" variant).      */
+  /* Card offsets are measured once on   */
+  /* load/resize and cached, so the      */
+  /* scroll handler only does cheap      */
+  /* arithmetic + a style write — no     */
+  /* layout reads inside the scroll      */
+  /* loop — which is what removes the    */
+  /* jank the first pass had.            */
+  /* ---------------------------------- */
+
+  .scroll-stack{
+    position:relative;
+    max-width:820px;
+    margin:0 auto;
+    padding:12vh 0 40vh;
+  }
+
+  .scroll-stack-card{
+    transform-origin:top center;
+    will-change:transform;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    box-shadow:0 24px 60px -18px rgba(0,0,0,0.75);
+    width:100%;
+    min-height:280px;
+    margin:0 0 32px;
+    padding:56px 60px;
+    border-radius:28px;
+    box-sizing:border-box;
+    border:1px solid var(--line);
+    background:#150f24;
+    text-align:left;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    -webkit-transform:translateZ(0);
+    transform:translateZ(0);
+  }
+
+  h3.scroll-stack-card-title{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:32px;
+    letter-spacing:-0.01em;
+    color:var(--about-gold);
+    margin-bottom:18px;
+  }
+
+  p.scroll-stack-card-text{
+    font-size:18px;
+    line-height:1.65;
+    color:var(--about-ink-dim);
+    max-width:52ch;
+  }
+
+  .scroll-stack-end{
+    width:100%;
+    height:1px;
+  }
+
+  @media (max-width:640px){
+    .about-header{ padding:96px 20px 40px; }
+    .how-we-work-inner{ padding:40px 20px 0; }
+    .scroll-stack{ padding:6vh 0 26vh; }
+    .scroll-stack-card{ padding:36px 30px; min-height:220px; }
+    h3.scroll-stack-card-title{ font-size:26px; }
+    p.scroll-stack-card-text{ font-size:16px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .scroll-stack-card{ transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="glow"></div>
+
+  <div class="nav-bar" id="nav-bar">
+    <nav class="nav">
+      <a href="aixelerate-hero-3-2-2-2.html" class="brand">
+        <span class="brand-mark">AX</span>
+        AIXelerate
+      </a>
+
+      <div class="nav-pills">
+        <a href="aixelerate-hero-3-2-2-2.html">Challenge</a>
+        <a href="mission.html">Mission</a>
+        <a href="about.html" class="is-current">About</a>
+        <a href="previous-events.html">Previous Events</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<section class="about-section" id="about">
+  <div class="about-header">
+    <div class="about-eyebrow">About Us</div>
+    <h1 class="about-title">Built so that cost never decides <span class="about-gold-text">who gets to participate.</span></h1>
+    <p class="about-sub">
+      Our programs are free so that cost does not determine who gets to participate. We believe the strongest learning happens when students work on real constraints: users, deadlines, ethics, communication, and teamwork.
+    </p>
+  </div>
+
+  <div class="how-we-work-inner">
+    <h2 class="about-section-title">How We Work</h2>
+
+    <div class="scroll-stack" id="scroll-stack">
+      <div class="scroll-stack-card">
+        <h3 class="scroll-stack-card-title">Access</h3>
+        <p class="scroll-stack-card-text">Participation is free, welcoming, and structured for students with different experience levels.</p>
+      </div>
+      <div class="scroll-stack-card">
+        <h3 class="scroll-stack-card-title">Responsibility</h3>
+        <p class="scroll-stack-card-text">Projects are reviewed for privacy, fairness, safety, and practical impact.</p>
+      </div>
+      <div class="scroll-stack-card">
+        <h3 class="scroll-stack-card-title">Mentorship</h3>
+        <p class="scroll-stack-card-text">Students receive feedback from mentors, organizers, judges, and peers.</p>
+      </div>
+      <div class="scroll-stack-card">
+        <h3 class="scroll-stack-card-title">Clarity</h3>
+        <p class="scroll-stack-card-text">We value plain explanations, useful prototypes, and honest tradeoff analysis.</p>
+      </div>
+      <div class="scroll-stack-end"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* -----------------------------------------------------------
+     ScrollStack — vanilla-JS/CSS port of the React Bits
+     component (github.com/DavidHDev/react-bits,
+     "ScrollStack-JS-CSS" variant). The original drives per-card
+     pin/scale transforms from a React effect and uses Lenis for
+     smooth scroll; neither is part of this page's toolchain, so
+     the same trigger/pin math is reproduced here against plain
+     DOM nodes.
+
+     Perf note: the first pass of this port read each card's
+     position with getBoundingClientRect() *inside* the scroll
+     handler, which forces a synchronous layout on every scroll
+     event and was the source of the jank/lag. Fixed by measuring
+     every card's offset once on load (and again on resize) and
+     caching it — the scroll handler below now only does cheap
+     arithmetic and a single style write per card, no layout
+     reads in the hot path.
+  ----------------------------------------------------------- */
+  (function initScrollStack(){
+    const root = document.getElementById('scroll-stack');
+    if (!root) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced) return;
+
+    const cards = Array.from(root.querySelectorAll('.scroll-stack-card'));
+    const endEl = root.querySelector('.scroll-stack-end');
+    if (!cards.length || !endEl) return;
+
+    const itemDistance = 60;
+    const itemScale = 0.035;
+    const itemStackDistance = 0;
+    const baseScale = 0.86;
+
+    cards.forEach((card, i) => {
+      if (i < cards.length - 1) card.style.marginBottom = `${itemDistance}px`;
+    });
+
+    // --- cached, layout-read-free measurements ---
+    let viewportH = 0;
+    let stackPos = 0;
+    let scaleEndPos = 0;
+    let endTop = 0;
+    let cardData = []; // { triggerStart, triggerEnd, pinStart, pinEnd, cardTop }
+    let lastTransform = new Array(cards.length).fill(null);
+
+    const measure = () => {
+      viewportH = window.innerHeight;
+      stackPos = viewportH * 0.2;
+      scaleEndPos = viewportH * 0.1;
+      const scrollY = window.scrollY;
+      endTop = endEl.getBoundingClientRect().top + scrollY;
+
+      cardData = cards.map((card, i) => {
+        const cardTop = card.getBoundingClientRect().top + scrollY;
+        const triggerStart = cardTop - stackPos - itemStackDistance * i;
+        const triggerEnd = cardTop - scaleEndPos;
+        const pinStart = triggerStart;
+        const pinEnd = endTop - viewportH / 2;
+        return { cardTop, triggerStart, triggerEnd, pinStart, pinEnd };
+      });
+      lastTransform = new Array(cards.length).fill(null);
+    };
+
+    const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+    const progress = (scrollTop, start, end) => {
+      if (scrollTop < start) return 0;
+      if (scrollTop > end) return 1;
+      return clamp01((scrollTop - start) / (end - start));
+    };
+
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const scrollTop = window.scrollY;
+
+      for (let i = 0; i < cards.length; i++){
+        const d = cardData[i];
+        const scaleProgress = progress(scrollTop, d.triggerStart, d.triggerEnd);
+        const targetScale = baseScale + i * itemScale;
+        const scale = 1 - scaleProgress * (1 - targetScale);
+
+        let translateY = 0;
+        if (scrollTop >= d.pinStart && scrollTop <= d.pinEnd){
+          translateY = scrollTop - d.cardTop + stackPos + itemStackDistance * i;
+        } else if (scrollTop > d.pinEnd){
+          translateY = d.pinEnd - d.cardTop + stackPos + itemStackDistance * i;
+        }
+
+        const ty = Math.round(translateY * 100) / 100;
+        const sc = Math.round(scale * 1000) / 1000;
+        const prev = lastTransform[i];
+        if (!prev || Math.abs(prev.ty - ty) > 0.1 || Math.abs(prev.sc - sc) > 0.001){
+          cards[i].style.transform = `translate3d(0, ${ty}px, 0) scale(${sc})`;
+          lastTransform[i] = { ty, sc };
+        }
+      }
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    };
+
+    let resizeTimer = 0;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => { measure(); update(); }, 120);
+    };
+
+    measure();
+    update();
+    window.addEventListener('scroll', requestUpdate, { passive:true });
+    window.addEventListener('resize', onResize);
+  })();
+</script>
+
+<style>
+  .site-footer{
+    position:relative;
+    z-index:5;
+    background:var(--bg-2);
+    border-top:1px solid var(--line);
+    padding:88px 32px 0;
+  }
+  .footer-inner{
+    max-width:1240px;
+    margin:0 auto;
+  }
+  .footer-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:56px;
+    padding-bottom:64px;
+  }
+  .footer-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+    margin-bottom:18px;
+    color:var(--ink);
+  }
+  .footer-brand .brand-mark{
+    width:24px; height:24px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:13px;
+    color:#0a0a0a;
+    flex-shrink:0;
+  }
+  .footer-tagline{
+    max-width:36ch;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+  .footer-col-title{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:18px;
+  }
+  .footer-col a{
+    display:block;
+    font-size:14.5px;
+    color:var(--ink-dim);
+    margin-bottom:14px;
+    transition:color .2s ease;
+  }
+  .footer-col a:hover{ color:var(--ink); }
+  .footer-col a:last-child{ margin-bottom:0; }
+
+  .footer-fiscal{
+    position:relative;
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:14px;
+    align-items:start;
+  }
+  .footer-fiscal-icon{
+    width:26px; height:26px;
+    border-radius:7px;
+    display:block;
+    flex-shrink:0;
+  }
+  .footer-fiscal-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:-0.005em;
+    margin-bottom:5px;
+    color:var(--ink);
+  }
+  .footer-fiscal p{
+    font-size:11px;
+    line-height:1.55;
+    color:var(--ink-faint);
+    max-width:70ch;
+    margin-bottom:6px;
+  }
+  .footer-fiscal p:last-child{ margin-bottom:0; }
+  .footer-fiscal-sub{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--purple-2);
+    margin:10px 0 5px;
+  }
+  .footer-fiscal-note{
+    font-size:9.5px;
+    color:var(--ink-faint);
+    font-style:italic;
+    opacity:0.8;
+  }
+
+  .footer-bottom{
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+  .footer-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:8px 16px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    color:var(--ink-dim);
+  }
+
+  @media (max-width:860px){
+    .footer-top{ grid-template-columns:1fr 1fr; row-gap:44px; }
+    .footer-top > div:first-child{ grid-column:1 / -1; }
+    .footer-fiscal{ grid-template-columns:1fr; }
+  }
+  @media (max-width:640px){
+    .site-footer{ padding:64px 20px 0; }
+    .footer-bottom{ justify-content:flex-start; }
+  }
+</style>
+
+<style>
+  .final-cta{
+    position:relative;
+    z-index:5;
+    background:var(--bg);
+    padding:100px 32px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .final-cta::before{
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(126,34,206,0.16), transparent 68%);
+    pointer-events:none;
+  }
+  .final-cta-inner{
+    position:relative;
+    max-width:680px;
+    margin:0 auto;
+  }
+  .final-cta-eyebrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    color:var(--purple-2);
+    text-transform:uppercase;
+    margin-bottom:20px;
+  }
+  .final-cta-eyebrow::before,
+  .final-cta-eyebrow::after{
+    content:'';
+    width:26px;
+    height:1px;
+    background:var(--purple-2);
+    opacity:0.6;
+  }
+  h2.final-cta-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(1.9rem, 4.4vw, 3.1rem);
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  .final-cta-title .final-cta-spark{
+    background:linear-gradient(100deg, var(--purple-1) 10%, var(--purple-2) 55%, var(--purple-1) 90%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:final-cta-sheen 5s ease-in-out infinite;
+  }
+  @keyframes final-cta-sheen{
+    0%,100%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+  }
+  p.final-cta-sub{
+    margin:18px auto 0;
+    max-width:52ch;
+    font-size:15.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+  .final-cta-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    margin-top:38px;
+    flex-wrap:wrap;
+  }
+  .final-cta-row .final-cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 26px;
+    border-radius:999px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    font-family:var(--font-body);
+    border:1px solid transparent;
+    text-decoration:none;
+    cursor:pointer;
+    transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .final-cta-row .final-cta-btn-primary{
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    color:#150a24;
+    box-shadow:0 10px 30px -10px rgba(126,34,206,0.6);
+  }
+  .final-cta-row .final-cta-btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(126,34,206,0.75); }
+  .final-cta-row .final-cta-btn-secondary{
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    color:var(--ink);
+  }
+  .final-cta-row .final-cta-btn-secondary:hover{ border-color:rgba(255,255,255,0.28); background:rgba(255,255,255,0.06); }
+
+  @media (max-width:640px){
+    .final-cta{ padding:72px 20px; }
+    .final-cta-row{ flex-direction:column; align-items:stretch; }
+    .final-cta-row .final-cta-btn{ justify-content:center; }
+  }
+</style>
+
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <div class="final-cta-eyebrow">Get Involved</div>
+    <h2 class="final-cta-title">Ready to <span class="final-cta-spark">build,</span> or ready to <span class="final-cta-spark">guide?</span></h2>
+    <p class="final-cta-sub">
+      Apply as a student to join the next build sprint, or sign up as a mentor to help
+      shape it. Both start with the same short form.
+    </p>
+    <div class="final-cta-row">
+      <a href="apply.html?role=student" class="final-cta-btn final-cta-btn-primary">Apply as a Student</a>
+      <a href="apply.html?role=mentor" class="final-cta-btn final-cta-btn-secondary">Become a Mentor</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark">AX</span>
+          AIXelerate Challenge
+        </div>
+        <p class="footer-tagline">Empowering the next generation of AI builders, innovators, and leaders to create ethical, high-impact solutions.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Support Us</div>
+        <a href="#">Give to AIXelerate Challenge</a>
+        <a href="#">Mentor Sign-Up</a>
+        <a href="#">Sponsorships</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <a href="#">Email Us</a>
+        <a href="#">Hack Club</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+
+    <div class="footer-fiscal">
+      <img class="footer-fiscal-icon" src="hcb-icon-dark.png" alt="Hack Club Bank (HCB)">
+      <div>
+        <h3 class="footer-fiscal-title">Fiscal Sponsorship</h3>
+        <p>AIXelerate Challenge is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club), a 501(c)(3) nonprofit (EIN: 81-2908499).</p>
+        <div class="footer-fiscal-sub">About Our Fiscal Sponsorship</div>
+        <p>We operate under fiscal sponsorship through HCB, a platform by Hack Club. HCB provides financial infrastructure that allows us to accept donations and manage funds as a restricted fund dedicated to our organization.</p>
+        <p class="footer-fiscal-note">Note: Fiscal sponsorship does not imply endorsement, partnership, or direct funding from Hack Club or HCB.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 AIXelerate Challenge. A member of the Hack Club Bank network. All rights reserved.</span>
+      <span class="footer-badge">FREE &amp; OPEN ACCESS</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

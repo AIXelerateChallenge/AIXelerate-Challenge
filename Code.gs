@@ -1,47 +1,84 @@
 /**
  * AIXelerate Challenge — Google Sheets backend
  * ------------------------------------------------
+ * Updated for apply.html student and mentor forms.
  * Paste this whole file into Extensions > Apps Script (attached to your
- * Google Sheet), then deploy as a Web App. Full setup steps are in
- * SETUP_GOOGLE_SHEETS.md.
- *
- * What it does:
- *  - doPost(e)  -> called by join.html on every form submit. Appends a row
- *                  to the matching tab (Competitor / Volunteer / Mentor-Judge
- *                  / Board), creating the tab + header row the first time.
- *  - doGet(e)   -> called by join.html's "View Saved Responses" dashboard.
- *                  Returns every row from every tab as one JSON array so the
- *                  dashboard can show live data instead of only local data.
+ * Google Sheet), then deploy as a Web App.
  */
 
-// Optional shared secret. Leave as "" to disable the check (anyone with your
-// URL could then read submissions). If you set this, put the SAME value in
-// SHEETS_CONFIG.sharedToken in join.html.
+// Optional shared secret. Leave as "" to disable the check.
 const TOKEN = "";
 
 // One tab per form, with the exact column order we want written.
+// These columns MUST match the fields sent from apply.html
 const SHEET_CONFIG = {
-  "Competitor": ["submittedAt","firstName","lastName","email","age","school","grade","country","track","teamPreference","emergencyPhone","teamName","teammates","projectIdea","agreeRules","agreePhotos"],
-  "Volunteer": ["submittedAt","firstName","lastName","email","availability","whyVolunteer"],
-  "Mentor/Judge": ["submittedAt","firstName","lastName","email","role","expertise"],
-  "Board Member": ["submittedAt","firstName","lastName","email","location","background","intent"]
+  "Student": [
+    "submittedAt", 
+    "name", 
+    "email", 
+    "grade", 
+    "school", 
+    "experience", 
+    "teamStatus", 
+    "idea", 
+    "referral"
+  ],
+  "Mentor": [
+    "submittedAt", 
+    "name", 
+    "email", 
+    "org", 
+    "title", 
+    "expertise", 
+    "availability", 
+    "link", 
+    "why"
+  ]
 };
 
 function doPost(e) {
   try {
-    const params = e.parameter || {};
-    const role = params.role;
+    // Parse JSON body (apply.html sends JSON, not form-encoded)
+    let params;
+    if (e.postData && e.postData.contents) {
+      params = JSON.parse(e.postData.contents);
+    } else {
+      params = e.parameter || {};
+    }
+    
+    // Determine role from the data (student or mentor)
+    // We check for fields that are unique to each form
+    let role;
+    if (params.grade !== undefined) {
+      role = "Student";
+    } else if (params.org !== undefined || params.title !== undefined) {
+      role = "Mentor";
+    } else {
+      return jsonResponse({ ok: false, error: "Could not determine application type" });
+    }
+    
     const columns = SHEET_CONFIG[role];
-
     if (!columns) {
       return jsonResponse({ ok: false, error: "Unknown role: " + role });
     }
 
     const sheet = getOrCreateSheet(role, columns);
-    const row = columns.map(col => params[col] !== undefined ? params[col] : "");
+    
+    // Build the row in the correct column order
+    const row = columns.map(col => {
+      if (col === "submittedAt") {
+        return new Date().toISOString();
+      }
+      // Handle special field name mapping
+      if (col === "teamStatus" && params["team-status"] !== undefined) {
+        return params["team-status"];
+      }
+      return params[col] !== undefined ? params[col] : "";
+    });
+    
     sheet.appendRow(row);
 
-    return jsonResponse({ ok: true });
+    return jsonResponse({ ok: true, message: "Application saved!" });
   } catch (err) {
     return jsonResponse({ ok: false, error: String(err) });
   }

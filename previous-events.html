@@ -1,0 +1,1228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Previous Events — AIXelerate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:            #0a0713;
+    --bg-2:          #100b1c;
+    --ink:           #f5f3f9;
+    --ink-dim:       #a29cb8;
+    --ink-faint:     #5c5474;
+    --purple-1:      #7e22ce;
+    --purple-2:      #c084fc;
+    --line:          rgba(255,255,255,0.08);
+    --focus:         #c084fc;
+
+    --font-display:  'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body:     'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono:     'Space Grotesk', ui-monospace, monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ background:var(--bg); scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; background:none; border:none; color:inherit; }
+
+  :focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  /* ---------------------------------- */
+  /* Ambient background                  */
+  /* ---------------------------------- */
+
+  .scene{
+    position:relative;
+    width:100%;
+    overflow:hidden;
+    isolation:isolate;
+  }
+
+  .glow{
+    position:absolute;
+    top:-18%;
+    left:50%;
+    width:1100px;
+    height:1100px;
+    transform:translateX(-50%);
+    background:radial-gradient(circle at 50% 40%, rgba(126,34,206,0.24), rgba(126,34,206,0.06) 38%, transparent 62%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .scrim{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+    background:linear-gradient(180deg, rgba(10,7,19,0.55) 0%, rgba(10,7,19,0.1) 32%, transparent 55%);
+  }
+
+  /* ---------------------------------- */
+  /* Nav (matches main site)             */
+  /* ---------------------------------- */
+
+  .nav-bar{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(10,7,19,0.72);
+    border-bottom:1px solid var(--line);
+    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(18px);
+  }
+
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    max-width:1240px;
+    margin:0 auto;
+    padding:13px 32px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+  }
+
+  .brand-mark{
+    width:24px; height:24px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:13px;
+    color:#0a0a0a;
+    flex-shrink:0;
+  }
+
+  .nav-pills{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    background:rgba(255,255,255,0.035);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px;
+    backdrop-filter:blur(12px);
+  }
+
+  .nav-pills a{
+    display:block;
+    padding:8px 18px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink-dim);
+    border-radius:999px;
+    transition:color .2s ease, background .2s ease;
+    white-space:nowrap;
+  }
+
+  .nav-pills a:hover{
+    color:var(--ink);
+    background:rgba(255,255,255,0.06);
+  }
+
+  .nav-pills a.is-current{
+    color:var(--ink);
+    background:rgba(255,255,255,0.08);
+  }
+
+  @media (max-width:860px){
+    .nav-pills{ display:none; }
+  }
+
+  /* ---------------------------------- */
+  /* Page header                         */
+  /* ---------------------------------- */
+
+  .events-hero{
+    position:relative;
+    z-index:5;
+    max-width:1000px;
+    margin:0 auto;
+    padding:168px 32px 72px;
+    text-align:center;
+  }
+
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    color:var(--purple-2);
+    text-transform:uppercase;
+    margin-bottom:22px;
+  }
+
+  .eyebrow::before,
+  .eyebrow::after{
+    content:'';
+    width:26px;
+    height:1px;
+    background:var(--purple-2);
+    opacity:0.6;
+  }
+
+  h1.events-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(2.4rem, 6vw, 4.6rem);
+    line-height:1.05;
+    letter-spacing:-0.02em;
+  }
+
+  p.events-sub{
+    margin:22px auto 0;
+    max-width:56ch;
+    font-size:16.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+
+  /* ---------------------------------- */
+  /* Event accordion                     */
+  /* ---------------------------------- */
+
+  .events-list{
+    position:relative;
+    z-index:5;
+    max-width:960px;
+    margin:0 auto;
+    padding:0 32px 160px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+
+  .event-item{
+    border:1px solid var(--line);
+    border-radius:20px;
+    background:rgba(255,255,255,0.03);
+    overflow:hidden;
+    transition:border-color .3s ease, background .3s ease;
+  }
+
+  .event-item.is-open{
+    border-color:rgba(192,132,252,0.35);
+    background:rgba(255,255,255,0.045);
+  }
+
+  .event-toggle{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:28px 30px;
+    text-align:left;
+  }
+
+  .event-toggle-left{
+    display:flex;
+    align-items:baseline;
+    gap:18px;
+    min-width:0;
+  }
+
+  .event-index{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--ink-faint);
+    letter-spacing:0.06em;
+    flex-shrink:0;
+  }
+
+  .event-name-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+    min-width:0;
+  }
+
+  h2.event-name{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(1.35rem, 3vw, 1.9rem);
+    letter-spacing:-0.01em;
+  }
+
+  .event-date{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:var(--purple-2);
+    letter-spacing:0.04em;
+  }
+
+  .event-chevron{
+    flex-shrink:0;
+    width:34px; height:34px;
+    border-radius:999px;
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-dim);
+    transition:transform .4s cubic-bezier(.16,1,.3,1), border-color .3s ease, color .3s ease;
+  }
+
+  .event-item.is-open .event-chevron{
+    transform:rotate(180deg);
+    border-color:rgba(192,132,252,0.4);
+    color:var(--purple-2);
+  }
+
+  .event-body{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .55s cubic-bezier(.16,1,.3,1);
+  }
+
+  .event-item.is-open .event-body{
+    grid-template-rows:1fr;
+  }
+
+  .event-body-inner{
+    min-height:0;
+    overflow:hidden;
+  }
+
+  .event-desc{
+    padding:0 30px 8px;
+    max-width:70ch;
+    font-size:15.5px;
+    line-height:1.75;
+    color:var(--ink-dim);
+  }
+
+  .event-carousel-wrap{
+    position:relative;
+    height:460px;
+    margin:32px 12px 30px;
+    border-radius:16px;
+  }
+
+  @media (max-width:640px){
+    .events-hero{ padding:140px 20px 56px; }
+    .event-toggle{ padding:22px 20px; }
+    .event-desc{ padding:0 20px 8px; font-size:15px; }
+    .event-carousel-wrap{ height:380px; margin:24px 6px 24px; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .event-body{ transition:none; }
+    .event-chevron{ transition:none; }
+  }
+
+  /* ---------------------------------- */
+  /* DepthCarousel — React Bits          */
+  /* (DepthCarousel-JS-CSS variant),     */
+  /* ported to vanilla JS/CSS since this */
+  /* site is a static HTML page with no  */
+  /* React or npm toolchain. GSAP is     */
+  /* loaded from a CDN and the tween     */
+  /* logic below mirrors the original    */
+  /* component 1:1; only the DOM/render  */
+  /* layer is rewritten against plain    */
+  /* nodes instead of JSX.               */
+  /* ---------------------------------- */
+
+  .depth-carousel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: var(--dc-perspective, 1400px);
+    perspective-origin: 50% 50%;
+    touch-action: pan-y;
+    outline: none;
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: grab;
+  }
+
+  .depth-carousel:active {
+    cursor: grabbing;
+  }
+
+  .depth-carousel:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 4px;
+    border-radius: 12px;
+  }
+
+  .depth-carousel__stage {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+  }
+
+  .depth-carousel__card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+    overflow: hidden;
+    background: #0b0d12;
+    box-shadow:
+      0 30px 60px -20px rgba(0, 0, 0, 0.65),
+      0 8px 20px -10px rgba(0, 0, 0, 0.5);
+    will-change: transform, opacity, filter;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+  }
+
+  .depth-carousel__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+
+  .depth-carousel__tint {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  .depth-carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3000;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 999px;
+    background: rgba(18, 20, 26, 0.55);
+    backdrop-filter: blur(8px);
+    color: #fff;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .depth-carousel__arrow:hover {
+    background: rgba(126, 34, 206, 0.45);
+    border-color: rgba(192, 132, 252, 0.5);
+  }
+
+  .depth-carousel__arrow:active {
+    transform: translateY(-50%) scale(0.94);
+  }
+
+  .depth-carousel__arrow--prev {
+    left: 16px;
+  }
+
+  .depth-carousel__arrow--next {
+    right: 16px;
+  }
+
+  .depth-carousel__dots {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(14, 16, 22, 0.4);
+    backdrop-filter: blur(6px);
+  }
+
+  .depth-carousel__dot {
+    width: 7px;
+    height: 7px;
+    padding: 0;
+    border: none;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.32);
+    cursor: pointer;
+    transition:
+      width 0.25s ease,
+      background 0.25s ease;
+  }
+
+  .depth-carousel__dot.is-active {
+    width: 20px;
+    background: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .depth-carousel__card {
+      will-change: auto;
+    }
+    .depth-carousel__arrow,
+    .depth-carousel__dot {
+      transition: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="glow"></div>
+  <div class="scrim"></div>
+
+  <div class="nav-bar" id="nav-bar">
+    <nav class="nav">
+      <a href="aixelerate-hero-3-2-2-2.html" class="brand">
+        <span class="brand-mark">AX</span>
+        AIXelerate
+      </a>
+
+      <div class="nav-pills">
+        <a href="aixelerate-hero-3-2-2-2.html">Challenge</a>
+        <a href="mission.html">Mission</a>
+        <a href="about.html">About</a>
+        <a href="previous-events.html" class="is-current">Previous Events</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="events-hero">
+    <div class="eyebrow">Previous Events</div>
+    <h1 class="events-title">Where past cohorts <span style="color:var(--purple-2);">built.</span></h1>
+    <p class="events-sub">
+      A record of the sprints, hackathons, and challenges AIXelerate has run so far —
+      what happened, who showed up, and what students walked away with.
+    </p>
+  </header>
+</div>
+
+<section class="events-list">
+  <div class="event-item" id="event-july-hackathon">
+    <button class="event-toggle" aria-expanded="false" aria-controls="event-july-hackathon-body">
+      <span class="event-toggle-left">
+        <span class="event-index">01</span>
+        <span class="event-name-wrap">
+          <h2 class="event-name">July Hackathon</h2>
+          <span class="event-date">July 2026 &middot; Build Sprint</span>
+        </span>
+      </span>
+      <span class="event-chevron" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 5.5L7 9.5L11 5.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+    </button>
+
+    <div class="event-body" id="event-july-hackathon-body">
+      <div class="event-body-inner">
+        <p class="event-desc">
+          The AIXelerate 2026 Build Sprint in July was the first event held by the AIXelerate
+          Organization. In about 1 month of planning, we managed to bring in over 80+ sign ups,
+          5 sponsors, and 3 judges. Students were provided $50 of Claude through vibes.diy.
+        </p>
+
+        <div class="event-carousel-wrap">
+          <div class="depth-carousel" id="july-hackathon-carousel" tabindex="0"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+  /* -----------------------------------------------------------
+     Nav bar is always in its "scrolled" state on this page, so
+     no scroll-based class toggling is needed here (unlike the
+     hero page, which starts transparent).
+  ----------------------------------------------------------- */
+
+  /* -----------------------------------------------------------
+     Accordion — expands/collapses each .event-item via a
+     grid-template-rows 0fr → 1fr transition, so the panel
+     animates open to its natural height (including the
+     carousel) without any manual height measuring in JS.
+  ----------------------------------------------------------- */
+  (function initEventAccordion(){
+    document.querySelectorAll('.event-item').forEach(item => {
+      const toggle = item.querySelector('.event-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', () => {
+        const open = item.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    });
+  })();
+
+  /* -----------------------------------------------------------
+     DepthCarousel — vanilla JS/CSS port of the React Bits
+     component (reactbits.dev/components/depth-carousel,
+     "DepthCarousel-JS-CSS" variant). Built against plain DOM
+     nodes instead of JSX/refs so it can run on this static
+     page; the tween, drag, wheel, keyboard, and autoplay logic
+     mirror the original 1:1. GSAP is loaded from a CDN above
+     (the component's only real dependency) — if it's ever
+     unavailable the carousel still works, it just snaps
+     between slides instead of easing.
+  ----------------------------------------------------------- */
+  function initDepthCarousel(root, items, options){
+    const cfg = Object.assign({
+      cardWidth: 280,
+      cardHeight: 360,
+      radius: 18,
+      tint: '#0a0713',
+      depth: 220,
+      spread: 90,
+      tilt: 22,
+      tiltDirection: 'right',
+      perspective: 1400,
+      visibleCards: 4,
+      falloff: 0.2,
+      blur: 6,
+      duration: 700,
+      ease: 'power3.out',
+      autoplay: false,
+      autoplayDelay: 3200,
+      loop: true,
+      showControls: true,
+      showIndicators: true
+    }, options || {});
+
+    const count = items.length;
+    if (!count || !root) return;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const clamp = (v, min, max) => Math.min(Math.max(v, min), max);
+
+    let pos = 0, focus = 0, active = 0, scale = 1;
+    let tween = null, drag = null, wheelTimer = null, autoTimer = null;
+    const cards = [], overlays = [], dots = [];
+
+    root.classList.add('depth-carousel');
+    root.style.setProperty('--dc-perspective', cfg.perspective + 'px');
+    root.setAttribute('role', 'group');
+    root.setAttribute('aria-roledescription', 'carousel');
+    root.setAttribute('aria-label', 'Depth carousel');
+
+    const stage = document.createElement('div');
+    stage.className = 'depth-carousel__stage';
+    root.appendChild(stage);
+
+    items.forEach((item, i) => {
+      const card = document.createElement('div');
+      card.className = 'depth-carousel__card';
+      card.style.width = cfg.cardWidth + 'px';
+      card.style.height = cfg.cardHeight + 'px';
+      card.style.borderRadius = cfg.radius + 'px';
+      card.setAttribute('aria-roledescription', 'slide');
+      card.setAttribute('aria-label', (i + 1) + ' of ' + count);
+
+      const img = document.createElement('img');
+      img.className = 'depth-carousel__img';
+      img.src = item.image;
+      img.alt = item.alt || '';
+      img.draggable = false;
+
+      const tintEl = document.createElement('span');
+      tintEl.className = 'depth-carousel__tint';
+      tintEl.style.background = cfg.tint;
+
+      card.appendChild(img);
+      card.appendChild(tintEl);
+      card.addEventListener('click', () => { if (!drag || !drag.moved) setFocus(i, true); });
+
+      stage.appendChild(card);
+      cards.push(card);
+      overlays.push(tintEl);
+    });
+
+    if (cfg.showControls && count > 1){
+      const prev = document.createElement('button');
+      prev.type = 'button';
+      prev.className = 'depth-carousel__arrow depth-carousel__arrow--prev';
+      prev.setAttribute('aria-label', 'Previous slide');
+      prev.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      prev.addEventListener('click', () => navigateBy(-1));
+
+      const next = document.createElement('button');
+      next.type = 'button';
+      next.className = 'depth-carousel__arrow depth-carousel__arrow--next';
+      next.setAttribute('aria-label', 'Next slide');
+      next.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      next.addEventListener('click', () => navigateBy(1));
+
+      root.appendChild(prev);
+      root.appendChild(next);
+    }
+
+    if (cfg.showIndicators && count > 1){
+      const dotsWrap = document.createElement('div');
+      dotsWrap.className = 'depth-carousel__dots';
+      dotsWrap.setAttribute('role', 'tablist');
+      dotsWrap.setAttribute('aria-label', 'Slides');
+      items.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+        dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+        dot.className = 'depth-carousel__dot' + (i === 0 ? ' is-active' : '');
+        dot.addEventListener('click', () => setFocus(i, true));
+        dotsWrap.appendChild(dot);
+        dots.push(dot);
+      });
+      root.appendChild(dotsWrap);
+    }
+
+    function layout(p){
+      const dir = cfg.tiltDirection === 'left' ? -1 : 1;
+      for (let i = 0; i < count; i++){
+        const el = cards[i];
+        let d = i - p;
+        if (cfg.loop && count > 1){
+          d = ((d % count) + count) % count;
+          if (d > count / 2) d -= count;
+        }
+        const back = Math.max(0, d);
+        const az = Math.abs(d);
+        const shown = az <= cfg.visibleCards + 0.5;
+
+        const tz = -cfg.depth * d;
+        const tx = dir * cfg.spread * d;
+        const ry = dir * cfg.tilt * clamp(d, 0, 1);
+
+        let opacity = d < 0 ? Math.max(0, 1 + d) : 1;
+        if (!shown) opacity = 0;
+
+        const brightness = Math.max(0.15, 1 - back * cfg.falloff);
+        const blurPx = cfg.blur > 0 ? Math.min(cfg.blur, (back / Math.max(1, cfg.visibleCards)) * cfg.blur) : 0;
+        const zi = Math.round(2000 - d * 20);
+
+        el.style.transform = 'translate(-50%, -50%) scale(' + scale + ') translateX(' + tx.toFixed(2) + 'px) translateZ(' + tz.toFixed(2) + 'px) rotateY(' + ry.toFixed(3) + 'deg)';
+        el.style.opacity = opacity.toFixed(3);
+        el.style.filter = 'brightness(' + brightness.toFixed(3) + ') blur(' + blurPx.toFixed(2) + 'px)';
+        el.style.zIndex = String(zi);
+        el.style.pointerEvents = shown && opacity > 0.05 ? 'auto' : 'none';
+        el.setAttribute('aria-hidden', active !== i ? 'true' : 'false');
+
+        overlays[i].style.opacity = clamp(back * cfg.falloff * 1.25, 0, 0.86).toFixed(3);
+      }
+    }
+
+    function notify(idx){
+      active = idx;
+      dots.forEach((d, i) => {
+        d.classList.toggle('is-active', i === idx);
+        d.setAttribute('aria-selected', i === idx ? 'true' : 'false');
+      });
+    }
+
+    function tweenTo(target, animate){
+      if (tween) tween.kill();
+      const proxy = { p: pos };
+      const canAnimate = animate && !reduced && window.gsap;
+      if (canAnimate){
+        tween = gsap.to(proxy, {
+          p: target,
+          duration: cfg.duration / 1000,
+          ease: cfg.ease,
+          onUpdate: () => { pos = proxy.p; layout(pos); },
+          onComplete: () => {
+            if (count > 0) pos = ((pos % count) + count) % count;
+            layout(pos);
+          }
+        });
+      } else {
+        pos = target;
+        if (count > 0) pos = ((pos % count) + count) % count;
+        layout(pos);
+      }
+    }
+
+    function setFocus(rawIndex, animate){
+      if (!count) return;
+      const idx = cfg.loop ? ((rawIndex % count) + count) % count : clamp(rawIndex, 0, count - 1);
+      let delta = idx - pos;
+      if (cfg.loop && count > 1){
+        delta = ((delta % count) + count) % count;
+        if (delta > count / 2) delta -= count;
+      }
+      tweenTo(pos + delta, animate);
+      if (idx !== focus){
+        focus = idx;
+        notify(idx);
+      }
+    }
+
+    function navigateBy(step){ setFocus(focus + step, true); }
+
+    const ro = new ResizeObserver(entries => {
+      const w = entries[0].contentRect.width;
+      if (!w) return;
+      const needed = cfg.cardWidth + Math.abs(cfg.spread) * 2 + 120;
+      scale = clamp(w / needed, 0.4, 1);
+      layout(pos);
+    });
+    ro.observe(root);
+
+    root.addEventListener('wheel', e => {
+      if (count < 2) return;
+      e.preventDefault();
+      if (tween) tween.kill();
+      const raw = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+      const delta = e.deltaMode === 1 ? raw * 24 : raw;
+      const step = clamp(delta / (cfg.cardWidth * 0.9), -0.6, 0.6);
+      pos += step;
+      layout(pos);
+      clearTimeout(wheelTimer);
+      wheelTimer = setTimeout(() => setFocus(Math.round(pos), true), 130);
+    }, { passive: false });
+
+    root.addEventListener('pointerdown', e => {
+      if (count < 2) return;
+      if (tween) tween.kill();
+      drag = { x: e.clientX, startPos: pos, lastX: e.clientX, lastT: performance.now(), v: 0, moved: false, id: e.pointerId };
+    });
+
+    root.addEventListener('pointermove', e => {
+      if (!drag) return;
+      const stepPx = Math.max(cfg.cardWidth * 0.55 * scale, 40);
+      const dx = e.clientX - drag.x;
+      if (!drag.moved && Math.abs(dx) > 4){
+        drag.moved = true;
+        root.setPointerCapture(drag.id);
+      }
+      if (!drag.moved) return;
+      const now = performance.now();
+      const dt = Math.max(now - drag.lastT, 1);
+      drag.v = (e.clientX - drag.lastX) / dt;
+      drag.lastX = e.clientX;
+      drag.lastT = now;
+      pos = drag.startPos - dx / stepPx;
+      layout(pos);
+    });
+
+    function onPointerEnd(){
+      if (!drag) return;
+      const d = drag;
+      drag = null;
+      if (!d.moved) return;
+      const stepPx = Math.max(cfg.cardWidth * 0.55 * scale, 40);
+      const projected = pos - (d.v * 180) / stepPx;
+      setFocus(Math.round(projected), true);
+    }
+    root.addEventListener('pointerup', onPointerEnd);
+    root.addEventListener('pointercancel', onPointerEnd);
+
+    root.addEventListener('keydown', e => {
+      if (e.key === 'ArrowLeft'){ e.preventDefault(); navigateBy(-1); }
+      else if (e.key === 'ArrowRight'){ e.preventDefault(); navigateBy(1); }
+    });
+
+    if (cfg.autoplay && !reduced && count >= 2){
+      let hovered = false, focusedIn = false;
+      const stop = () => { if (autoTimer) clearInterval(autoTimer); autoTimer = null; };
+      const start = () => {
+        stop();
+        autoTimer = setInterval(() => { if (!hovered && !focusedIn) navigateBy(1); }, Math.max(cfg.autoplayDelay, 600));
+      };
+      root.addEventListener('mouseenter', () => hovered = true);
+      root.addEventListener('mouseleave', () => hovered = false);
+      root.addEventListener('focusin', () => focusedIn = true);
+      root.addEventListener('focusout', () => focusedIn = false);
+      start();
+    }
+
+    layout(0);
+  }
+
+  /* -----------------------------------------------------------
+     July Hackathon photos — swap these five image URLs (or
+     replace the array with a fetch() to your backend/CMS that
+     returns the same [{ image, alt }, ...] shape) to bring in
+     the real event photos. Everything above adapts automatically
+     to however many items are in the array.
+  ----------------------------------------------------------- */
+  const julyHackathonPhotos = [
+    { image: 'https://picsum.photos/seed/a/800/1000', alt: 'July Hackathon photo 1' },
+    { image: 'https://picsum.photos/seed/b/800/1000', alt: 'July Hackathon photo 2' },
+    { image: 'https://picsum.photos/seed/c/800/1000', alt: 'July Hackathon photo 3' },
+    { image: 'https://picsum.photos/seed/d/800/1000', alt: 'July Hackathon photo 4' },
+    { image: 'https://picsum.photos/seed/e/800/1000', alt: 'July Hackathon photo 5' }
+  ];
+
+  initDepthCarousel(document.getElementById('july-hackathon-carousel'), julyHackathonPhotos, {
+    depth: 220,
+    spread: 90,
+    tilt: 22,
+    tiltDirection: 'right',
+    perspective: 1400,
+    visibleCards: 4,
+    falloff: 0.2,
+    blur: 6,
+    autoplay: true,
+    loop: true
+  });
+</script>
+
+<style>
+  .site-footer{
+    position:relative;
+    z-index:5;
+    background:var(--bg-2);
+    border-top:1px solid var(--line);
+    padding:88px 32px 0;
+  }
+  .footer-inner{
+    max-width:1240px;
+    margin:0 auto;
+  }
+  .footer-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:56px;
+    padding-bottom:64px;
+  }
+  .footer-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+    margin-bottom:18px;
+    color:var(--ink);
+  }
+  .footer-brand .brand-mark{
+    width:24px; height:24px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:13px;
+    color:#0a0a0a;
+    flex-shrink:0;
+  }
+  .footer-tagline{
+    max-width:36ch;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+  .footer-col-title{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:18px;
+  }
+  .footer-col a{
+    display:block;
+    font-size:14.5px;
+    color:var(--ink-dim);
+    margin-bottom:14px;
+    transition:color .2s ease;
+  }
+  .footer-col a:hover{ color:var(--ink); }
+  .footer-col a:last-child{ margin-bottom:0; }
+
+  .footer-fiscal{
+    position:relative;
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:14px;
+    align-items:start;
+  }
+  .footer-fiscal-icon{
+    width:26px; height:26px;
+    border-radius:7px;
+    display:block;
+    flex-shrink:0;
+  }
+  .footer-fiscal-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:-0.005em;
+    margin-bottom:5px;
+    color:var(--ink);
+  }
+  .footer-fiscal p{
+    font-size:11px;
+    line-height:1.55;
+    color:var(--ink-faint);
+    max-width:70ch;
+    margin-bottom:6px;
+  }
+  .footer-fiscal p:last-child{ margin-bottom:0; }
+  .footer-fiscal-sub{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--purple-2);
+    margin:10px 0 5px;
+  }
+  .footer-fiscal-note{
+    font-size:9.5px;
+    color:var(--ink-faint);
+    font-style:italic;
+    opacity:0.8;
+  }
+
+  .footer-bottom{
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+  .footer-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:8px 16px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    color:var(--ink-dim);
+  }
+
+  @media (max-width:860px){
+    .footer-top{ grid-template-columns:1fr 1fr; row-gap:44px; }
+    .footer-top > div:first-child{ grid-column:1 / -1; }
+    .footer-fiscal{ grid-template-columns:1fr; }
+  }
+  @media (max-width:640px){
+    .site-footer{ padding:64px 20px 0; }
+    .footer-bottom{ justify-content:flex-start; }
+  }
+</style>
+
+<style>
+  .final-cta{
+    position:relative;
+    z-index:5;
+    background:var(--bg);
+    padding:100px 32px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .final-cta::before{
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(126,34,206,0.16), transparent 68%);
+    pointer-events:none;
+  }
+  .final-cta-inner{
+    position:relative;
+    max-width:680px;
+    margin:0 auto;
+  }
+  .final-cta-eyebrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    color:var(--purple-2);
+    text-transform:uppercase;
+    margin-bottom:20px;
+  }
+  .final-cta-eyebrow::before,
+  .final-cta-eyebrow::after{
+    content:'';
+    width:26px;
+    height:1px;
+    background:var(--purple-2);
+    opacity:0.6;
+  }
+  h2.final-cta-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(1.9rem, 4.4vw, 3.1rem);
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  .final-cta-title .final-cta-spark{
+    background:linear-gradient(100deg, var(--purple-1) 10%, var(--purple-2) 55%, var(--purple-1) 90%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:final-cta-sheen 5s ease-in-out infinite;
+  }
+  @keyframes final-cta-sheen{
+    0%,100%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+  }
+  p.final-cta-sub{
+    margin:18px auto 0;
+    max-width:52ch;
+    font-size:15.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+  .final-cta-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    margin-top:38px;
+    flex-wrap:wrap;
+  }
+  .final-cta-row .final-cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 26px;
+    border-radius:999px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    font-family:var(--font-body);
+    border:1px solid transparent;
+    text-decoration:none;
+    cursor:pointer;
+    transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .final-cta-row .final-cta-btn-primary{
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    color:#150a24;
+    box-shadow:0 10px 30px -10px rgba(126,34,206,0.6);
+  }
+  .final-cta-row .final-cta-btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(126,34,206,0.75); }
+  .final-cta-row .final-cta-btn-secondary{
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    color:var(--ink);
+  }
+  .final-cta-row .final-cta-btn-secondary:hover{ border-color:rgba(255,255,255,0.28); background:rgba(255,255,255,0.06); }
+
+  @media (max-width:640px){
+    .final-cta{ padding:72px 20px; }
+    .final-cta-row{ flex-direction:column; align-items:stretch; }
+    .final-cta-row .final-cta-btn{ justify-content:center; }
+  }
+</style>
+
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <div class="final-cta-eyebrow">Get Involved</div>
+    <h2 class="final-cta-title">Ready to <span class="final-cta-spark">build,</span> or ready to <span class="final-cta-spark">guide?</span></h2>
+    <p class="final-cta-sub">
+      Apply as a student to join the next build sprint, or sign up as a mentor to help
+      shape it. Both start with the same short form.
+    </p>
+    <div class="final-cta-row">
+      <a href="apply.html?role=student" class="final-cta-btn final-cta-btn-primary">Apply as a Student</a>
+      <a href="apply.html?role=mentor" class="final-cta-btn final-cta-btn-secondary">Become a Mentor</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark">AX</span>
+          AIXelerate Challenge
+        </div>
+        <p class="footer-tagline">Empowering the next generation of AI builders, innovators, and leaders to create ethical, high-impact solutions.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Support Us</div>
+        <a href="#">Give to AIXelerate Challenge</a>
+        <a href="#">Mentor Sign-Up</a>
+        <a href="#">Sponsorships</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <a href="#">Email Us</a>
+        <a href="#">Hack Club</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+
+    <div class="footer-fiscal">
+      <img class="footer-fiscal-icon" src="hcb-icon-dark.png" alt="Hack Club Bank (HCB)">
+      <div>
+        <h3 class="footer-fiscal-title">Fiscal Sponsorship</h3>
+        <p>AIXelerate Challenge is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club), a 501(c)(3) nonprofit (EIN: 81-2908499).</p>
+        <div class="footer-fiscal-sub">About Our Fiscal Sponsorship</div>
+        <p>We operate under fiscal sponsorship through HCB, a platform by Hack Club. HCB provides financial infrastructure that allows us to accept donations and manage funds as a restricted fund dedicated to our organization.</p>
+        <p class="footer-fiscal-note">Note: Fiscal sponsorship does not imply endorsement, partnership, or direct funding from Hack Club or HCB.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 AIXelerate Challenge. A member of the Hack Club Bank network. All rights reserved.</span>
+      <span class="footer-badge">FREE &amp; OPEN ACCESS</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission — AIXelerate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:            #0a0713;
+    --bg-2:          #100b1c;
+    --ink:           #f5f3f9;
+    --ink-dim:       #a29cb8;
+    --ink-faint:     #5c5474;
+    --purple-1:      #7e22ce;
+    --purple-2:      #c084fc;
+    --line:          rgba(255,255,255,0.08);
+    --focus:         #c084fc;
+
+    --font-display:  'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body:     'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono:     'Space Grotesk', ui-monospace, monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ background:var(--bg); scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; }
+
+  :focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .spark{
+    background:linear-gradient(100deg, var(--purple-1) 10%, var(--purple-2) 55%, var(--purple-1) 90%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:sheen 5s ease-in-out infinite;
+  }
+  @keyframes sheen{
+    0%,100%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .spark{ animation:none; }
+  }
+
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    color:var(--purple-2);
+    text-transform:uppercase;
+  }
+  .eyebrow::before{
+    content:'';
+    width:26px;
+    height:1px;
+    background:var(--purple-2);
+    opacity:0.6;
+  }
+
+  /* ---------------------------------- */
+  /* Nav (matches main site)             */
+  /* ---------------------------------- */
+
+  .nav-bar{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(10,7,19,0.72);
+    border-bottom:1px solid var(--line);
+    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(18px);
+  }
+
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    max-width:1240px;
+    margin:0 auto;
+    padding:13px 32px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+  }
+
+  .brand-mark{
+    width:24px; height:24px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:13px;
+    color:#0a0a0a;
+    flex-shrink:0;
+  }
+
+  .nav-pills{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    background:rgba(255,255,255,0.035);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px;
+    backdrop-filter:blur(12px);
+  }
+
+  .nav-pills a{
+    display:block;
+    padding:8px 18px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink-dim);
+    border-radius:999px;
+    transition:color .2s ease, background .2s ease;
+    white-space:nowrap;
+  }
+
+  .nav-pills a:hover{
+    color:var(--ink);
+    background:rgba(255,255,255,0.06);
+  }
+
+  .nav-pills a.is-current{
+    color:var(--ink);
+    background:rgba(255,255,255,0.08);
+  }
+
+  @media (max-width:860px){
+    .nav-pills{ display:none; }
+  }
+
+  /* ---------------------------------- */
+  /* Ambient glow behind the nav         */
+  /* ---------------------------------- */
+
+  .scene{
+    position:relative;
+    width:100%;
+    min-height:120px;
+    overflow:hidden;
+    isolation:isolate;
+  }
+
+  .glow{
+    position:absolute;
+    top:-18%;
+    left:50%;
+    width:1100px;
+    height:1100px;
+    transform:translateX(-50%);
+    background:radial-gradient(circle at 50% 40%, rgba(126,34,206,0.24), rgba(126,34,206,0.06) 38%, transparent 62%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------------------------------- */
+  /* Mission section                     */
+  /* ---------------------------------- */
+
+  .mission{
+    position:relative;
+    z-index:5;
+    background:var(--bg-2);
+    padding:176px 32px 160px;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+    min-height:calc(100vh - 64px);
+    display:flex;
+    align-items:center;
+  }
+
+  .mission .eyebrow{ margin-bottom:20px; }
+
+  .mission::before{
+    content:'';
+    position:absolute;
+    top:50%; left:-10%;
+    width:520px; height:520px;
+    transform:translateY(-50%);
+    background:radial-gradient(circle, rgba(126,34,206,0.16), transparent 68%);
+    pointer-events:none;
+  }
+
+  .mission-inner{
+    position:relative;
+    width:100%;
+    max-width:1160px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:72px;
+    align-items:start;
+  }
+
+  h2.mission-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(2.1rem, 4.8vw, 3.8rem);
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    margin-top:20px;
+  }
+
+  .mission-panel{
+    position:relative;
+    padding-left:30px;
+    border-left:2px solid var(--purple-2);
+  }
+
+  .mission-mark{
+    display:block;
+    font-family:var(--font-display);
+    font-size:56px;
+    font-weight:700;
+    line-height:1;
+    color:var(--purple-1);
+    opacity:0.55;
+    margin-bottom:14px;
+  }
+
+  p.mission-text{
+    font-size:16px;
+    line-height:1.75;
+    color:var(--ink-dim);
+    margin-bottom:22px;
+  }
+  p.mission-text:last-child{ margin-bottom:0; }
+
+  .mission-stats{
+    display:flex;
+    gap:36px;
+    margin-top:44px;
+  }
+
+  .mission-stat b{
+    display:block;
+    font-family:var(--font-display);
+    font-size:26px;
+    font-weight:700;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+  }
+
+  .mission-stat span{
+    display:block;
+    margin-top:4px;
+    font-size:12.5px;
+    color:var(--ink-faint);
+    font-family:var(--font-mono);
+    letter-spacing:0.03em;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(26px);
+    transition:opacity .85s cubic-bezier(.16,1,.3,1), transform .85s cubic-bezier(.16,1,.3,1);
+  }
+  .reveal.in-view{ opacity:1; transform:translateY(0); }
+
+  @media (max-width:860px){
+    .mission-inner{ grid-template-columns:1fr; gap:44px; }
+  }
+
+  @media (max-width:640px){
+    .mission{ padding:132px 20px 96px; }
+    .mission-stats{ gap:26px; flex-wrap:wrap; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .reveal{ opacity:1; transform:none; transition:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="glow"></div>
+
+  <div class="nav-bar" id="nav-bar">
+    <nav class="nav">
+      <a href="aixelerate-hero-3-2-2-2.html" class="brand">
+        <span class="brand-mark">AX</span>
+        AIXelerate
+      </a>
+
+      <div class="nav-pills">
+        <a href="aixelerate-hero-3-2-2-2.html">Challenge</a>
+        <a href="mission.html" class="is-current">Mission</a>
+        <a href="about.html">About</a>
+        <a href="previous-events.html">Previous Events</a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<section class="mission">
+  <div class="mission-inner">
+    <div class="reveal">
+      <div class="eyebrow">Our Mission</div>
+      <h2 class="mission-title">Built for high schoolers ready to <span class="spark">build.</span></h2>
+
+      <div class="mission-stats">
+        <div class="mission-stat">
+          <b>High School</b>
+          <span>WHO WE SERVE</span>
+        </div>
+        <div class="mission-stat">
+          <b>Always Free</b>
+          <span>TO PARTICIPATE</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="mission-panel reveal" style="transition-delay:.12s;">
+      <span class="mission-mark">&ldquo;</span>
+      <p class="mission-text">AIXelerate Challenge is dedicated to breaking down barriers to advanced computer science and technology education. We equip high school students from varied backgrounds with resources, mentorship, and opportunities to build projects that address meaningful problems.</p>
+      <p class="mission-text">We believe the strongest learning happens when students work on real constraints: users, deadlines, ethics, communication, and teamwork. Our programs are free so that cost does not determine who gets to participate.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* -----------------------------------------------------------
+     Scroll reveal — fades/rises .reveal elements into place the
+     first time they enter the viewport. Respects reduced-motion.
+  ----------------------------------------------------------- */
+  (function initReveal(){
+    const items = document.querySelectorAll('.reveal');
+    if (!items.length) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduced){ items.forEach(el => el.classList.add('in-view')); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting){
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.2 });
+    items.forEach(el => io.observe(el));
+  })();
+</script>
+
+<style>
+  .site-footer{
+    position:relative;
+    z-index:5;
+    background:var(--bg-2);
+    border-top:1px solid var(--line);
+    padding:88px 32px 0;
+  }
+  .footer-inner{
+    max-width:1240px;
+    margin:0 auto;
+  }
+  .footer-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:56px;
+    padding-bottom:64px;
+  }
+  .footer-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+    margin-bottom:18px;
+    color:var(--ink);
+  }
+  .footer-brand .brand-mark{
+    width:24px; height:24px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:13px;
+    color:#0a0a0a;
+    flex-shrink:0;
+  }
+  .footer-tagline{
+    max-width:36ch;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+  .footer-col-title{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:18px;
+  }
+  .footer-col a{
+    display:block;
+    font-size:14.5px;
+    color:var(--ink-dim);
+    margin-bottom:14px;
+    transition:color .2s ease;
+  }
+  .footer-col a:hover{ color:var(--ink); }
+  .footer-col a:last-child{ margin-bottom:0; }
+
+  .footer-fiscal{
+    position:relative;
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:14px;
+    align-items:start;
+  }
+  .footer-fiscal-icon{
+    width:26px; height:26px;
+    border-radius:7px;
+    display:block;
+    flex-shrink:0;
+  }
+  .footer-fiscal-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:-0.005em;
+    margin-bottom:5px;
+    color:var(--ink);
+  }
+  .footer-fiscal p{
+    font-size:11px;
+    line-height:1.55;
+    color:var(--ink-faint);
+    max-width:70ch;
+    margin-bottom:6px;
+  }
+  .footer-fiscal p:last-child{ margin-bottom:0; }
+  .footer-fiscal-sub{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--purple-2);
+    margin:10px 0 5px;
+  }
+  .footer-fiscal-note{
+    font-size:9.5px;
+    color:var(--ink-faint);
+    font-style:italic;
+    opacity:0.8;
+  }
+
+  .footer-bottom{
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+  .footer-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:8px 16px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    color:var(--ink-dim);
+  }
+
+  @media (max-width:860px){
+    .footer-top{ grid-template-columns:1fr 1fr; row-gap:44px; }
+    .footer-top > div:first-child{ grid-column:1 / -1; }
+    .footer-fiscal{ grid-template-columns:1fr; }
+  }
+  @media (max-width:640px){
+    .site-footer{ padding:64px 20px 0; }
+    .footer-bottom{ justify-content:flex-start; }
+  }
+</style>
+
+<style>
+  .final-cta{
+    position:relative;
+    z-index:5;
+    background:var(--bg);
+    padding:100px 32px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .final-cta::before{
+    content:'';
+    position:absolute;
+    top:50%; left:50%;
+    width:900px; height:900px;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(126,34,206,0.16), transparent 68%);
+    pointer-events:none;
+  }
+  .final-cta-inner{
+    position:relative;
+    max-width:680px;
+    margin:0 auto;
+  }
+  .final-cta-eyebrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    color:var(--purple-2);
+    text-transform:uppercase;
+    margin-bottom:20px;
+  }
+  .final-cta-eyebrow::before,
+  .final-cta-eyebrow::after{
+    content:'';
+    width:26px;
+    height:1px;
+    background:var(--purple-2);
+    opacity:0.6;
+  }
+  h2.final-cta-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(1.9rem, 4.4vw, 3.1rem);
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    color:var(--ink);
+  }
+  .final-cta-title .final-cta-spark{
+    background:linear-gradient(100deg, var(--purple-1) 10%, var(--purple-2) 55%, var(--purple-1) 90%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:final-cta-sheen 5s ease-in-out infinite;
+  }
+  @keyframes final-cta-sheen{
+    0%,100%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+  }
+  p.final-cta-sub{
+    margin:18px auto 0;
+    max-width:52ch;
+    font-size:15.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+  .final-cta-row{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:16px;
+    margin-top:38px;
+    flex-wrap:wrap;
+  }
+  .final-cta-row .final-cta-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 26px;
+    border-radius:999px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    font-family:var(--font-body);
+    border:1px solid transparent;
+    text-decoration:none;
+    cursor:pointer;
+    transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease, border-color .25s ease, background .25s ease;
+  }
+  .final-cta-row .final-cta-btn-primary{
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    color:#150a24;
+    box-shadow:0 10px 30px -10px rgba(126,34,206,0.6);
+  }
+  .final-cta-row .final-cta-btn-primary:hover{ transform:translateY(-2px); box-shadow:0 16px 36px -10px rgba(126,34,206,0.75); }
+  .final-cta-row .final-cta-btn-secondary{
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    color:var(--ink);
+  }
+  .final-cta-row .final-cta-btn-secondary:hover{ border-color:rgba(255,255,255,0.28); background:rgba(255,255,255,0.06); }
+
+  @media (max-width:640px){
+    .final-cta{ padding:72px 20px; }
+    .final-cta-row{ flex-direction:column; align-items:stretch; }
+    .final-cta-row .final-cta-btn{ justify-content:center; }
+  }
+</style>
+
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <div class="final-cta-eyebrow">Get Involved</div>
+    <h2 class="final-cta-title">Ready to <span class="final-cta-spark">build,</span> or ready to <span class="final-cta-spark">guide?</span></h2>
+    <p class="final-cta-sub">
+      Apply as a student to join the next build sprint, or sign up as a mentor to help
+      shape it. Both start with the same short form.
+    </p>
+    <div class="final-cta-row">
+      <a href="apply.html?role=student" class="final-cta-btn final-cta-btn-primary">Apply as a Student</a>
+      <a href="apply.html?role=mentor" class="final-cta-btn final-cta-btn-secondary">Become a Mentor</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark">AX</span>
+          AIXelerate Challenge
+        </div>
+        <p class="footer-tagline">Empowering the next generation of AI builders, innovators, and leaders to create ethical, high-impact solutions.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Support Us</div>
+        <a href="#">Give to AIXelerate Challenge</a>
+        <a href="#">Mentor Sign-Up</a>
+        <a href="#">Sponsorships</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <a href="#">Email Us</a>
+        <a href="#">Hack Club</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+
+    <div class="footer-fiscal">
+      <img class="footer-fiscal-icon" src="hcb-icon-dark.png" alt="Hack Club Bank (HCB)">
+      <div>
+        <h3 class="footer-fiscal-title">Fiscal Sponsorship</h3>
+        <p>AIXelerate Challenge is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club), a 501(c)(3) nonprofit (EIN: 81-2908499).</p>
+        <div class="footer-fiscal-sub">About Our Fiscal Sponsorship</div>
+        <p>We operate under fiscal sponsorship through HCB, a platform by Hack Club. HCB provides financial infrastructure that allows us to accept donations and manage funds as a restricted fund dedicated to our organization.</p>
+        <p class="footer-fiscal-note">Note: Fiscal sponsorship does not imply endorsement, partnership, or direct funding from Hack Club or HCB.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 AIXelerate Challenge. A member of the Hack Club Bank network. All rights reserved.</span>
+      <span class="footer-badge">FREE &amp; OPEN ACCESS</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply — AIXelerate</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:            #0a0713;
+    --bg-2:          #100b1c;
+    --ink:           #f5f3f9;
+    --ink-dim:       #a29cb8;
+    --ink-faint:     #5c5474;
+    --purple-1:      #7e22ce;
+    --purple-2:      #c084fc;
+    --line:          rgba(255,255,255,0.08);
+    --focus:         #c084fc;
+
+    --font-display:  'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-body:     'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+    --font-mono:     'Space Grotesk', ui-monospace, monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ background:var(--bg); scroll-behavior:smooth; }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; }
+
+  :focus-visible{
+    outline:2px solid var(--focus);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .spark{
+    background:linear-gradient(100deg, var(--purple-1) 10%, var(--purple-2) 55%, var(--purple-1) 90%);
+    background-size:200% 100%;
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    animation:sheen 5s ease-in-out infinite;
+  }
+  @keyframes sheen{
+    0%,100%{ background-position:0% 50%; }
+    50%{ background-position:100% 50%; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .spark{ animation:none; }
+  }
+
+  .eyebrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    font-weight:500;
+    letter-spacing:0.14em;
+    color:var(--purple-2);
+    text-transform:uppercase;
+  }
+  .eyebrow::before, .eyebrow::after{
+    content:'';
+    width:26px;
+    height:1px;
+    background:var(--purple-2);
+    opacity:0.6;
+  }
+
+  /* ---------------------------------- */
+  /* Nav (matches main site)             */
+  /* ---------------------------------- */
+
+  .nav-bar{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(10,7,19,0.72);
+    border-bottom:1px solid var(--line);
+    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(18px);
+  }
+
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:24px;
+    max-width:1240px;
+    margin:0 auto;
+    padding:13px 32px;
+  }
+
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+  }
+
+  .brand-mark{
+    width:24px; height:24px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:13px;
+    color:#0a0a0a;
+    flex-shrink:0;
+  }
+
+  .nav-pills{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    background:rgba(255,255,255,0.035);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px;
+    backdrop-filter:blur(12px);
+  }
+
+  .nav-pills a{
+    display:block;
+    padding:8px 18px;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--ink-dim);
+    border-radius:999px;
+    transition:color .2s ease, background .2s ease;
+    white-space:nowrap;
+  }
+
+  .nav-pills a:hover{
+    color:var(--ink);
+    background:rgba(255,255,255,0.06);
+  }
+
+  .nav-pills a.is-current{
+    color:var(--ink);
+    background:rgba(255,255,255,0.08);
+  }
+
+  @media (max-width:860px){
+    .nav-pills{ display:none; }
+  }
+
+  /* ---------------------------------- */
+  /* Ambient glow behind the nav         */
+  /* ---------------------------------- */
+
+  .scene{
+    position:relative;
+    width:100%;
+    min-height:120px;
+    overflow:hidden;
+    isolation:isolate;
+  }
+
+  .glow{
+    position:absolute;
+    top:-18%;
+    left:50%;
+    width:1100px;
+    height:1100px;
+    transform:translateX(-50%);
+    background:radial-gradient(circle at 50% 40%, rgba(126,34,206,0.24), rgba(126,34,206,0.06) 38%, transparent 62%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------------------------------- */
+  /* Page header                         */
+  /* ---------------------------------- */
+
+  .apply-hero{
+    position:relative;
+    z-index:5;
+    max-width:760px;
+    margin:0 auto;
+    padding:168px 32px 8px;
+    text-align:center;
+  }
+
+  .apply-hero .eyebrow{ margin-bottom:22px; }
+
+  h1.apply-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:clamp(2.2rem, 5.4vw, 3.8rem);
+    line-height:1.06;
+    letter-spacing:-0.02em;
+  }
+
+  p.apply-sub{
+    margin:20px auto 0;
+    max-width:54ch;
+    font-size:16px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+
+  /* ---------------------------------- */
+  /* Role toggle                         */
+  /* ---------------------------------- */
+
+  .role-toggle{
+    position:relative;
+    z-index:5;
+    display:flex;
+    justify-content:center;
+    margin:44px 32px 0;
+  }
+
+  .role-toggle-inner{
+    display:inline-flex;
+    gap:2px;
+    background:rgba(255,255,255,0.035);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px;
+  }
+
+  .role-btn{
+    padding:11px 26px;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:-0.005em;
+    color:var(--ink-dim);
+    border-radius:999px;
+    background:transparent;
+    border:none;
+    transition:color .2s ease, background .2s ease;
+  }
+
+  .role-btn.is-active{
+    color:#150a24;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+  }
+
+  /* ---------------------------------- */
+  /* Form section                        */
+  /* ---------------------------------- */
+
+  .apply-form-section{
+    position:relative;
+    z-index:5;
+    max-width:640px;
+    margin:0 auto;
+    padding:48px 32px 160px;
+  }
+
+  .apply-panel{
+    display:none;
+  }
+  .apply-panel.is-active{
+    display:block;
+  }
+
+  .apply-panel-intro{
+    margin-bottom:32px;
+  }
+
+  .apply-panel-intro h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:22px;
+    letter-spacing:-0.01em;
+    margin-bottom:8px;
+  }
+
+  .apply-panel-intro p{
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--ink-dim);
+  }
+
+  .field{
+    margin-bottom:22px;
+  }
+
+  .field label{
+    display:block;
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:9px;
+  }
+
+  .field .hint{
+    display:block;
+    font-family:var(--font-body);
+    font-size:12.5px;
+    font-weight:400;
+    letter-spacing:normal;
+    text-transform:none;
+    color:var(--ink-faint);
+    margin-top:6px;
+  }
+
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="url"],
+  .field select,
+  .field textarea{
+    width:100%;
+    padding:13px 16px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    border-radius:12px;
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-size:14.5px;
+    transition:border-color .2s ease, background .2s ease;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder{
+    color:var(--ink-faint);
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus{
+    outline:none;
+    border-color:rgba(192,132,252,0.5);
+    background:rgba(255,255,255,0.045);
+  }
+
+  .field textarea{
+    resize:vertical;
+    min-height:96px;
+  }
+
+  .field select{
+    appearance:none;
+    -webkit-appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none'%3E%3Cpath d='M3 5.5L7 9.5L11 5.5' stroke='%23a29cb8' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 16px center;
+    padding-right:40px;
+  }
+
+  .radio-group,
+  .check-group{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .radio-option,
+  .check-option{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:12px 16px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--line);
+    border-radius:12px;
+    cursor:pointer;
+    transition:border-color .2s ease, background .2s ease;
+  }
+
+  .radio-option:hover,
+  .check-option:hover{
+    border-color:rgba(255,255,255,0.2);
+  }
+
+  .radio-option input,
+  .check-option input{
+    accent-color:var(--purple-2);
+    width:15px;
+    height:15px;
+    flex-shrink:0;
+  }
+
+  .radio-option span,
+  .check-option span{
+    font-size:14px;
+    color:var(--ink);
+  }
+
+  .field-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+
+  @media (max-width:560px){
+    .field-row{ grid-template-columns:1fr; }
+  }
+
+  .submit-btn{
+    width:100%;
+    padding:15px 26px;
+    border-radius:999px;
+    font-size:14.5px;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    border:none;
+    color:#150a24;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    box-shadow:0 10px 30px -10px rgba(126,34,206,0.6);
+    transition:transform .25s cubic-bezier(.16,1,.3,1), box-shadow .25s ease;
+    margin-top:8px;
+  }
+
+  .submit-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 16px 36px -10px rgba(126,34,206,0.75);
+  }
+
+  .form-note{
+    margin-top:14px;
+    font-size:12px;
+    line-height:1.6;
+    color:var(--ink-faint);
+    text-align:center;
+  }
+
+  .apply-confirm{
+    display:none;
+    text-align:center;
+    padding:40px 30px;
+    border:1px solid rgba(192,132,252,0.3);
+    border-radius:20px;
+    background:rgba(255,255,255,0.03);
+  }
+  .apply-confirm.is-active{ display:block; }
+
+  .apply-confirm h2{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:22px;
+    letter-spacing:-0.01em;
+    margin-bottom:10px;
+  }
+  .apply-confirm p{
+    font-size:14.5px;
+    line-height:1.65;
+    color:var(--ink-dim);
+    max-width:44ch;
+    margin:0 auto;
+  }
+</style>
+</head>
+<body>
+
+<div class="scene">
+  <div class="glow"></div>
+
+  <div class="nav-bar" id="nav-bar">
+    <nav class="nav">
+      <a href="aixelerate-hero-3-2-2-2.html" class="brand">
+        <span class="brand-mark">AX</span>
+        AIXelerate
+      </a>
+
+      <div class="nav-pills">
+        <a href="aixelerate-hero-3-2-2-2.html">Challenge</a>
+        <a href="mission.html">Mission</a>
+        <a href="about.html">About</a>
+        <a href="previous-events.html">Previous Events</a>
+      </div>
+    </nav>
+  </div>
+
+  <header class="apply-hero">
+    <div class="eyebrow">Apply Now</div>
+    <h1 class="apply-title">Build with us, or help others <span class="spark">build.</span></h1>
+    <p class="apply-sub">
+      Pick the form that fits — student sign-ups and mentor sign-ups both take a couple
+      of minutes.
+    </p>
+  </header>
+
+  <div class="role-toggle">
+    <div class="role-toggle-inner" role="tablist" aria-label="Choose application type">
+      <button type="button" class="role-btn" id="role-btn-student" role="tab" aria-selected="false">Student</button>
+      <button type="button" class="role-btn" id="role-btn-mentor" role="tab" aria-selected="false">Mentor</button>
+    </div>
+  </div>
+</div>
+
+<section class="apply-form-section">
+
+  <!-- Student application -->
+  <div class="apply-panel" id="panel-student">
+    <div class="apply-panel-intro">
+      <h2>Apply as a Student</h2>
+      <p>Open to high schoolers of any experience level — no prior AI or coding background required.</p>
+    </div>
+
+    <form id="form-student" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="student-name">Full name</label>
+          <input type="text" id="student-name" name="name" placeholder="Jordan Lee" required>
+        </div>
+        <div class="field">
+          <label for="student-email">Email</label>
+          <input type="email" id="student-email" name="email" placeholder="you@email.com" required>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="student-grade">Grade level</label>
+          <select id="student-grade" name="grade" required>
+            <option value="" disabled selected>Select one</option>
+            <option>9th grade</option>
+            <option>10th grade</option>
+            <option>11th grade</option>
+            <option>12th grade</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="student-school">School</label>
+          <input type="text" id="student-school" name="school" placeholder="Your school's name">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Experience level</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="experience" value="New to coding" checked>
+            <span>New to coding</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="experience" value="Some experience">
+            <span>Some experience</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="experience" value="Experienced">
+            <span>Experienced — built projects before</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Team status</label>
+        <div class="radio-group">
+          <label class="radio-option">
+            <input type="radio" name="team-status" value="Have a team" checked>
+            <span>I already have a team</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="team-status" value="Looking for a team">
+            <span>I'm looking for a team</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="team-status" value="Not sure yet">
+            <span>Not sure yet</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="student-idea">What do you want to build?</label>
+        <textarea id="student-idea" name="idea" placeholder="A rough idea is totally fine — this just helps us with mentor matching."></textarea>
+      </div>
+
+      <div class="field">
+        <label for="student-referral">How did you hear about us? <span style="text-transform:none; letter-spacing:normal; font-weight:400;">(optional)</span></label>
+        <input type="text" id="student-referral" name="referral" placeholder="Friend, school, Instagram, etc.">
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Student Application</button>
+      <p class="form-note">We'll follow up by email with next steps and program dates.</p>
+    </form>
+
+    <div class="apply-confirm" id="confirm-student">
+      <h2>You're in the queue<span class="spark">.</span></h2>
+      <p>Thanks for applying — we'll email you with next steps and upcoming program dates.</p>
+    </div>
+  </div>
+
+  <!-- Mentor application -->
+  <div class="apply-panel" id="panel-mentor">
+    <div class="apply-panel-intro">
+      <h2>Become a Mentor</h2>
+      <p>Mentors guide student teams through the build sprint — no set curriculum to prepare, just your experience.</p>
+    </div>
+
+    <form id="form-mentor" novalidate>
+      <div class="field-row">
+        <div class="field">
+          <label for="mentor-name">Full name</label>
+          <input type="text" id="mentor-name" name="name" placeholder="Jordan Lee" required>
+        </div>
+        <div class="field">
+          <label for="mentor-email">Email</label>
+          <input type="email" id="mentor-email" name="email" placeholder="you@email.com" required>
+        </div>
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="mentor-org">Company / organization</label>
+          <input type="text" id="mentor-org" name="org" placeholder="Where you work or study">
+        </div>
+        <div class="field">
+          <label for="mentor-title">Role / title</label>
+          <input type="text" id="mentor-title" name="title" placeholder="e.g. Software Engineer">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Area(s) of expertise</label>
+        <div class="check-group">
+          <label class="check-option">
+            <input type="checkbox" name="expertise" value="AI / ML">
+            <span>AI / ML</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" name="expertise" value="Web development">
+            <span>Web development</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" name="expertise" value="Product / design">
+            <span>Product / design</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" name="expertise" value="Ethics & policy">
+            <span>Ethics &amp; policy</span>
+          </label>
+          <label class="check-option">
+            <input type="checkbox" name="expertise" value="Other">
+            <span>Other</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="mentor-availability">Availability</label>
+        <select id="mentor-availability" name="availability" required>
+          <option value="" disabled selected>Select one</option>
+          <option>A few hours total</option>
+          <option>Weekly check-ins</option>
+          <option>Full sprint days</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="mentor-link">LinkedIn or portfolio <span style="text-transform:none; letter-spacing:normal; font-weight:400;">(optional)</span></label>
+        <input type="url" id="mentor-link" name="link" placeholder="https://">
+      </div>
+
+      <div class="field">
+        <label for="mentor-why">Why do you want to mentor?</label>
+        <textarea id="mentor-why" name="why" placeholder="A couple sentences is plenty."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Mentor Application</button>
+      <p class="form-note">We'll follow up by email to confirm details and match you with a team.</p>
+    </form>
+
+    <div class="apply-confirm" id="confirm-mentor">
+      <h2>Thanks for stepping up<span class="spark">.</span></h2>
+      <p>We'll be in touch by email to confirm details and match you with a student team.</p>
+    </div>
+  </div>
+
+</section>
+
+<script>
+  /* -----------------------------------------------------------
+     Role toggle — switches between the Student and Mentor
+     panels. Reads ?role=student|mentor from the URL (set by the
+     "Apply as a Student" / "Become a Mentor" buttons elsewhere
+     on the site) to preselect a panel; defaults to Student.
+  ----------------------------------------------------------- */
+  (function initRoleToggle(){
+    const btnStudent = document.getElementById('role-btn-student');
+    const btnMentor = document.getElementById('role-btn-mentor');
+    const panelStudent = document.getElementById('panel-student');
+    const panelMentor = document.getElementById('panel-mentor');
+
+    function setRole(role){
+      const isMentor = role === 'mentor';
+      btnStudent.classList.toggle('is-active', !isMentor);
+      btnMentor.classList.toggle('is-active', isMentor);
+      btnStudent.setAttribute('aria-selected', String(!isMentor));
+      btnMentor.setAttribute('aria-selected', String(isMentor));
+      panelStudent.classList.toggle('is-active', !isMentor);
+      panelMentor.classList.toggle('is-active', isMentor);
+    }
+
+    btnStudent.addEventListener('click', () => setRole('student'));
+    btnMentor.addEventListener('click', () => setRole('mentor'));
+
+    const params = new URLSearchParams(window.location.search);
+    setRole(params.get('role') === 'mentor' ? 'mentor' : 'student');
+  })();
+
+ /* -----------------------------------------------------------
+   Google Sheets Integration — sends form data to your
+   Google Apps Script web app
+----------------------------------------------------------- */
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbynQ2t5cI1YZvvZTwElpPIVBpSSQZWAhuDQhuglAOrvoD2kMPCzNOMCUl87OsKgQY-TDA/exec';
+
+function handleSubmit(formId, confirmId) {
+  const form = document.getElementById(formId);
+  const confirmEl = document.getElementById(confirmId);
+  const submitBtn = form.querySelector('.submit-btn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    // Disable button and show loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    // Collect form data
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    // Handle checkbox arrays (for mentor expertise)
+    if (formId === 'form-mentor') {
+      const expertiseCheckboxes = form.querySelectorAll('input[name="expertise"]:checked');
+      data.expertise = Array.from(expertiseCheckboxes).map(cb => cb.value).join(', ');
+    }
+
+    try {
+      const response = await fetch(WEB_APP_URL, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        form.style.display = 'none';
+        confirmEl.classList.add('is-active');
+      } else {
+        alert(result.error || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Network error. Please check your connection and try again.');
+    } finally {
+      // Re-enable button
+      submitBtn.disabled = false;
+      submitBtn.textContent = formId === 'form-student' ? 'Submit Student Application' : 'Submit Mentor Application';
+    }
+  });
+}
+
+// Initialize both forms
+handleSubmit('form-student', 'confirm-student');
+handleSubmit('form-mentor', 'confirm-mentor');
+</script>
+
+
+<style>
+  .site-footer{
+    position:relative;
+    z-index:5;
+    background:var(--bg-2);
+    border-top:1px solid var(--line);
+    padding:88px 32px 0;
+  }
+  .footer-inner{
+    max-width:1240px;
+    margin:0 auto;
+  }
+  .footer-top{
+    display:grid;
+    grid-template-columns:1.4fr 1fr 1fr;
+    gap:56px;
+    padding-bottom:64px;
+  }
+  .footer-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:17px;
+    letter-spacing:-0.01em;
+    margin-bottom:18px;
+    color:var(--ink);
+  }
+  .footer-brand .brand-mark{
+    width:24px; height:24px;
+    border-radius:8px;
+    background:linear-gradient(135deg, var(--purple-1), var(--purple-2));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:13px;
+    color:#0a0a0a;
+    flex-shrink:0;
+  }
+  .footer-tagline{
+    max-width:36ch;
+    font-size:14.5px;
+    line-height:1.7;
+    color:var(--ink-dim);
+  }
+  .footer-col-title{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-faint);
+    margin-bottom:18px;
+  }
+  .footer-col a{
+    display:block;
+    font-size:14.5px;
+    color:var(--ink-dim);
+    margin-bottom:14px;
+    transition:color .2s ease;
+  }
+  .footer-col a:hover{ color:var(--ink); }
+  .footer-col a:last-child{ margin-bottom:0; }
+
+  .footer-fiscal{
+    position:relative;
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:14px;
+    align-items:start;
+  }
+  .footer-fiscal-icon{
+    width:26px; height:26px;
+    border-radius:7px;
+    display:block;
+    flex-shrink:0;
+  }
+  .footer-fiscal-title{
+    font-family:var(--font-display);
+    font-weight:600;
+    font-size:12.5px;
+    letter-spacing:-0.005em;
+    margin-bottom:5px;
+    color:var(--ink);
+  }
+  .footer-fiscal p{
+    font-size:11px;
+    line-height:1.55;
+    color:var(--ink-faint);
+    max-width:70ch;
+    margin-bottom:6px;
+  }
+  .footer-fiscal p:last-child{ margin-bottom:0; }
+  .footer-fiscal-sub{
+    font-family:var(--font-mono);
+    font-size:9.5px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--purple-2);
+    margin:10px 0 5px;
+  }
+  .footer-fiscal-note{
+    font-size:9.5px;
+    color:var(--ink-faint);
+    font-style:italic;
+    opacity:0.8;
+  }
+
+  .footer-bottom{
+    border-top:1px solid var(--line);
+    padding:26px 0;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:var(--ink-faint);
+  }
+  .footer-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:8px 16px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.08em;
+    color:var(--ink-dim);
+  }
+
+  @media (max-width:860px){
+    .footer-top{ grid-template-columns:1fr 1fr; row-gap:44px; }
+    .footer-top > div:first-child{ grid-column:1 / -1; }
+    .footer-fiscal{ grid-template-columns:1fr; }
+  }
+  @media (max-width:640px){
+    .site-footer{ padding:64px 20px 0; }
+    .footer-bottom{ justify-content:flex-start; }
+  }
+</style>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">
+          <span class="brand-mark">AX</span>
+          AIXelerate Challenge
+        </div>
+        <p class="footer-tagline">Empowering the next generation of AI builders, innovators, and leaders to create ethical, high-impact solutions.</p>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Support Us</div>
+        <a href="#">Give to AIXelerate Challenge</a>
+        <a href="#">Mentor Sign-Up</a>
+        <a href="#">Sponsorships</a>
+      </div>
+
+      <div class="footer-col">
+        <div class="footer-col-title">Connect</div>
+        <a href="#">Email Us</a>
+        <a href="#">Hack Club</a>
+        <a href="#">Instagram</a>
+      </div>
+    </div>
+
+    <div class="footer-fiscal">
+      <img class="footer-fiscal-icon" src="hcb-icon-dark.png" alt="Hack Club Bank (HCB)">
+      <div>
+        <h3 class="footer-fiscal-title">Fiscal Sponsorship</h3>
+        <p>AIXelerate Challenge is fiscally sponsored by The Hack Foundation (d.b.a. Hack Club), a 501(c)(3) nonprofit (EIN: 81-2908499).</p>
+        <div class="footer-fiscal-sub">About Our Fiscal Sponsorship</div>
+        <p>We operate under fiscal sponsorship through HCB, a platform by Hack Club. HCB provides financial infrastructure that allows us to accept donations and manage funds as a restricted fund dedicated to our organization.</p>
+        <p class="footer-fiscal-note">Note: Fiscal sponsorship does not imply endorsement, partnership, or direct funding from Hack Club or HCB.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 AIXelerate Challenge. A member of the Hack Club Bank network. All rights reserved.</span>
+      <span class="footer-badge">FREE &amp; OPEN ACCESS</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

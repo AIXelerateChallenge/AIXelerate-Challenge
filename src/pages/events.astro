@@ -1,0 +1,133 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Gallery from '../components/Gallery.astro';
+import CTA from '../components/CTA.astro';
+import { events } from '../data/events.js';
+---
+
+<Base
+  title="Events"
+  description="A record of the AIXelerate build sprints run so far — what happened, who showed up, and what students left with."
+>
+  <PageHeader
+    eyebrow="Events"
+    lines={['Where past cohorts', 'actually <em>built</em>.']}
+    lead="One event so far, documented honestly: the numbers, the sponsors, and what we would do differently."
+  />
+
+  <section class="section" aria-labelledby="log-title">
+    <div class="shell">
+      <SectionHead
+        index="01"
+        eyebrow="The log"
+        title="Everything we have <em>run</em>."
+        id="log-title"
+      />
+
+      {events.map((ev) => (
+        <article class="ev reveal">
+          <div class="ev__head">
+            <span class="ev__n display" aria-hidden="true">{ev.n}</span>
+            <div>
+              <h3 class="ev__title display">{ev.title}</h3>
+              <p class="ev__meta label">{ev.date} · {ev.kind}</p>
+            </div>
+          </div>
+
+          <div class="ev__body prose">
+            {ev.body.map((para) => <p>{para}</p>)}
+          </div>
+
+          <dl class="ev__facts">
+            {ev.facts.map((f) => (
+              <div class="ev__fact">
+                <dt class="label">{f.k}</dt>
+                <dd class="ev__fact-v">{f.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- ================= Gallery ================= -->
+  <section class="section section--rule" aria-labelledby="gal-title">
+    <div class="shell">
+      <SectionHead
+        index="02"
+        eyebrow="July 2026"
+        title="The room, over <em>two days</em>."
+        id="gal-title"
+      />
+    </div>
+    <div class="shell">
+      <Gallery items={events[0].gallery} label="Photographs from the July 2026 build sprint" />
+    </div>
+  </section>
+
+  <!-- ================= Next ================= -->
+  <section class="section section--rule" aria-labelledby="next-title">
+    <div class="shell shell--narrow next">
+      <SectionHead
+        index="03"
+        eyebrow="What's next"
+        title="The next sprint is being <em>scheduled</em>."
+        id="next-title"
+      />
+      <p class="lead reveal" data-reveal-delay="80">
+        Dates are not locked yet. Applications stay open in the meantime — everyone on
+        the list hears about the date before it goes public.
+      </p>
+    </div>
+  </section>
+
+  <CTA />
+</Base>
+
+<style>
+  .section--rule{ border-block-start:1px solid var(--rule-faint); }
+
+  .ev{
+    display:grid;
+    gap:var(--s-5);
+    padding-block:var(--s-6);
+    border-block-start:1px solid var(--rule);
+  }
+
+  .ev__head{ display:flex; align-items:baseline; gap:var(--s-5); }
+  .ev__n{
+    font-size:var(--t-h2);
+    line-height:0.9;
+    color:var(--signal-200);
+    font-variant-numeric:tabular-nums;
+  }
+  .ev__title{ font-size:var(--t-h2); color:var(--ink-100); }
+  .ev__meta{ margin-block-start:var(--s-2); }
+
+  .ev__body p{ color:var(--ink-300); }
+  .ev__body{ max-inline-size:64ch; }
+
+  .ev__facts{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:var(--s-5);
+    padding-block-start:var(--s-5);
+    border-block-start:1px solid var(--rule-faint);
+  }
+  @media (min-width:760px){
+    .ev__facts{ grid-template-columns:repeat(4, auto); justify-content:start; gap:var(--s-9); }
+  }
+  .ev__fact{ display:grid; gap:var(--s-2); }
+  .ev__fact-v{
+    font-family:var(--font-display);
+    font-size:var(--t-h3);
+    line-height:1;
+    color:var(--ink-100);
+    font-variant-numeric:tabular-nums;
+  }
+
+  .next{ display:grid; gap:var(--s-4); }
+</style>

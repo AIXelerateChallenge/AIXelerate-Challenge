@@ -1,0 +1,140 @@
+---
+/**
+ * Scroll-driven horizontal gallery.
+ *
+ * The images translate horizontally as the section is pinned — this is
+ * the one place on the site where scroll drives a spatial move, and it
+ * earns it: a sprint is a sequence of moments, and reading them left to
+ * right is closer to the experience than a stack of cards.
+ *
+ * GSAP + ScrollTrigger are dynamically imported and only initialised
+ * when the viewport is wide enough and motion is welcome. Everywhere
+ * else this degrades to a native scroll-snap strip, which is genuinely
+ * better on touch anyway.
+ */
+interface Props { items: { src: string; alt: string }[]; label: string }
+const { items, label } = Astro.props;
+---
+<div class="gal" data-gallery aria-roledescription="gallery" aria-label={label}>
+  <div class="gal__track" data-gallery-track>
+    {items.map((item, i) => (
+      <figure class="gal__item">
+        <img
+          src={item.src}
+          alt={item.alt}
+          width="800" height="1000"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          decoding="async"
+        />
+        <figcaption class="gal__cap label">{String(i + 1).padStart(2, '0')}</figcaption>
+      </figure>
+    ))}
+  </div>
+</div>
+
+<style>
+  /* Baseline — and the permanent behaviour on touch: a snapping strip
+     that uses the platform's own momentum scrolling. */
+  .gal{
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;
+    scrollbar-width:thin;
+    scrollbar-color:var(--rule-loud) transparent;
+    padding-block-end:var(--s-4);
+    margin-inline:calc(var(--s-gutter) * -1);
+    padding-inline:var(--s-gutter);
+  }
+
+  .gal__track{
+    display:flex;
+    gap:var(--s-4);
+    inline-size:max-content;
+  }
+
+  .gal__item{
+    position:relative;
+    flex:none;
+    inline-size:min(74vw, 340px);
+    aspect-ratio:4 / 5;
+    margin:0;
+    overflow:hidden;
+    border-radius:var(--r-panel);
+    border:1px solid var(--rule-faint);
+    background:var(--ground-100);
+    scroll-snap-align:center;
+  }
+
+  .gal__item img{
+    inline-size:100%; block-size:100%;
+    object-fit:cover;
+    /* Warm the photography toward the sodium palette so the images sit
+       inside the art direction instead of beside it. */
+    filter:saturate(0.60) contrast(1.10) sepia(0.26) brightness(0.80);
+    transition:filter var(--d-slow) var(--e-out),
+               transform var(--d-slow) var(--e-out);
+  }
+  .gal__item:hover img{
+    filter:saturate(1) contrast(1.02) sepia(0) brightness(1);
+    transform:scale(1.035);
+  }
+
+  .gal__cap{
+    position:absolute;
+    inset-block-end:var(--s-4);
+    inset-inline-start:var(--s-4);
+    padding:var(--s-1) var(--s-3);
+    border-radius:var(--r-pill);
+    background:oklch(11.5% 0.006 265 / 0.7);
+    backdrop-filter:blur(6px);
+    color:var(--signal-100);
+  }
+
+  /* When ScrollTrigger takes over, the container stops being a scroller
+     and the track is moved by the pin instead. */
+  .gal.is-pinned{ overflow:hidden; }
+
+  @media (min-width:900px){
+    .gal__item{ inline-size:min(38vw, 420px); }
+  }
+</style>
+
+<script>
+  const gal = document.querySelector('[data-gallery]');
+  const track = document.querySelector('[data-gallery-track]');
+
+  const wide = window.matchMedia('(min-width: 900px)');
+  const ok = window.matchMedia('(prefers-reduced-motion: no-preference)');
+
+  // Only pay for GSAP where the pinned version actually runs.
+  if (gal && track && wide.matches && ok.matches) {
+    const [{ gsap }, { ScrollTrigger }] = await Promise.all([
+      import('gsap'),
+      import('gsap/ScrollTrigger'),
+    ]);
+    gsap.registerPlugin(ScrollTrigger);
+
+    gal.classList.add('is-pinned');
+
+    const distance = () => track.scrollWidth - gal.clientWidth;
+
+    gsap.to(track, {
+      x: () => -distance(),
+      ease: 'none',
+      scrollTrigger: {
+        trigger: gal,
+        start: 'center center',
+        end: () => `+=${distance()}`,
+        pin: true,
+        scrub: 0.6,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+      },
+    });
+
+    // Images arriving late change scrollWidth; recompute when they land.
+    track.querySelectorAll('img').forEach((img) => {
+      if (!img.complete) img.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+    });
+  }
+</script>

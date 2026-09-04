@@ -1,0 +1,209 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHead from '../components/SectionHead.astro';
+import CTA from '../components/CTA.astro';
+
+/**
+ * About — how the organisation actually operates. Mission answers "why";
+ * this page answers "how", and they are kept genuinely distinct so the
+ * two pages are not near-duplicates of each other.
+ */
+
+const principles = [
+  {
+    n: '01',
+    k: 'Access',
+    v: 'Free entry, no experience floor, and a structure that works whether this is your first hackathon or your sixth. If a laptop is the blocker, tell us and we will sort it.',
+  },
+  {
+    n: '02',
+    k: 'Responsibility',
+    v: 'Every project is reviewed for privacy, fairness, safety, and whether the impact it claims is plausible. We would rather see an honest limitation than a confident overstatement.',
+  },
+  {
+    n: '03',
+    k: 'Mentorship',
+    v: 'Feedback comes from mentors, organisers, judges, and — deliberately — other teams. Cross-team review is scheduled, not optional.',
+  },
+  {
+    n: '04',
+    k: 'Clarity',
+    v: 'We reward plain explanations, working prototypes, and a straight account of the trade-offs you made. Jargon that hides a gap reads as a gap.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Do I need a team before I apply?',
+    a: 'No. Roughly half of each cohort arrives alone. Team formation is a scheduled part of Saturday morning, and we match on problem interest rather than skill level.',
+  },
+  {
+    q: 'I have never trained a model. Is this for me?',
+    a: 'Yes. A meaningful share of past participants had written no Python before the sprint. Mentor rotations and starter material are pitched at that level, and judging weighs the thinking as heavily as the implementation.',
+  },
+  {
+    q: 'What does it cost?',
+    a: 'Nothing. Entry, mentorship, compute credits, and food are covered by sponsors and by donations held through HCB.',
+  },
+  {
+    q: 'Who owns what we build?',
+    a: 'You do. We ask only for permission to show your project in recaps and to sponsors, and you can decline that without affecting judging.',
+  },
+  {
+    q: 'How can my company get involved?',
+    a: 'Two ways: send mentors, or sponsor a sprint. Both start from the mentor form, and we will route you from there.',
+  },
+];
+---
+
+<Base
+  title="About"
+  description="How AIXelerate Challenge operates: free access, reviewed for responsibility, mentored by working engineers, and judged on clarity."
+>
+  <PageHeader
+    eyebrow="About"
+    lines={['Built so cost never', 'decides who gets to <em>try</em>.']}
+    lead="AIXelerate is run by a small volunteer team, funded by sponsors, and held to the same standard we ask of the students: say what you are doing, and say what it costs."
+  />
+
+  <!-- ================= Principles ================= -->
+  <section class="section" aria-labelledby="principles-title">
+    <div class="shell">
+      <SectionHead
+        index="01"
+        eyebrow="How we work"
+        title="Four principles that decide the <em>arguments</em>."
+        id="principles-title"
+      />
+
+      <div class="prin">
+        {principles.map((p, i) => (
+          <article class="prin__item reveal" data-reveal-delay={i * 80}>
+            <p class="prin__n label">{p.n}</p>
+            <h3 class="prin__k display">{p.k}</h3>
+            <p class="prin__v">{p.v}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section class="section section--rule" aria-labelledby="faq-title">
+    <div class="shell">
+      <SectionHead
+        index="02"
+        eyebrow="Questions"
+        title="The ones we actually <em>get asked</em>."
+        id="faq-title"
+      />
+
+      <div class="faq" data-accordion>
+        {faqs.map((f, i) => (
+          <div class="faq__item" data-accordion-item>
+            <h3 class="faq__h">
+              <button
+                class="faq__trigger"
+                type="button"
+                aria-expanded="false"
+                aria-controls={`faq-panel-${i}`}
+                id={`faq-trigger-${i}`}
+                data-accordion-trigger
+              >
+                <span class="faq__q">{f.q}</span>
+                <span class="faq__icon" aria-hidden="true"></span>
+              </button>
+            </h3>
+            <div
+              class="faq__panel acc__panel"
+              id={`faq-panel-${i}`}
+              role="region"
+              aria-labelledby={`faq-trigger-${i}`}
+              data-accordion-panel
+            >
+              <div><p class="faq__a">{f.a}</p></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</Base>
+
+<style>
+  .section--rule{ border-block-start:1px solid var(--rule-faint); }
+
+  /* ---------------- Principles ----------------
+     A two-up that breaks the grid: the second column drops to create a
+     staggered baseline instead of four boxes locked to one row. */
+
+  .prin{ display:grid; gap:var(--s-7); }
+  @media (min-width:820px){
+    .prin{ grid-template-columns:repeat(2, 1fr); gap:var(--s-8) var(--s-9); }
+    /* Offset via margin, not transform: .reveal.is-in resets transform to
+       none when the element scrolls in, which would cancel a translate. */
+    .prin__item:nth-child(even){ margin-block-start:var(--s-7); }
+  }
+
+  .prin__item{
+    display:grid; gap:var(--s-3);
+    padding-block-start:var(--s-4);
+    border-block-start:1px solid var(--rule);
+  }
+  .prin__n{ color:var(--signal-200); }
+  .prin__k{ font-size:var(--t-h3); color:var(--ink-100); }
+  .prin__v{ color:var(--ink-300); max-inline-size:46ch; text-wrap:pretty; }
+
+  /* ---------------- FAQ ---------------- */
+
+  .faq{ max-inline-size:78ch; }
+  .faq__item{ border-block-start:1px solid var(--rule-faint); }
+  .faq__item:last-child{ border-block-end:1px solid var(--rule-faint); }
+  .faq__h{ margin:0; font-size:inherit; font-weight:inherit; }
+
+  .faq__trigger{
+    inline-size:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:var(--s-5);
+    padding-block:var(--s-5);
+    text-align:start;
+    transition:color var(--d-fast) var(--e-out);
+  }
+  .faq__q{
+    font-family:var(--font-display);
+    font-size:var(--t-h3);
+    color:var(--ink-100);
+    transition:color var(--d-fast) var(--e-out);
+  }
+  .faq__trigger:hover .faq__q{ color:var(--signal-100); }
+
+  /* A plus that becomes a minus — the only rotation on the page. */
+  .faq__icon{
+    position:relative;
+    flex:none;
+    inline-size:18px; block-size:18px;
+  }
+  .faq__icon::before,
+  .faq__icon::after{
+    content:'';
+    position:absolute; inset-block-start:50%; inset-inline-start:0;
+    inline-size:100%; block-size:1.5px;
+    background:var(--signal-200);
+    transition:transform var(--d-base) var(--e-out);
+  }
+  .faq__icon::after{ transform:rotate(90deg); }
+  [data-accordion-item].is-open .faq__icon::after{ transform:rotate(0deg); }
+
+  .faq__a{
+    padding-block-end:var(--s-5);
+    padding-inline-end:var(--s-7);
+    color:var(--ink-300);
+    max-inline-size:62ch;
+    text-wrap:pretty;
+  }
+</style>

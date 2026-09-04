@@ -1,0 +1,54 @@
+---
+/**
+ * Interior-page opener. A shorter, quieter relative of the hero: same
+ * atmosphere and the same masked line reveal, without the full-viewport
+ * weight. Lines are passed as an array so the reveal can stagger them.
+ */
+interface Props {
+  eyebrow: string;
+  /** Each string is one reveal line; may contain <em> for the accent. */
+  lines: string[];
+  lead?: string;
+}
+const { eyebrow, lines, lead } = Astro.props;
+---
+<header class="opener">
+  <div class="opener__wash" aria-hidden="true"></div>
+  <div class="shell opener__inner">
+    <p class="label reveal">{eyebrow}</p>
+    <h1 class="opener__title display" data-lines>
+      {lines.map((l) => <span set:html={l} />)}
+    </h1>
+    {lead && <p class="lead reveal" data-reveal-delay="160" set:html={lead} />}
+    <slot />
+  </div>
+</header>
+
+<style>
+  .opener{
+    position:relative;
+    padding-block:calc(var(--nav-h, 76px) + var(--s-9)) var(--s-8);
+    overflow:hidden;
+    isolation:isolate;
+    border-block-end:1px solid var(--rule-faint);
+  }
+  .opener__wash{
+    position:absolute;
+    inset-block-start:-70%;
+    inset-inline-start:-5%;
+    inline-size:min(110vw, 1100px);
+    aspect-ratio:1;
+    z-index:var(--z-base);
+    background:radial-gradient(circle, oklch(76% 0.17 68 / 0.13), transparent 60%);
+    filter:blur(28px);
+    pointer-events:none;
+  }
+  .opener__inner{ position:relative; z-index:var(--z-content); display:grid; gap:var(--s-5); }
+  .opener__title{
+    font-size:var(--t-h1);
+    line-height:var(--lh-tight);
+    max-inline-size:18ch;
+    text-wrap:balance;
+  }
+  .opener__title :global(em){ font-style:italic; color:var(--signal-100); }
+</style>

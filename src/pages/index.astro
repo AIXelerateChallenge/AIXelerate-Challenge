@@ -1,0 +1,258 @@
+---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import CTA from '../components/CTA.astro';
+import { site } from '../data/site.js';
+
+/**
+ * Homepage copy — rewritten for this rebuild.
+ * Positioning: the constraint is ideas, not compute. Everything on this
+ * page argues that one line.
+ */
+
+const pillars = [
+  {
+    n: '01',
+    title: 'Find a problem worth two days',
+    body:
+      'Not a demo. A problem you can name, that belongs to someone real — a classmate, a clinic, a neighbourhood, a language. We spend the first hours narrowing until the idea is small enough to actually ship.',
+  },
+  {
+    n: '02',
+    title: 'Get told the truth, early',
+    body:
+      'Mentors from industry and research sit with your team, not above it. They will tell you which parts of your architecture will not survive Sunday, and what to cut. That conversation is the product.',
+  },
+  {
+    n: '03',
+    title: 'Defend the trade-offs',
+    body:
+      'Judging weighs what your system does to people as heavily as what it does technically: whose data, whose error rate, who is left out. A clear account of your limits scores higher than a demo that hides them.',
+  },
+];
+
+const schedule = [
+  { t: 'Sat 09:00', h: 'Open + problem framing',  d: 'Teams form. Ideas get cut down to something two days can hold.' },
+  { t: 'Sat 12:00', h: 'Build begins',            d: 'Mentor rotations start. First checkpoint before dinner.' },
+  { t: 'Sun 10:00', h: 'Ethics review',           d: 'Every team walks a reviewer through failure modes and data provenance.' },
+  { t: 'Sun 15:00', h: 'Demos + judging',         d: 'Six minutes, live, no slides that outrun the software.' },
+];
+---
+
+<Base
+  title={site.name}
+  description={site.tagline}
+  transparentNav
+>
+  <Hero />
+
+  <!-- ================= What a sprint is ================= -->
+  <section class="section" id="competition" aria-labelledby="competition-title">
+    <div class="shell">
+      <SectionHead
+        index="01"
+        eyebrow="What a sprint is"
+        title="Everyone has access to the models now. Almost <em>nobody</em> has a problem worth pointing them at."
+        id="competition-title"
+      />
+
+      <p class="lead reveal" data-reveal-delay="80">
+        AIXelerate is built around that gap. Two days, a real constraint, and people
+        who will tell you when your idea is not ready.
+      </p>
+
+      <ol class="pillars">
+        {pillars.map((p, i) => (
+          <li class="pillar reveal" data-reveal-delay={i * 90}>
+            <span class="pillar__n display" aria-hidden="true">{p.n}</span>
+            <div class="pillar__body">
+              <h3 class="pillar__title display">{p.title}</h3>
+              <p class="pillar__copy">{p.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= The two days ================= -->
+  <section class="section section--rule" aria-labelledby="schedule-title">
+    <div class="shell">
+      <SectionHead
+        index="02"
+        eyebrow="The two days"
+        title="A weekend with a <em>shape</em> to it."
+        id="schedule-title"
+      />
+
+      <ol class="sched">
+        {schedule.map((s, i) => (
+          <li class="sched__row reveal" data-reveal-delay={i * 70}>
+            <time class="sched__time label">{s.t}</time>
+            <div class="sched__body">
+              <h3 class="sched__head">{s.h}</h3>
+              <p class="sched__copy">{s.d}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <p class="sched__note reveal">
+        Times are indicative. Exact schedules go out with each cohort's acceptance email.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= Free, and why ================= -->
+  <section class="section section--rule" aria-labelledby="free-title">
+    <div class="shell free">
+      <div class="free__copy">
+        <SectionHead
+          index="03"
+          eyebrow="Cost"
+          title="It is free, and that is a <em>design decision</em>."
+          id="free-title"
+        />
+        <div class="prose reveal" data-reveal-delay="80">
+          <p>
+            Entry fees quietly select for students who already had the advantage. So there
+            is no fee, no hardware requirement, and no expectation that you arrive knowing
+            how to train anything.
+          </p>
+          <p>
+            Compute, mentorship, food and judging are covered by our sponsors and by
+            donations held through HCB. What you need to bring is a problem and a weekend.
+          </p>
+        </div>
+      </div>
+
+      <aside class="free__card panel panel--raised reveal" data-reveal-delay="140">
+        <p class="label">Requirements</p>
+        <ul class="free__list">
+          <li>Enrolled in high school (any year)</li>
+          <li>No prior AI or coding experience required</li>
+          <li>A laptop — we can lend one if you cannot bring one</li>
+          <li>Teams of one to four; we will match you if you come alone</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <CTA />
+</Base>
+
+<style>
+  .section--rule{ border-block-start:1px solid var(--rule-faint); }
+
+  /* ---------------- Pillars: editorial numbered list, not a card grid.
+     Each entry is offset so the column reads as a sequence with rhythm
+     rather than three equal boxes. ---------------- */
+
+  .pillars{
+    list-style:none;
+    padding:0;
+    margin-block-start:var(--s-8);
+    display:grid;
+    gap:var(--s-7);
+  }
+  @media (min-width:900px){
+    .pillars{ gap:var(--s-8); }
+  }
+
+  .pillar{
+    display:grid;
+    gap:var(--s-4);
+    padding-block-start:var(--s-5);
+    border-block-start:1px solid var(--rule-faint);
+  }
+  @media (min-width:900px){
+    .pillar{
+      /* max-content, not auto: an auto track absorbs the row's free
+         space and would push the copy far off to the right. */
+      grid-template-columns:max-content minmax(0, 62ch);
+      gap:var(--s-8);
+      align-items:start;
+    }
+    /* Deliberate stagger — the sequence steps inward as it descends. */
+    .pillar:nth-child(2){ padding-inline-start:var(--s-8); }
+    .pillar:nth-child(3){ padding-inline-start:var(--s-10); }
+  }
+
+  .pillar__n{
+    font-size:var(--t-h2);
+    line-height:0.9;
+    color:var(--signal-200);
+    font-variant-numeric:tabular-nums;
+    opacity:0.85;
+  }
+  .pillar__title{
+    font-size:var(--t-h3);
+    margin-block-end:var(--s-3);
+    text-wrap:balance;
+  }
+  .pillar__copy{ color:var(--ink-300); text-wrap:pretty; }
+
+  /* ---------------- Schedule ---------------- */
+
+  .sched{ list-style:none; padding:0; margin:0; }
+  .sched__row{
+    display:grid;
+    gap:var(--s-2);
+    padding-block:var(--s-5);
+    border-block-start:1px solid var(--rule-faint);
+    transition:background-color var(--d-fast) var(--e-out);
+  }
+  @media (min-width:760px){
+    .sched__row{
+      grid-template-columns:11rem minmax(0, 1fr);
+      gap:var(--s-6);
+      align-items:baseline;
+    }
+  }
+  .sched__row:hover{ background:oklch(100% 0 0 / 0.014); }
+  .sched__time{ color:var(--signal-100); }
+  .sched__head{
+    font-family:var(--font-display);
+    font-size:var(--t-h3);
+    font-weight:400;
+    color:var(--ink-100);
+    margin-block-end:var(--s-2);
+  }
+  .sched__copy{ color:var(--ink-300); max-inline-size:58ch; }
+  .sched__note{
+    margin-block-start:var(--s-5);
+    font-size:var(--t-small);
+    color:var(--ink-400);
+    font-style:italic;
+  }
+
+  /* ---------------- Free ---------------- */
+
+  .free{ display:grid; gap:var(--s-7); align-items:start; }
+  @media (min-width:960px){
+    .free{ grid-template-columns:1fr minmax(300px, 26rem); gap:var(--s-9); }
+    .free__card{ position:sticky; inset-block-start:calc(var(--nav-h, 76px) + var(--s-6)); }
+  }
+
+  .free__card{ padding:var(--s-6); display:grid; gap:var(--s-4); }
+  .free__list{
+    list-style:none; padding:0;
+    display:grid; gap:var(--s-4);
+    font-size:var(--t-small);
+    color:var(--ink-200);
+  }
+  .free__list li{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:var(--s-3);
+    align-items:start;
+  }
+  .free__list li::before{
+    content:'';
+    inline-size:6px; block-size:6px;
+    margin-block-start:0.5em;
+    border-radius:var(--r-pill);
+    background:var(--signal-200);
+  }
+</style>

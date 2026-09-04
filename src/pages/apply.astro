@@ -1,0 +1,347 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Field from '../components/Field.astro';
+import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
+---
+
+<Base
+  title="Apply"
+  description="Apply to join the next AIXelerate build sprint as a student, or sign up to mentor a team. Free, and open to any high schooler."
+>
+  <PageHeader
+    eyebrow="Apply"
+    lines={['Three minutes now.', 'Two days <em>later</em>.']}
+    lead="One form, two roles. Nothing here is a filter — we are collecting enough to match you with the right team and the right mentor."
+  />
+
+  <section class="section apply" aria-labelledby="apply-title">
+    <div class="shell shell--narrow">
+      <h2 class="visually-hidden" id="apply-title">Application forms</h2>
+
+      <!-- Role switch. A real tablist, so arrow keys work. -->
+      <div class="roles" role="tablist" aria-label="Application type" data-roles>
+        <button
+          class="roles__btn is-active" type="button" role="tab"
+          id="tab-student" aria-controls="panel-student" aria-selected="true"
+          data-role="student"
+        >
+          I'm a student
+        </button>
+        <button
+          class="roles__btn" type="button" role="tab"
+          id="tab-mentor" aria-controls="panel-mentor" aria-selected="false" tabindex="-1"
+          data-role="mentor"
+        >
+          I want to mentor
+        </button>
+        <span class="roles__thumb" aria-hidden="true"></span>
+      </div>
+
+      <!-- ============ Student ============ -->
+      <div
+        class="panel-role is-active" id="panel-student"
+        role="tabpanel" aria-labelledby="tab-student" data-panel="student"
+      >
+        <p class="apply__note">
+          Open to high schoolers at any experience level. No prior AI or coding
+          background required.
+        </p>
+
+        <form class="form" id="form-student" data-form="student" novalidate>
+          <div class="form__grid">
+            {studentFields.map((f) => <Field field={f} idPrefix="student" />)}
+          </div>
+          <div class="form__foot">
+            <button class="btn btn--signal" type="submit" data-submit>
+              Send application
+            </button>
+            <p class="form__status" data-status role="status" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <div class="done" data-done hidden>
+          <p class="label">Received</p>
+          <h3 class="done__h display">You're in the pile.</h3>
+          <p class="done__p">
+            We read every application. Expect an email within a week — check spam,
+            because we are a small nonprofit and mail providers are suspicious of us.
+          </p>
+          <a class="btn btn--ghost" href="/">Back to home</a>
+        </div>
+      </div>
+
+      <!-- ============ Mentor ============ -->
+      <div
+        class="panel-role" id="panel-mentor"
+        role="tabpanel" aria-labelledby="tab-mentor" data-panel="mentor" hidden
+      >
+        <p class="apply__note">
+          Mentors give anywhere from a few hours to a full weekend. You do not need to
+          be an AI specialist — teams need product, design, and ethics reviewers just
+          as much.
+        </p>
+
+        <form class="form" id="form-mentor" data-form="mentor" novalidate>
+          <div class="form__grid">
+            {mentorFields.map((f) => <Field field={f} idPrefix="mentor" />)}
+          </div>
+          <div class="form__foot">
+            <button class="btn btn--signal" type="submit" data-submit>
+              Sign up to mentor
+            </button>
+            <p class="form__status" data-status role="status" aria-live="polite"></p>
+          </div>
+        </form>
+
+        <div class="done" data-done hidden>
+          <p class="label">Received</p>
+          <h3 class="done__h display">Thank you — genuinely.</h3>
+          <p class="done__p">
+            Mentors are the part of this we cannot buy. We will be in touch with sprint
+            dates and what a rotation looks like.
+          </p>
+          <a class="btn btn--ghost" href="/">Back to home</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------------- Role switch ---------------- */
+
+  .roles{
+    position:relative;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:var(--s-1);
+    padding:var(--s-1);
+    margin-block-end:var(--s-6);
+    background:var(--ground-100);
+    border:1px solid var(--rule-faint);
+    border-radius:var(--r-pill);
+  }
+
+  .roles__btn{
+    position:relative;
+    z-index:1;
+    padding:var(--s-3) var(--s-4);
+    min-block-size:48px;
+    border-radius:var(--r-pill);
+    font-family:var(--font-mono);
+    font-size:var(--t-tiny);
+    font-weight:600;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-300);
+    transition:color var(--d-base) var(--e-out);
+  }
+  .roles__btn.is-active{ color:var(--ground-000); }
+
+  /* The thumb slides rather than the two buttons swapping fills —
+     the movement is what tells you the panels are siblings. */
+  .roles__thumb{
+    position:absolute;
+    inset-block:var(--s-1);
+    inset-inline-start:var(--s-1);
+    inline-size:calc(50% - var(--s-1));
+    border-radius:var(--r-pill);
+    background:var(--signal-200);
+    transition:transform var(--d-base) var(--e-out);
+  }
+  .roles[data-active='mentor'] .roles__thumb{
+    transform:translateX(calc(100% + var(--s-1)));
+  }
+
+  /* ---------------- Panels ---------------- */
+
+  .panel-role[hidden]{ display:none; }
+
+  .apply__note{
+    margin-block-end:var(--s-6);
+    padding-inline-start:var(--s-4);
+    border-inline-start:2px solid var(--signal-edge);
+    color:var(--ink-300);
+    font-size:var(--t-small);
+    max-inline-size:62ch;
+  }
+
+  /* ---------------- Form ---------------- */
+
+  .form__grid{ display:grid; gap:var(--s-5); }
+  @media (min-width:680px){
+    .form__grid{ grid-template-columns:repeat(2, 1fr); }
+    /* Anything not explicitly half-width spans the full row. */
+    .form__grid > :global(.field:not(.field--half)){ grid-column:1 / -1; }
+  }
+
+  .form__foot{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:var(--s-4);
+    margin-block-start:var(--s-7);
+    padding-block-start:var(--s-5);
+    border-block-start:1px solid var(--rule-faint);
+  }
+  .form__status{
+    font-family:var(--font-mono);
+    font-size:var(--t-micro);
+    letter-spacing:0.05em;
+    color:var(--ink-400);
+  }
+  .form__status[data-tone='error']{ color:var(--err); }
+  .form__status[data-tone='busy']{ color:var(--signal-100); }
+
+  /* ---------------- Confirmation ---------------- */
+
+  .done{
+    display:grid;
+    gap:var(--s-4);
+    justify-items:start;
+    padding:var(--s-7);
+    background:var(--ground-100);
+    border:1px solid var(--signal-edge);
+    border-radius:var(--r-panel);
+    box-shadow:var(--lift-signal);
+  }
+  .done[hidden]{ display:none; }
+  .done__h{ font-size:var(--t-h2); color:var(--ink-100); }
+  .done__p{ color:var(--ink-300); max-inline-size:52ch; }
+</style>
+
+<script define:vars={{ WEB_APP_URL }}>
+  /* ------------------------------------------------------------------ *
+   * Role switching. A real tablist: arrow keys move between tabs, and
+   * ?role=mentor deep-links straight to the mentor form (the homepage
+   * and footer both link that way).
+   * ------------------------------------------------------------------ */
+  const roles = document.querySelector('[data-roles]');
+  const tabs = [...roles.querySelectorAll('[data-role]')];
+
+  function setRole(role, focus = false) {
+    roles.dataset.active = role;
+    tabs.forEach((tab) => {
+      const on = tab.dataset.role === role;
+      tab.classList.toggle('is-active', on);
+      tab.setAttribute('aria-selected', String(on));
+      tab.tabIndex = on ? 0 : -1;
+      if (on && focus) tab.focus();
+
+      const panel = document.querySelector(`[data-panel="${tab.dataset.role}"]`);
+      panel.hidden = !on;
+      panel.classList.toggle('is-active', on);
+    });
+  }
+
+  tabs.forEach((tab) => tab.addEventListener('click', () => setRole(tab.dataset.role)));
+
+  roles.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    e.preventDefault();
+    const i = tabs.findIndex((t) => t.dataset.role === roles.dataset.active);
+    const next = (i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+    setRole(tabs[next].dataset.role, true);
+  });
+
+  setRole(
+    new URLSearchParams(location.search).get('role') === 'mentor' ? 'mentor' : 'student'
+  );
+
+  /* ------------------------------------------------------------------ *
+   * Submission.
+   *
+   * Note on the response check: Code.gs replies with { ok: true }. The
+   * previous site tested `result.success`, which is never set — so every
+   * successful submission showed a failure alert while the row was in
+   * fact written to the Sheet. This checks `ok`.
+   * ------------------------------------------------------------------ */
+  document.querySelectorAll('[data-form]').forEach((form) => {
+    const kind = form.dataset.form;
+    const panel = form.closest('[data-panel]');
+    const done = panel.querySelector('[data-done]');
+    const btn = form.querySelector('[data-submit]');
+    const status = form.querySelector('[data-status]');
+    const original = btn.textContent;
+
+    const say = (msg, tone = '') => {
+      status.textContent = msg;
+      if (tone) status.dataset.tone = tone;
+      else delete status.dataset.tone;
+    };
+
+    /** Show the browser's own message inline, next to the offending field. */
+    const showErrors = () => {
+      let first = null;
+      form.querySelectorAll('input, select, textarea').forEach((el) => {
+        const slot = el.closest('.field')?.querySelector('[data-field-error]');
+        if (!slot) return;
+        if (el.validity.valid) {
+          slot.textContent = '';
+          el.removeAttribute('aria-invalid');
+        } else {
+          slot.textContent = el.validationMessage;
+          el.setAttribute('aria-invalid', 'true');
+          if (!first) first = el;
+        }
+      });
+      return first;
+    };
+
+    // Clear a field's error as soon as it becomes valid again.
+    form.addEventListener('input', (e) => {
+      const el = e.target;
+      if (!el.validity?.valid) return;
+      el.closest('.field')?.querySelector('[data-field-error]')?.replaceChildren();
+      el.removeAttribute('aria-invalid');
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const firstBad = showErrors();
+      if (firstBad) {
+        say('Some fields need attention.', 'error');
+        firstBad.focus();
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      say('Submitting…', 'busy');
+
+      const data = Object.fromEntries(new FormData(form).entries());
+
+      // Checkboxes share a name; FormData.entries() keeps only the last.
+      if (kind === 'mentor') {
+        data.expertise = [...form.querySelectorAll('input[name="expertise"]:checked')]
+          .map((cb) => cb.value)
+          .join(', ');
+      }
+
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(data),
+        });
+        const result = await res.json();
+
+        if (res.ok && result.ok) {
+          form.hidden = true;
+          done.hidden = false;
+          done.querySelector('.done__h').focus?.();
+          done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        say(result.error || 'Something went wrong. Please try again.', 'error');
+      } catch {
+        say('Network error — check your connection and try again.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = original;
+      }
+    });
+  });
+</script>

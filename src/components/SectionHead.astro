@@ -1,0 +1,20 @@
+---
+interface Props {
+  index: string;
+  eyebrow: string;
+  title: string;   // may contain <em> for the sodium accent
+  id?: string;
+}
+const { index, eyebrow, title, id } = Astro.props;
+---
+<header class="sec-head reveal">
+  <p class="sec-head__meta label">
+    <span class="sec-head__index">{index}</span>
+    <span>{eyebrow}</span>
+  </p>
+  <h2 class="sec-head__title" id={id} set:html={title} />
+</header>
+
+<style>
+  .sec-head__index{ color:var(--signal-100); }
+</style>

@@ -1,0 +1,105 @@
+/* =========================================================================
+   AIXelerate — Design Tokens
+   Direction: "Sodium" — a lab notebook at night.
+   Cold graphite ground, warm sodium-amber signal, editorial serif display.
+   ========================================================================= */
+
+:root{
+  /* ---------- Ground: cold graphite, tuned by elevation ---------- */
+  --ground-000: oklch(11.5% 0.006 265);   /* deepest — page base            */
+  --ground-050: oklch(14.0% 0.006 265);   /* default surface               */
+  --ground-100: oklch(17.5% 0.008 265);   /* raised panel                  */
+  --ground-200: oklch(22.0% 0.010 265);   /* hover / active panel          */
+  --ground-300: oklch(28.0% 0.012 265);   /* pressed / strong panel        */
+
+  /* ---------- Ink: warm white, deliberately not pure ---------- */
+  --ink-100: oklch(96.0% 0.010 85);       /* headline                      */
+  --ink-200: oklch(88.0% 0.010 85);       /* body                          */
+  --ink-300: oklch(70.0% 0.012 80);       /* secondary  — AA on ground-050 */
+  /* Tertiary sits at 61% so it clears AA (5.4:1 on ground-000, 5.0:1 on
+     ground-100) even at the 11px mono label size it mostly carries. */
+  --ink-400: oklch(61.0% 0.014 75);
+
+  /* ---------- Signal: sodium amber. Used for meaning, not decoration. --- */
+  --signal-100: oklch(88.0% 0.110 78);    /* signal text on dark           */
+  --signal-200: oklch(76.0% 0.170 68);    /* THE accent                    */
+  --signal-300: oklch(64.0% 0.165 58);    /* pressed / deep                */
+  --signal-wash: oklch(76% 0.17 68 / 0.10);
+  --signal-edge: oklch(76% 0.17 68 / 0.28);
+
+  /* ---------- Structural lines ---------- */
+  --rule-faint: oklch(100% 0 0 / 0.06);
+  --rule:       oklch(100% 0 0 / 0.11);
+  --rule-loud:  oklch(100% 0 0 / 0.20);
+
+  /* ---------- Status ---------- */
+  --ok:   oklch(78% 0.15 155);
+  --warn: oklch(80% 0.15 85);
+  --err:  oklch(70% 0.19 25);
+
+  /* ---------- Type families ---------- */
+  --font-display: 'Instrument Serif', 'Iowan Old Style', Georgia, serif;
+  --font-text:    'Inter Tight', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* ---------- Type scale — fluid, 320px → 1600px ---------- */
+  --t-micro:   0.6875rem;                                      /* 11px mono labels */
+  --t-tiny:    0.75rem;
+  --t-small:   clamp(0.8125rem, 0.79rem + 0.11vw,  0.875rem);
+  --t-body:    clamp(0.9375rem, 0.90rem + 0.19vw,  1.0625rem);
+  --t-lead:    clamp(1.0625rem, 0.98rem + 0.42vw,  1.375rem);
+  --t-h3:      clamp(1.25rem,   1.12rem + 0.65vw,  1.75rem);
+  --t-h2:      clamp(1.875rem,  1.45rem + 2.10vw,  3.75rem);
+  --t-h1:      clamp(2.625rem,  1.70rem + 4.60vw,  6.50rem);
+  --t-hero:    clamp(3.000rem,  1.30rem + 8.50vw, 11.00rem);
+
+  /* ---------- Leading & tracking ---------- */
+  --lh-hero: 0.94;
+  --lh-tight: 1.04;
+  --lh-snug: 1.20;
+  --lh-body: 1.62;
+  --tr-display: -0.022em;
+  --tr-label:    0.14em;
+
+  /* ---------- Spacing — 4px base, non-uniform by intent ---------- */
+  --s-1:  0.25rem;  --s-2: 0.5rem;   --s-3: 0.75rem;  --s-4: 1rem;
+  --s-5:  1.5rem;   --s-6: 2rem;     --s-7: 3rem;     --s-8: 4rem;
+  --s-9:  6rem;     --s-10: 8rem;    --s-11: 12rem;
+  --s-section: clamp(4.5rem, 3rem + 7vw, 11rem);
+  --s-gutter:  clamp(1.25rem, 0.6rem + 3.2vw, 3.5rem);
+
+  /* ---------- Measure & shell ---------- */
+  --measure: 62ch;
+  --shell:   1320px;
+  --shell-narrow: 860px;
+
+  /* ---------- Radii — deliberately varied, never uniform ---------- */
+  --r-sharp: 2px;
+  --r-soft:  6px;
+  --r-panel: 14px;
+  --r-pill:  999px;
+
+  /* ---------- Depth ---------- */
+  --lift-1: 0 1px 2px oklch(0% 0 0 / 0.30);
+  --lift-2: 0 8px 24px -8px oklch(0% 0 0 / 0.55);
+  --lift-3: 0 28px 70px -24px oklch(0% 0 0 / 0.70);
+  --lift-signal: 0 0 0 1px var(--signal-edge), 0 18px 50px -22px oklch(76% 0.17 68 / 0.45);
+
+  /* ---------- Motion ---------- */
+  --d-micro: 120ms;
+  --d-fast:  220ms;
+  --d-base:  380ms;
+  --d-slow:  680ms;
+  --d-cine:  1150ms;
+  --e-out:   cubic-bezier(0.22, 1, 0.36, 1);
+  --e-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --e-entry: cubic-bezier(0.16, 1, 0.30, 1);
+
+  /* ---------- Z layers — documented, never ad-hoc ---------- */
+  --z-base:        0;    /* L0 atmosphere            */
+  --z-environment: 10;   /* L1 grain, washes         */
+  --z-content:     20;   /* L2 the message           */
+  --z-interactive: 30;   /* L3 cards, carousels      */
+  --z-hud:         40;   /* L4 nav, skip link        */
+  --z-transient:   50;   /* L5 menus, toasts         */
+}

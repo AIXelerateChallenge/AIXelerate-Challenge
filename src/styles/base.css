@@ -1,0 +1,143 @@
+/* =========================================================================
+   Reset + primitives. Everything here is token-driven.
+   ========================================================================= */
+
+*, *::before, *::after{ box-sizing:border-box; }
+*{ margin:0; }
+
+html{
+  background:var(--ground-000);
+  color-scheme:dark;
+  -webkit-text-size-adjust:100%;
+}
+
+body{
+  background:var(--ground-000);
+  color:var(--ink-200);
+  font-family:var(--font-text);
+  font-size:var(--t-body);
+  line-height:var(--lh-body);
+  font-synthesis-weight:none;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+
+img, svg, video{ display:block; max-width:100%; }
+img{ height:auto; }
+
+a{ color:inherit; text-decoration:none; }
+button, input, select, textarea{ font:inherit; color:inherit; }
+button{ background:none; border:none; cursor:pointer; }
+
+:focus-visible{
+  outline:2px solid var(--signal-200);
+  outline-offset:3px;
+  border-radius:var(--r-sharp);
+}
+:focus:not(:focus-visible){ outline:none; }
+
+::selection{ background:var(--signal-200); color:var(--ground-000); }
+
+/* ---------- Typographic primitives ---------- */
+
+.display{
+  font-family:var(--font-display);
+  font-weight:400;
+  line-height:var(--lh-tight);
+  letter-spacing:var(--tr-display);
+  color:var(--ink-100);
+}
+.display em{ font-style:italic; color:var(--signal-100); }
+
+.label{
+  font-family:var(--font-mono);
+  font-size:var(--t-micro);
+  font-weight:500;
+  letter-spacing:var(--tr-label);
+  text-transform:uppercase;
+  color:var(--ink-400);
+}
+
+.lead{
+  font-size:var(--t-lead);
+  line-height:1.48;
+  color:var(--ink-300);
+  max-width:var(--measure);
+  text-wrap:pretty;
+}
+
+.prose p + p{ margin-top:var(--s-4); }
+.prose{ max-width:var(--measure); text-wrap:pretty; }
+
+/* ---------- Layout primitives ---------- */
+
+.shell{
+  width:100%;
+  max-width:var(--shell);
+  margin-inline:auto;
+  padding-inline:var(--s-gutter);
+}
+.shell--narrow{ max-width:var(--shell-narrow); }
+
+.section{ padding-block:var(--s-section); position:relative; }
+
+.rule{ height:1px; background:var(--rule-faint); border:0; }
+
+.skip-link{
+  position:absolute;
+  left:var(--s-4); top:var(--s-4);
+  z-index:var(--z-transient);
+  padding:var(--s-3) var(--s-5);
+  background:var(--signal-200);
+  color:var(--ground-000);
+  font-family:var(--font-mono);
+  font-size:var(--t-tiny);
+  font-weight:600;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  border-radius:var(--r-soft);
+  transform:translateY(-160%);
+  transition:transform var(--d-fast) var(--e-out);
+}
+.skip-link:focus{ transform:translateY(0); }
+
+.visually-hidden{
+  position:absolute; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip-path:inset(50%); white-space:nowrap;
+}
+
+/* ---------- Atmosphere: film grain over the whole page ---------- */
+
+.grain{
+  position:fixed; inset:-50%;
+  z-index:var(--z-environment);
+  pointer-events:none;
+  opacity:0.035;
+  background-image:var(--grain-url);
+  background-size:180px 180px;
+  animation:grain-shift 6s steps(6) infinite;
+}
+@keyframes grain-shift{
+  0%,100%{ transform:translate(0,0); }
+  16%{ transform:translate(-3%, 2%); }
+  33%{ transform:translate(2%, -4%); }
+  50%{ transform:translate(-2%, 3%); }
+  66%{ transform:translate(3%, 1%); }
+  83%{ transform:translate(-1%, -2%); }
+}
+
+/* =========================================================================
+   Reduced motion: DEGRADE, never delete. Every reveal lands in its
+   final state; only the travel is removed.
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  .grain{ animation:none; }
+}

@@ -1,0 +1,164 @@
+---
+import { site, nav, cta, links, fiscal } from '../data/site.js';
+const year = new Date().getFullYear();
+---
+
+<footer class="foot">
+  <div class="foot__inner shell">
+
+    <div class="foot__brand">
+      <span class="foot__mark" aria-hidden="true">AX</span>
+      <p class="foot__name display">{site.name}</p>
+      <p class="foot__blurb">{site.tagline}</p>
+    </div>
+
+    <nav class="foot__col" aria-label="Site">
+      <p class="label">Site</p>
+      <ul>
+        <li><a href="/">Home</a></li>
+        {nav.map((i) => <li><a href={i.href}>{i.label}</a></li>)}
+        <li><a href={cta.student.href}>Apply</a></li>
+      </ul>
+    </nav>
+
+    <nav class="foot__col" aria-label="Support">
+      <p class="label">Support</p>
+      <ul>
+        <li><a href={links.donate.href}>{links.donate.label}</a></li>
+        <li><a href={links.sponsor.href}>{links.sponsor.label}</a></li>
+        <li><a href={cta.mentor.href}>Mentor a team</a></li>
+      </ul>
+    </nav>
+
+    <nav class="foot__col" aria-label="Connect">
+      <p class="label">Connect</p>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>Email us</a></li>
+        <li><a href={links.instagram.href}>{links.instagram.label}</a></li>
+        <li>
+          <a href={links.hackClub.href} rel="noopener noreferrer" target="_blank">
+            {links.hackClub.label}
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Fiscal sponsorship language is preserved verbatim: it is a legal
+       disclosure, not marketing copy, and must not be rewritten. -->
+  <div class="foot__fiscal">
+    <div class="foot__fiscal-inner shell">
+      <img
+        class="foot__hcb"
+        src="/images/hcb-icon-dark.png"
+        alt="Hack Club Bank"
+        width="40" height="40" loading="lazy"
+      />
+      <div class="foot__fiscal-copy prose">
+        <p class="label">Fiscal sponsorship</p>
+        <p>
+          {site.name} is fiscally sponsored by {fiscal.sponsorName}, a 501(c)(3)
+          nonprofit (EIN: {fiscal.ein}).
+        </p>
+        <p>
+          We operate under fiscal sponsorship through HCB, a platform by Hack Club.
+          HCB provides financial infrastructure that allows us to accept donations
+          and manage funds as a restricted fund dedicated to our organization.
+        </p>
+        <p class="foot__note">
+          Note: Fiscal sponsorship does not imply endorsement, partnership, or
+          direct funding from Hack Club or HCB.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot__base">
+    <div class="foot__base-inner shell">
+      <p>© {year} {site.name}. All rights reserved.</p>
+      <p class="foot__free">Free &amp; open access</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .foot{
+    position:relative;
+    z-index:var(--z-content);
+    background:var(--ground-050);
+    border-block-start:1px solid var(--rule-faint);
+  }
+
+  .foot__inner{
+    display:grid;
+    gap:var(--s-7);
+    padding-block:var(--s-9) var(--s-8);
+  }
+  @media (min-width:760px){
+    .foot__inner{ grid-template-columns:2fr 1fr 1fr 1fr; gap:var(--s-6); }
+  }
+
+  .foot__brand{ display:grid; gap:var(--s-3); align-content:start; max-inline-size:38ch; }
+
+  .foot__mark{
+    display:grid; place-items:center;
+    inline-size:34px; block-size:34px;
+    border:1px solid var(--signal-edge);
+    border-radius:var(--r-sharp);
+    background:var(--signal-wash);
+    color:var(--signal-100);
+    font-family:var(--font-mono);
+    font-size:0.6875rem; font-weight:600; letter-spacing:0.08em;
+  }
+  .foot__name{ font-size:var(--t-h3); color:var(--ink-100); }
+  .foot__blurb{ font-size:var(--t-small); color:var(--ink-400); text-wrap:pretty; }
+
+  .foot__col{ display:grid; gap:var(--s-4); align-content:start; }
+  .foot__col ul{ list-style:none; padding:0; display:grid; gap:var(--s-1); }
+  .foot__col a{
+    display:inline-block;
+    /* Padded to clear the 24px minimum target size (WCAG 2.2 AA 2.5.8);
+       these are standalone nav links, not inline links in prose, so the
+       inline exception does not apply. */
+    padding-block:var(--s-2);
+    font-size:var(--t-small);
+    color:var(--ink-300);
+    transition:color var(--d-fast) var(--e-out);
+  }
+  .foot__col a:hover{ color:var(--signal-100); }
+
+  /* ---------- Fiscal disclosure ---------- */
+
+  .foot__fiscal{
+    border-block-start:1px solid var(--rule-faint);
+    background:var(--ground-000);
+  }
+  .foot__fiscal-inner{
+    display:grid;
+    gap:var(--s-5);
+    padding-block:var(--s-7);
+  }
+  @media (min-width:760px){
+    .foot__fiscal-inner{ grid-template-columns:auto 1fr; gap:var(--s-6); }
+  }
+  .foot__hcb{ opacity:0.75; border-radius:var(--r-soft); }
+  .foot__fiscal-copy{ max-inline-size:80ch; }
+  .foot__fiscal-copy p{ font-size:var(--t-small); color:var(--ink-400); }
+  .foot__fiscal-copy .label{ margin-block-end:var(--s-2); }
+  .foot__note{ color:var(--ink-400); font-style:italic; }
+
+  /* ---------- Base bar ---------- */
+
+  .foot__base{ border-block-start:1px solid var(--rule-faint); background:var(--ground-000); }
+  .foot__base-inner{
+    display:flex; flex-wrap:wrap; gap:var(--s-3);
+    align-items:center; justify-content:space-between;
+    padding-block:var(--s-5);
+    font-family:var(--font-mono);
+    font-size:var(--t-micro);
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-400);
+  }
+  .foot__free{ color:var(--signal-100); }
+</style>

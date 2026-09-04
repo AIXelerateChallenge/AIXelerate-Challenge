@@ -1,0 +1,117 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import SectionHead from '../components/SectionHead.astro';
+import CTA from '../components/CTA.astro';
+
+/**
+ * Mission — the argument, stated plainly. Kept short on purpose:
+ * a mission page that runs long stops being a mission.
+ */
+
+const commitments = [
+  {
+    k: 'No fee, ever',
+    v: 'Not discounted, not waivable on request. Free at the point of entry, so nobody has to ask.',
+  },
+  {
+    k: 'No prerequisite',
+    v: 'We run tracks for students who have never written a line of code alongside students who have shipped apps.',
+  },
+  {
+    k: 'Real reviewers',
+    v: 'Working engineers, researchers, and founders — reviewing your project the way they would review a colleague’s.',
+  },
+  {
+    k: 'Ethics in the rubric',
+    v: 'Not a workshop bolted on the side. It is a scored category, and it can lose you the round.',
+  },
+];
+---
+
+<Base
+  title="Mission"
+  description="Why AIXelerate exists: advanced AI education for high schoolers, free at the point of entry, judged on responsibility as well as engineering."
+>
+  <PageHeader
+    eyebrow="Mission"
+    lines={['The barrier was never', 'the <em>technology</em>.']}
+    lead="Frontier models are a browser tab away. What is still unevenly distributed is everything around them — mentorship, a room of people building, permission to try something ambitious and have it not work."
+  />
+
+  <!-- ================= Statement ================= -->
+  <section class="section" aria-labelledby="statement-title">
+    <div class="shell shell--narrow">
+      <SectionHead
+        index="01"
+        eyebrow="What we do"
+        title="We hand high schoolers the <em>room</em>, not just the tools."
+        id="statement-title"
+      />
+      <div class="prose statement reveal" data-reveal-delay="80">
+        <p>
+          AIXelerate Challenge exists to break down the barriers to advanced computer
+          science and technology education. We equip high school students from varied
+          backgrounds with the resources, mentorship, and opportunities to build projects
+          that address problems they actually care about.
+        </p>
+        <p>
+          We think the strongest learning happens under real constraints — users,
+          deadlines, ethics, communication, and a team that has to agree. A weekend with
+          those pressures teaches more than a semester without them.
+        </p>
+        <p>
+          And our programs are free, so that cost never decides who gets to find that out.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Commitments ================= -->
+  <section class="section section--rule" aria-labelledby="commit-title">
+    <div class="shell">
+      <SectionHead
+        index="02"
+        eyebrow="Commitments"
+        title="Four things we will not <em>trade away</em>."
+        id="commit-title"
+      />
+      <dl class="commit">
+        {commitments.map((c, i) => (
+          <div class="commit__row reveal" data-reveal-delay={i * 70}>
+            <dt class="commit__k display">{c.k}</dt>
+            <dd class="commit__v">{c.v}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <CTA />
+</Base>
+
+<style>
+  .section--rule{ border-block-start:1px solid var(--rule-faint); }
+
+  .statement p{ font-size:var(--t-lead); line-height:1.55; color:var(--ink-200); }
+  .statement p:last-child{ color:var(--signal-100); font-family:var(--font-display); }
+
+  /* ---------------- Commitments ---------------- */
+
+  .commit{ display:grid; }
+  .commit__row{
+    display:grid;
+    gap:var(--s-2);
+    padding-block:var(--s-5);
+    border-block-start:1px solid var(--rule-faint);
+  }
+  @media (min-width:820px){
+    .commit__row{
+      grid-template-columns:minmax(0, 18rem) minmax(0, 1fr);
+      gap:var(--s-7);
+      align-items:baseline;
+    }
+  }
+  .commit__k{ font-size:var(--t-h3); color:var(--ink-100); }
+  .commit__v{ color:var(--ink-300); max-inline-size:58ch; text-wrap:pretty; }
+</style>

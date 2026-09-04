@@ -1,0 +1,200 @@
+---
+/**
+ * One form control. Renders label, control, and an inline error slot,
+ * wired with aria-describedby so validation messages are announced.
+ */
+interface Props { field: any; idPrefix: string }
+const { field: f, idPrefix } = Astro.props;
+const id = `${idPrefix}-${f.name}`;
+const errId = `${id}-err`;
+const group = f.type === 'radio' || f.type === 'checkbox';
+---
+<div class:list={['field', { 'field--half': f.half }]}>
+  {group ? (
+    <fieldset class="field__set">
+      <legend class="field__label">
+        {f.label}
+        {f.optional && <span class="field__opt">optional</span>}
+      </legend>
+      <div class="field__options">
+        {f.options.map((opt: string, i: number) => (
+          <label class="opt">
+            <input
+              type={f.type}
+              name={f.name}
+              value={opt}
+              checked={f.type === 'radio' && i === 0}
+            />
+            <span class="opt__mark" aria-hidden="true"></span>
+            <span class="opt__text">{opt}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  ) : (
+    <>
+      <label class="field__label" for={id}>
+        {f.label}
+        {f.optional && <span class="field__opt">optional</span>}
+      </label>
+
+      {f.type === 'textarea' ? (
+        <textarea
+          id={id} name={f.name} rows="4"
+          placeholder={f.placeholder}
+          required={f.required}
+          aria-describedby={errId}
+        />
+      ) : f.type === 'select' ? (
+        <select id={id} name={f.name} required={f.required} aria-describedby={errId}>
+          <option value="" disabled selected>Select one</option>
+          {f.options.map((o: string) => <option value={o}>{o}</option>)}
+        </select>
+      ) : (
+        <input
+          type={f.type} id={id} name={f.name}
+          placeholder={f.placeholder}
+          required={f.required}
+          aria-describedby={errId}
+        />
+      )}
+
+      <p class="field__err" id={errId} data-field-error aria-live="polite"></p>
+    </>
+  )}
+</div>
+
+<style>
+  .field{ display:grid; gap:var(--s-3); align-content:start; }
+  @media (min-width:680px){ .field--half{ grid-column:span 1; } }
+
+  .field__set{ border:0; padding:0; margin:0; display:grid; gap:var(--s-3); }
+
+  .field__label{
+    font-family:var(--font-mono);
+    font-size:var(--t-micro);
+    font-weight:500;
+    letter-spacing:var(--tr-label);
+    text-transform:uppercase;
+    color:var(--ink-300);
+    padding:0;
+  }
+  .field__opt{
+    margin-inline-start:var(--s-2);
+    color:var(--ink-400);
+    text-transform:none;
+    letter-spacing:normal;
+    font-style:italic;
+  }
+
+  /* ---------- Text controls ---------- */
+
+  .field input:not([type='radio']):not([type='checkbox']),
+  .field select,
+  .field textarea{
+    inline-size:100%;
+    min-block-size:52px;
+    padding:var(--s-3) var(--s-4);
+    background:var(--ground-100);
+    border:1px solid var(--rule);
+    border-radius:var(--r-soft);
+    color:var(--ink-100);
+    font-size:var(--t-body);
+    transition:border-color var(--d-fast) var(--e-out),
+               background-color var(--d-fast) var(--e-out),
+               box-shadow var(--d-fast) var(--e-out);
+  }
+  .field textarea{ min-block-size:120px; resize:vertical; line-height:1.55; }
+
+  .field input::placeholder,
+  .field textarea::placeholder{ color:var(--ink-400); }
+
+  .field input:hover, .field select:hover, .field textarea:hover{
+    border-color:var(--rule-loud);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none;
+    border-color:var(--signal-200);
+    background:var(--ground-050);
+    box-shadow:0 0 0 3px oklch(76% 0.17 68 / 0.16);
+  }
+
+  .field select{
+    appearance:none;
+    background-image:linear-gradient(45deg, transparent 50%, var(--ink-300) 50%),
+                     linear-gradient(135deg, var(--ink-300) 50%, transparent 50%);
+    background-position:calc(100% - 20px) 50%, calc(100% - 14px) 50%;
+    background-size:6px 6px, 6px 6px;
+    background-repeat:no-repeat;
+    padding-inline-end:var(--s-8);
+  }
+
+  /* ---------- Radio / checkbox ---------- */
+
+  .field__options{ display:flex; flex-wrap:wrap; gap:var(--s-3); }
+
+  .opt{
+    position:relative;
+    display:inline-flex;
+    align-items:center;
+    gap:var(--s-3);
+    padding:var(--s-3) var(--s-5);
+    min-block-size:48px;
+    border:1px solid var(--rule);
+    border-radius:var(--r-pill);
+    cursor:pointer;
+    font-size:var(--t-small);
+    color:var(--ink-300);
+    transition:border-color var(--d-fast) var(--e-out),
+               background-color var(--d-fast) var(--e-out),
+               color var(--d-fast) var(--e-out);
+  }
+  .opt:hover{ border-color:var(--rule-loud); color:var(--ink-100); }
+
+  /* The native control stays in the DOM and keeps its semantics; it is
+     visually replaced, never removed, so keyboard and AT behaviour are
+     the platform's. */
+  .opt input{
+    position:absolute;
+    inline-size:100%; block-size:100%;
+    inset:0;
+    opacity:0;
+    cursor:pointer;
+    margin:0;
+  }
+  .opt__mark{
+    flex:none;
+    inline-size:14px; block-size:14px;
+    border:1px solid var(--rule-loud);
+    border-radius:var(--r-pill);
+    transition:background-color var(--d-fast) var(--e-out),
+               border-color var(--d-fast) var(--e-out),
+               box-shadow var(--d-fast) var(--e-out);
+  }
+  .opt input[type='checkbox'] ~ .opt__mark{ border-radius:var(--r-sharp); }
+
+  .opt:has(input:checked){
+    border-color:var(--signal-edge);
+    background:var(--signal-wash);
+    color:var(--ink-100);
+  }
+  .opt:has(input:checked) .opt__mark{
+    background:var(--signal-200);
+    border-color:var(--signal-200);
+    box-shadow:inset 0 0 0 2px var(--ground-000);
+  }
+  .opt:has(input:focus-visible){
+    outline:2px solid var(--signal-200);
+    outline-offset:3px;
+  }
+
+  /* ---------- Error ---------- */
+
+  .field__err{
+    font-family:var(--font-mono);
+    font-size:var(--t-micro);
+    color:var(--err);
+    min-block-size:0;
+  }
+  .field__err:empty{ display:none; }
+</style>

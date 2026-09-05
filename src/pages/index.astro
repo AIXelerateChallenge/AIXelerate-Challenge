@@ -1,258 +1,502 @@
 ---
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
-import SectionHead from '../components/SectionHead.astro';
 import CTA from '../components/CTA.astro';
-import { site } from '../data/site.js';
+import SnailMark from '../components/SnailMark.astro';
+import { site, stats } from '../data/site.js';
 
-/**
- * Homepage copy — rewritten for this rebuild.
- * Positioning: the constraint is ideas, not compute. Everything on this
- * page argues that one line.
- */
-
-const pillars = [
-  {
-    n: '01',
-    title: 'Find a problem worth two days',
-    body:
-      'Not a demo. A problem you can name, that belongs to someone real — a classmate, a clinic, a neighbourhood, a language. We spend the first hours narrowing until the idea is small enough to actually ship.',
-  },
-  {
-    n: '02',
-    title: 'Get told the truth, early',
-    body:
-      'Mentors from industry and research sit with your team, not above it. They will tell you which parts of your architecture will not survive Sunday, and what to cut. That conversation is the product.',
-  },
-  {
-    n: '03',
-    title: 'Defend the trade-offs',
-    body:
-      'Judging weighs what your system does to people as heavily as what it does technically: whose data, whose error rate, who is left out. A clear account of your limits scores higher than a demo that hides them.',
-  },
+const moves = [
+  { title:'Frame', note:'Cut the idea until it can move.', image:'/images/aix3.jpg' },
+  { title:'Team', note:'Match on curiosity, not credentials.', image:'/images/aix5.jpg' },
+  { title:'Build', note:'Put a rough prototype in someone’s hands.', image:'/images/aix1.jpg' },
+  { title:'Test', note:'Privacy, fairness, safety, and who is missing.', image:'/images/aix2.jpg' },
+  { title:'Demo', note:'Six minutes, a live demo, honest trade-offs.', image:'/images/aix4.jpg' },
 ];
 
-const schedule = [
-  { t: 'Sat 09:00', h: 'Open + problem framing',  d: 'Teams form. Ideas get cut down to something two days can hold.' },
-  { t: 'Sat 12:00', h: 'Build begins',            d: 'Mentor rotations start. First checkpoint before dinner.' },
-  { t: 'Sun 10:00', h: 'Ethics review',           d: 'Every team walks a reviewer through failure modes and data provenance.' },
-  { t: 'Sun 15:00', h: 'Demos + judging',         d: 'Six minutes, live, no slides that outrun the software.' },
+const frames = [
+  { n:'01', title:'The room', caption:'A deadline becomes useful when everyone can hear the clock.', image:'/images/aix2.jpg', pos:'50% 48%' },
+  { n:'02', title:'The problem', caption:'Teams begin with a person and a friction point, not a model.', image:'/images/aix3.jpg', pos:'50% 46%' },
+  { n:'03', title:'The build', caption:'Mentors work at the table. Nobody disappears into a lecture hall.', image:'/images/aix1.jpg', pos:'50% 43%' },
+  { n:'04', title:'The review', caption:'Impact is interrogated while there is still time to change the prototype.', image:'/images/aix5.jpg', pos:'50% 42%' },
+  { n:'05', title:'The demo', caption:'The prototype has to speak before the pitch can rescue it.', image:'/images/aix4.jpg', pos:'50% 46%' },
+];
+
+const phases = [
+  { n:'01', time:'SAT / 09:00', title:'Interrogate', body:'Name the user, the friction, and the assumption most likely to be wrong.', list:['Problem framing','Team formation','Scope cut'] },
+  { n:'02', time:'SAT / 12:00', title:'Prototype', body:'Make the smallest real thing that lets another person react honestly.', list:['Build track','Mentor rotations','User test'] },
+  { n:'03', time:'SUN / 10:00', title:'Challenge', body:'Review privacy, fairness, safety, and what happens when the system fails.', list:['Impact review','Failure modes','Revision'] },
+  { n:'04', time:'SUN / 15:00', title:'Present', body:'Show the working build, the trade-offs, and the next version you would make.', list:['Live demo','Six-minute pitch','Judge feedback'] },
+];
+
+const pathways = [
+  {
+    n:'01',
+    type:'Coming next',
+    title:'Online cohorts',
+    body:'We are building guided online cohorts for students who cannot make it to an in-person sprint. Small teams, live mentor sessions, shared build hours, and a real demo at the end.',
+    action:'Join the interest list',
+    href:`mailto:${site.email}?subject=${encodeURIComponent('Online cohort interest')}`,
+    featured:true,
+  },
+  {
+    n:'02',
+    type:'At your school',
+    title:'Start a club',
+    body:'Bring AIXelerate to your campus as a student-led club. We will help shape the format, build rhythm, and connect your group to the wider community.',
+    action:'Start a school club',
+    href:`mailto:${site.email}?subject=${encodeURIComponent('Start an AIXelerate club at my school')}`,
+  },
+  {
+    n:'03',
+    type:'In your city',
+    title:'Host a hackathon',
+    body:'Run a local build sprint under the AIXelerate name with our playbook, brand, and support—while your team makes it work for your community.',
+    action:'Host with AIXelerate',
+    href:`mailto:${site.email}?subject=${encodeURIComponent('Host an AIXelerate hackathon')}`,
+  },
 ];
 ---
 
-<Base
-  title={site.name}
-  description={site.tagline}
-  transparentNav
->
+<Base title={site.name} description={site.tagline} transparentNav>
   <Hero />
 
-  <!-- ================= What a sprint is ================= -->
-  <section class="section" id="competition" aria-labelledby="competition-title">
-    <div class="shell">
-      <SectionHead
-        index="01"
-        eyebrow="What a sprint is"
-        title="Everyone has access to the models now. Almost <em>nobody</em> has a problem worth pointing them at."
-        id="competition-title"
-      />
-
-      <p class="lead reveal" data-reveal-delay="80">
-        AIXelerate is built around that gap. Two days, a real constraint, and people
-        who will tell you when your idea is not ready.
-      </p>
-
-      <ol class="pillars">
-        {pillars.map((p, i) => (
-          <li class="pillar reveal" data-reveal-delay={i * 90}>
-            <span class="pillar__n display" aria-hidden="true">{p.n}</span>
-            <div class="pillar__body">
-              <h3 class="pillar__title display">{p.title}</h3>
-              <p class="pillar__copy">{p.body}</p>
-            </div>
-          </li>
+  <section class="craft" id="studio" aria-labelledby="craft-title" data-craft>
+    <div class="craft__pin">
+      <div class="craft__intro shell">
+        <p class="craft__statement reveal" id="craft-title">We give high school students the room, people, and deadline to turn an AI idea into something another person can actually use.</p>
+      </div>
+      <p class="craft__side craft__side--left">The sprint</p>
+      <p class="craft__side craft__side--right">$5K+ raised / free entry</p>
+      <div class="craft__wheel" data-craft-wheel aria-label="The five moves of an AIXelerate sprint">
+        {moves.map((move, i) => (
+          <article class="craft__row" data-craft-row={i}>
+            <img src={move.image} alt="" loading="lazy" />
+            <div><p>0{i + 1}</p><h2>{move.title}</h2><span>{move.note}</span></div>
+          </article>
         ))}
-      </ol>
+      </div>
     </div>
   </section>
 
-  <!-- ================= The two days ================= -->
-  <section class="section section--rule" aria-labelledby="schedule-title">
-    <div class="shell">
-      <SectionHead
-        index="02"
-        eyebrow="The two days"
-        title="A weekend with a <em>shape</em> to it."
-        id="schedule-title"
-      />
-
-      <ol class="sched">
-        {schedule.map((s, i) => (
-          <li class="sched__row reveal" data-reveal-delay={i * 70}>
-            <time class="sched__time label">{s.t}</time>
-            <div class="sched__body">
-              <h3 class="sched__head">{s.h}</h3>
-              <p class="sched__copy">{s.d}</p>
-            </div>
-          </li>
+  <section class="field" id="work" aria-labelledby="field-title" data-field>
+    <div class="field__pin">
+      <div class="field__top shell">
+        <div><p class="field__eyebrow">Field notes / July 2026</p><h2 id="field-title">What building<br />looked like.</h2></div>
+        <p>Five moments from the first AIXelerate sprint. No stock photos. No simulated dashboard. Just the room.</p>
+      </div>
+      <div class="field__deck">
+        {frames.map((frame, i) => (
+          <article class:list={['field__card', { 'is-active': i === 0 }]} data-field-card={i}>
+            <img src={frame.image} alt={frame.caption} loading={i === 0 ? 'eager' : 'lazy'} style={`object-position:${frame.pos}`} />
+            <div class="field__shade"></div>
+            <p class="field__number">{frame.n} / 05</p>
+            <h3>{frame.title}</h3>
+            <p class="field__caption">{frame.caption}</p>
+          </article>
         ))}
-      </ol>
-
-      <p class="sched__note reveal">
-        Times are indicative. Exact schedules go out with each cohort's acceptance email.
-      </p>
+      </div>
+      <div class="field__rail shell"><span data-field-index>01</span><i><b data-field-progress></b></i><p data-field-name>The room</p></div>
     </div>
   </section>
 
-  <!-- ================= Free, and why ================= -->
-  <section class="section section--rule" aria-labelledby="free-title">
-    <div class="shell free">
-      <div class="free__copy">
-        <SectionHead
-          index="03"
-          eyebrow="Cost"
-          title="It is free, and that is a <em>design decision</em>."
-          id="free-title"
-        />
-        <div class="prose reveal" data-reveal-delay="80">
-          <p>
-            Entry fees quietly select for students who already had the advantage. So there
-            is no fee, no hardware requirement, and no expectation that you arrive knowing
-            how to train anything.
-          </p>
-          <p>
-            Compute, mentorship, food and judging are covered by our sponsors and by
-            donations held through HCB. What you need to bring is a problem and a weekend.
-          </p>
+  <section class="signature" aria-labelledby="signature-title">
+    <div class="signature__stage">
+      <p class="signature__badge signature__badge--a">AIX / signature</p>
+      <p class="signature__badge signature__badge--b">Working object / live</p>
+      <div class="signature__object" aria-hidden="true"><SnailMark /></div>
+      <h2 class="visually-hidden" id="signature-title">A working prototype is the signature of every team.</h2>
+      <p class="signature__copy" data-wordwash>Every team leaves with a signature object: a working prototype that catches feedback, exposes assumptions, and belongs to the people who built it.</p>
+    </div>
+  </section>
+
+  <section class="process" id="process" aria-labelledby="process-title" data-process>
+    <div class="process__pin">
+      <div class="process__head shell">
+        <div><p>The 48 hours</p><h2 id="process-title">Four moves,<br />no theatre.</h2></div>
+        <p>Students see something real on Saturday, not a polished deck on Sunday.</p>
+      </div>
+      <div class="process__viewport">
+        <div class="process__track" data-process-track>
+          {phases.map((phase) => (
+            <article class="phase">
+              <p class="phase__meta">{phase.n} / {phase.time}</p>
+              <h3>{phase.title}</h3>
+              <i aria-hidden="true"><b></b></i>
+              <p>{phase.body}</p>
+              <ul>{phase.list.map((item) => <li>{item}</li>)}</ul>
+            </article>
+          ))}
         </div>
       </div>
-
-      <aside class="free__card panel panel--raised reveal" data-reveal-delay="140">
-        <p class="label">Requirements</p>
-        <ul class="free__list">
-          <li>Enrolled in high school (any year)</li>
-          <li>No prior AI or coding experience required</li>
-          <li>A laptop — we can lend one if you cannot bring one</li>
-          <li>Teams of one to four; we will match you if you come alone</li>
-        </ul>
-      </aside>
+      <div class="process__progress"><i data-process-progress></i></div>
     </div>
+  </section>
+
+  <section class="network section" id="network" aria-labelledby="network-title">
+    <div class="network__head shell">
+      <p class="network__eyebrow reveal">Beyond one weekend / what comes next</p>
+      <h2 class="reveal" id="network-title">One room becomes<br /><em>a network.</em></h2>
+      <p class="network__intro reveal" data-reveal-delay="80">AIXelerate is growing into a format students can join online, bring to school, or host in their own community.</p>
+    </div>
+    <div class="network__grid shell">
+      {pathways.map((pathway, i) => (
+        <article class:list={['network__card', { 'network__card--featured': pathway.featured }, 'reveal']} data-reveal-delay={i * 80} data-pathway-card>
+          <div class="network__meta"><span>{pathway.n}</span><span>{pathway.type}</span></div>
+          <h3>{pathway.title}</h3>
+          <p>{pathway.body}</p>
+          <a href={pathway.href}>{pathway.action}<span aria-hidden="true">↗</span></a>
+          <i aria-hidden="true"></i>
+        </article>
+      ))}
+    </div>
+    <p class="network__contact shell reveal">Have a different idea? <a href={`mailto:${site.email}?subject=${encodeURIComponent('Build with AIXelerate')}`}>Talk directly with the team ↗</a></p>
+  </section>
+
+  <section class="proof section" aria-labelledby="proof-title">
+    <div class="proof__head shell">
+      <div><p>First sprint / July 2026</p><h2 id="proof-title">One month to fill a room.</h2></div>
+      <p>The first cohort proved the premise: when cost disappears and the standard stays high, students show up ready to build.</p>
+    </div>
+    <div class="proof__image reveal"><img src="/images/conference.jpg" alt="Four AIXelerate students standing together after the event." loading="lazy" /></div>
+    <dl class="proof__stats shell">
+      {stats.map((stat, i) => (
+        <div class="proof__stat reveal" data-reveal-delay={i * 70}>
+          <dt>{stat.label}</dt><dd data-count={stat.count} data-prefix={stat.prefix} data-suffix={stat.suffix}>{stat.value}</dd><p>{stat.note}</p>
+        </div>
+      ))}
+    </dl>
   </section>
 
   <CTA />
+
+  <script>
+    import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wide = window.matchMedia('(min-width: 820px)').matches;
+
+    if (!reduced && wide) {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const craft = document.querySelector('[data-craft]');
+      const wheel = document.querySelector('[data-craft-wheel]');
+      const baseRows = [...document.querySelectorAll('[data-craft-row]')];
+      if (craft && wheel && baseRows.length) {
+        baseRows.forEach((row) => {
+          const clone = row.cloneNode(true);
+          clone.setAttribute('aria-hidden', 'true');
+          clone.removeAttribute('data-craft-row');
+          wheel.appendChild(clone);
+        });
+
+        const rows = [...wheel.querySelectorAll('.craft__row')];
+        const step = 360 / rows.length;
+        const wheelState = { angle:0 };
+        let radius = 220;
+
+        const placeWheel = () => {
+          wheel.style.transform = `translate(-50%,-50%) rotateX(${-wheelState.angle}deg)`;
+          rows.forEach((row, i) => {
+            const angle = i * step;
+            const delta = ((angle - wheelState.angle) % 360 + 540) % 360 - 180;
+            const face = Math.cos(delta * Math.PI / 180);
+            row.style.transform = `translate(-50%,-50%) rotateX(${angle}deg) translateZ(${radius}px)`;
+            row.style.opacity = String(Math.max(0, Math.min(1, (face - .02) * 1.55)));
+            row.style.filter = `blur(${Math.max(0, 1 - face) * 1.6}px)`;
+            row.classList.toggle('is-facing', Math.abs(delta) < step * .55);
+            const title = row.querySelector('h2');
+            if (title) title.style.transform = `scale(${(.72 + .28 * Math.max(0, face)).toFixed(3)})`;
+          });
+        };
+        const sizeWheel = () => {
+          const gap = Math.max(58, Math.min(92, window.innerWidth * .052));
+          radius = gap / (2 * Math.sin(Math.PI / rows.length));
+          placeWheel();
+        };
+        sizeWheel();
+        window.addEventListener('resize', sizeWheel, { passive:true });
+        gsap.to(wheelState, {
+          angle: 430,
+          ease:'none',
+          onUpdate:placeWheel,
+          scrollTrigger:{ trigger:craft, start:'top top', end:'bottom bottom', scrub:.55, invalidateOnRefresh:true },
+        });
+      }
+
+      const field = document.querySelector('[data-field]');
+      const cards = [...document.querySelectorAll('[data-field-card]')];
+      const index = document.querySelector('[data-field-index]');
+      const name = document.querySelector('[data-field-name]');
+      const progress = document.querySelector('[data-field-progress]');
+      if (field && cards.length) {
+        const deckState = { position:0 };
+        let shown = -1;
+        const renderDeck = (velocity = 0) => {
+          const position = deckState.position;
+          const front = Math.min(cards.length - 1, Math.floor(position));
+          cards.forEach((card, i) => {
+            const delta = i - position;
+            let x;
+            let y;
+            let rotation;
+            let scale;
+            let opacity;
+            let z;
+            if (delta < 0) {
+              const passed = Math.min(-delta, 1.6);
+              x = -passed * window.innerWidth * .42;
+              y = -passed * window.innerHeight * .30;
+              rotation = -passed * 22;
+              scale = 1 + passed * .22;
+              opacity = Math.max(0, 1 - passed * 1.5);
+              z = 100 + i;
+            } else {
+              const depth = Math.min(delta, 4);
+              x = depth * 56;
+              y = depth * 37;
+              rotation = depth * -4.2;
+              scale = 1 - depth * .062;
+              opacity = Math.max(0, 1 - depth * .13);
+              z = 100 - Math.round(depth * 10);
+            }
+            card.style.zIndex = String(z);
+            card.style.opacity = String(opacity);
+            card.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+            card.style.filter = velocity > 1400 ? `blur(${Math.min(3.5, velocity / 1200).toFixed(2)}px)` : 'none';
+            card.classList.toggle('is-active', i === front);
+            card.style.pointerEvents = i === front ? 'auto' : 'none';
+          });
+          if (front !== shown) {
+            shown = front;
+            index.textContent = String(front + 1).padStart(2, '0');
+            name.textContent = cards[front].querySelector('h3').textContent;
+          }
+        };
+        renderDeck();
+        gsap.to(deckState, {
+          position: cards.length - .001,
+          ease:'none',
+          onUpdate:renderDeck,
+          scrollTrigger:{
+            trigger:field,
+            start:'top top',
+            end:'bottom bottom',
+            scrub:.48,
+            invalidateOnRefresh:true,
+            onUpdate:(self) => {
+              progress.style.transform = `scaleX(${self.progress})`;
+              renderDeck(Math.abs(self.getVelocity()));
+            },
+          },
+        });
+      }
+
+      const process = document.querySelector('[data-process]');
+      const track = document.querySelector('[data-process-track]');
+      const processProgress = document.querySelector('[data-process-progress]');
+      if (process && track) {
+        const distance = () => Math.max(0, track.scrollWidth - window.innerWidth + window.innerWidth * .08);
+        gsap.to(track, {
+          x:() => -distance(), ease:'none',
+          scrollTrigger:{ trigger:process, start:'top top', end:() => `+=${distance()}`, pin:process.querySelector('.process__pin'), scrub:.45, invalidateOnRefresh:true, anticipatePin:1, onUpdate:(self) => { processProgress.style.transform = `scaleX(${self.progress})`; } },
+        });
+      }
+
+      document.querySelectorAll('[data-wordwash]').forEach((block) => {
+        const words = block.textContent.trim().split(/\s+/);
+        block.textContent = '';
+        words.forEach((word, i) => {
+          const span = document.createElement('span');
+          span.textContent = word;
+          block.appendChild(span);
+          if (i < words.length - 1) block.append(' ');
+        });
+        gsap.to(block.querySelectorAll('span'), {
+          color:'var(--ink-200)',
+          stagger:.04,
+          ease:'none',
+          scrollTrigger:{ trigger:block, start:'top 84%', end:'top 34%', scrub:true },
+        });
+      });
+
+      document.querySelectorAll('[data-count]').forEach((number) => {
+        const target = Number(number.dataset.count || 0);
+        const prefix = number.dataset.prefix || '';
+        const suffix = number.dataset.suffix || '';
+        const counter = { value:0 };
+        gsap.to(counter, {
+          value:target,
+          duration:1.5,
+          ease:'power3.out',
+          onUpdate:() => { number.textContent = `${prefix}${Math.round(counter.value).toLocaleString('en-US')}${suffix}`; },
+          scrollTrigger:{ trigger:number, start:'top 88%', once:true },
+        });
+      });
+
+      document.querySelectorAll('[data-pathway-card]').forEach((card) => {
+        card.addEventListener('pointermove', (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = (event.clientX - rect.left) / rect.width - .5;
+          const y = (event.clientY - rect.top) / rect.height - .5;
+          card.style.transform = `perspective(1200px) rotateX(${y * -4.5}deg) rotateY(${x * 5.5}deg) translateY(-4px)`;
+        }, { passive:true });
+        card.addEventListener('pointerleave', () => {
+          card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+        });
+      });
+    }
+  </script>
 </Base>
 
 <style>
-  .section--rule{ border-block-start:1px solid var(--rule-faint); }
+  .craft{ position:relative; height:290vh; background:var(--ground-000); }
+  .craft__pin{ position:sticky; top:0; min-height:100dvh; overflow:hidden; perspective:1100px; }
+  .craft__intro{ position:absolute; inset:8vh 0 auto; z-index:3; }
+  .craft__statement{ max-width:43ch; color:var(--ink-200); font-family:var(--font-mono); font-size:clamp(.92rem,1.45vw,1.28rem); line-height:1.65; }
+  .craft__side{ position:absolute; z-index:3; top:51%; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; writing-mode:vertical-rl; }
+  .craft__side--left{ left:var(--s-gutter); transform:rotate(180deg); }
+  .craft__side--right{ right:var(--s-gutter); }
+  .craft__wheel{ position:absolute; left:50%; top:56%; width:min(88vw,1000px); height:clamp(280px,38vw,430px); transform:translate(-50%,-50%); transform-style:preserve-3d; will-change:transform; }
+  .craft__row{ position:absolute; left:50%; top:50%; width:100%; min-height:94px; display:grid; grid-template-columns:94px 1fr; align-items:center; gap:1.4rem; transform-origin:center; transform-style:preserve-3d; backface-visibility:hidden; will-change:transform,opacity,filter; }
+  .craft__row img{ width:94px; height:78px; object-fit:cover; border-radius:10px; filter:saturate(.65) contrast(1.1); }
+  .craft__row > div{ display:grid; grid-template-columns:3rem minmax(0,1fr) minmax(12rem,.55fr); align-items:center; gap:1rem; }
+  .craft__row p,.craft__row span{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .craft__row h2{ color:var(--signal-300); font-size:clamp(2rem,5.2vw,4.6rem); font-weight:800; line-height:.86; letter-spacing:-.065em; white-space:nowrap; transition:color 180ms linear; }
+  .craft__row.is-facing h2{ color:var(--ink-100); }
 
-  /* ---------------- Pillars: editorial numbered list, not a card grid.
-     Each entry is offset so the column reads as a sequence with rhythm
-     rather than three equal boxes. ---------------- */
+  .field{ position:relative; height:520vh; background:oklch(12.5% .006 285); }
+  .field__pin{ position:sticky; top:0; min-height:100dvh; overflow:hidden; }
+  .field__top{ position:absolute; inset:8vh 0 auto; z-index:5; display:flex; justify-content:space-between; gap:2rem; }
+  .field__top > div > p,.field__top > p{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .field__top h2{ margin-top:.7rem; color:var(--ink-100); font-size:clamp(2.2rem,5vw,5.4rem); font-weight:800; line-height:.88; letter-spacing:-.065em; }
+  .field__top > p{ max-width:39ch; text-align:right; }
+  .field__deck{ position:absolute; left:50%; top:54%; width:clamp(270px,32vw,440px); aspect-ratio:1 / 1.08; transform:translate(-50%,-50%); transform-style:preserve-3d; perspective:1400px; }
+  .field__card{ position:absolute; inset:0; width:100%; height:100%; overflow:hidden; border-radius:18px; opacity:0; box-shadow:0 34px 80px -25px oklch(0% 0 0 / .88); backface-visibility:hidden; will-change:transform,opacity,filter; pointer-events:none; }
+  .field__card img{ width:100%; height:100%; object-fit:cover; filter:saturate(.75) contrast(1.06) brightness(.82); }
+  .field__shade{ position:absolute; inset:0; background:linear-gradient(to top,oklch(5% 0 0 / .78),transparent 45%),linear-gradient(to bottom,oklch(5% 0 0 / .25),transparent 35%); }
+  .field__number,.field__caption{ position:absolute; color:var(--ink-200); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .field__number{ top:1.1rem; left:1.2rem; }
+  .field__caption{ right:1.2rem; bottom:1.2rem; max-width:25ch; text-align:right; opacity:0; transform:translateY(8px); transition:opacity .35s var(--e-out),transform .45s var(--e-entry); }
+  .field__card h3{ position:absolute; left:1.2rem; bottom:1.1rem; max-width:72%; color:var(--ink-100); font-size:clamp(2.4rem,4.3vw,4.8rem); font-weight:800; line-height:.86; letter-spacing:-.075em; }
+  .field__card.is-active .field__caption{ opacity:1; transform:none; }
+  .field__rail{ position:absolute; left:0; right:0; bottom:2rem; display:grid; grid-template-columns:3rem 1fr minmax(9rem,auto); align-items:center; gap:1rem; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .field__rail > i{ height:1px; background:var(--rule); overflow:hidden; }
+  .field__rail b{ display:block; width:100%; height:100%; background:var(--signal-300); transform:scaleX(0); transform-origin:left; }
+  .field__rail p{ text-align:right; }
 
-  .pillars{
-    list-style:none;
-    padding:0;
-    margin-block-start:var(--s-8);
-    display:grid;
-    gap:var(--s-7);
-  }
-  @media (min-width:900px){
-    .pillars{ gap:var(--s-8); }
-  }
+  .signature{ min-height:180vh; background:var(--ground-000); }
+  .signature__stage{ position:sticky; top:0; min-height:100dvh; overflow:hidden; display:grid; place-items:center; perspective:1000px; }
+  .signature__stage::before{ content:''; position:absolute; width:min(70vw,880px); aspect-ratio:1; border:1px solid var(--rule-faint); border-radius:50%; box-shadow:0 0 0 8vw oklch(100% 0 0 / .012),0 0 0 16vw oklch(100% 0 0 / .01); }
+  .signature__object{ width:min(52vw,650px); color:var(--signal-100); opacity:.56; filter:drop-shadow(0 24px 55px oklch(72% .19 58 / .14)); transform:rotateX(58deg) rotateZ(-18deg); }
+  .signature__badge{ position:absolute; top:2rem; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
+  .signature__badge--a{ left:var(--s-gutter); }
+  .signature__badge--b{ right:var(--s-gutter); }
+  .signature__copy{ position:absolute; left:var(--s-gutter); bottom:2rem; max-width:43ch; color:var(--ink-300); font-family:var(--font-mono); font-size:clamp(.86rem,1.2vw,1.1rem); }
+  .signature__copy span{ color:var(--ink-500); transition:color 80ms linear; }
 
-  .pillar{
-    display:grid;
-    gap:var(--s-4);
-    padding-block-start:var(--s-5);
-    border-block-start:1px solid var(--rule-faint);
-  }
-  @media (min-width:900px){
-    .pillar{
-      /* max-content, not auto: an auto track absorbs the row's free
-         space and would push the copy far off to the right. */
-      grid-template-columns:max-content minmax(0, 62ch);
-      gap:var(--s-8);
-      align-items:start;
-    }
-    /* Deliberate stagger — the sequence steps inward as it descends. */
-    .pillar:nth-child(2){ padding-inline-start:var(--s-8); }
-    .pillar:nth-child(3){ padding-inline-start:var(--s-10); }
-  }
+  .process{ position:relative; background:var(--ink-100); color:var(--ground-000); }
+  .process__pin{ min-height:100dvh; overflow:hidden; padding-block:clamp(5.5rem,9vh,7.5rem) 2rem; }
+  .process__head{ display:flex; justify-content:space-between; align-items:end; gap:3rem; }
+  .process__head p{ max-width:37ch; color:oklch(25% .01 285); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .process__head > div > p{ color:oklch(45% .01 285); text-transform:uppercase; letter-spacing:.08em; }
+  .process__head h2{ margin-top:.6rem; color:var(--ground-000); font-size:clamp(2.7rem,6vw,6.6rem); font-weight:850; line-height:.84; letter-spacing:-.075em; }
+  .process__viewport{ margin-top:clamp(3rem,8vh,6rem); padding-left:var(--s-gutter); }
+  .process__track{ width:max-content; display:flex; gap:clamp(1.5rem,5vw,5rem); padding-right:8vw; will-change:transform; }
+  .phase{ width:min(72vw,510px); display:grid; grid-template-rows:auto auto auto 1fr auto; gap:1.2rem; padding-top:1rem; border-top:1px solid oklch(14.5% .006 285 / .28); }
+  .phase__meta,.phase > p,.phase li{ color:oklch(35% .01 285); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .phase h3{ color:var(--ground-000); font-size:clamp(2.8rem,5vw,5rem); font-weight:800; line-height:.9; letter-spacing:-.065em; }
+  .phase > i{ height:4px; overflow:hidden; background:oklch(14.5% .006 285 / .12); }
+  .phase > i b{ display:block; width:72%; height:100%; background:var(--signal-300); }
+  .phase > p:not(.phase__meta){ max-width:48ch; }
+  .phase ul{ list-style:none; padding:1rem 0 0; border-top:1px solid oklch(14.5% .006 285 / .16); }
+  .phase li{ padding:.25rem 0; }
+  .process__progress{ position:absolute; left:var(--s-gutter); right:var(--s-gutter); bottom:1.5rem; height:2px; background:oklch(14.5% .006 285 / .13); }
+  .process__progress i{ display:block; width:100%; height:100%; background:var(--signal-300); transform:scaleX(0); transform-origin:left; }
 
-  .pillar__n{
-    font-size:var(--t-h2);
-    line-height:0.9;
-    color:var(--signal-200);
-    font-variant-numeric:tabular-nums;
-    opacity:0.85;
-  }
-  .pillar__title{
-    font-size:var(--t-h3);
-    margin-block-end:var(--s-3);
-    text-wrap:balance;
-  }
-  .pillar__copy{ color:var(--ink-300); text-wrap:pretty; }
+  .network{ overflow:hidden; background:linear-gradient(150deg,var(--ground-050),var(--ground-000) 58%); }
+  .network::before{ content:''; position:absolute; inset:8% -20% auto 30%; height:42rem; pointer-events:none; background:radial-gradient(circle,oklch(62% .22 29 / .10),transparent 64%); filter:blur(24px); }
+  .network__head{ position:relative; display:grid; grid-template-columns:minmax(0,1.25fr) minmax(16rem,.55fr); gap:2rem; align-items:end; margin-bottom:clamp(3.5rem,7vw,7rem); }
+  .network__eyebrow{ grid-column:1 / -1; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
+  .network__head h2{ color:var(--ink-100); font-size:clamp(3.3rem,7vw,8rem); font-weight:850; line-height:.82; letter-spacing:-.078em; }
+  .network__head h2 em{ color:var(--signal-300); font-style:normal; }
+  .network__intro{ max-width:39ch; color:var(--ink-300); font-family:var(--font-mono); font-size:clamp(.76rem,1vw,.95rem); line-height:1.65; }
+  .network__grid{ position:relative; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; perspective:1200px; }
+  .network__card{ --rx:0deg; --ry:0deg; position:relative; min-height:32rem; display:flex; flex-direction:column; overflow:hidden; padding:1.25rem; border:1px solid var(--rule); border-radius:18px; background:linear-gradient(145deg,oklch(22% .01 285 / .88),oklch(16% .007 285 / .7)); box-shadow:var(--lift-1); backdrop-filter:blur(18px); transform:perspective(1200px) rotateX(var(--rx)) rotateY(var(--ry)); transform-style:preserve-3d; transition:border-color .35s var(--e-out),box-shadow .5s var(--e-out),transform .18s linear; }
+  .network__card--featured{ grid-column:1 / -1; min-height:38rem; background:linear-gradient(135deg,oklch(24% .018 38 / .9),oklch(17% .009 285 / .78) 56%,oklch(19% .03 28 / .72)); }
+  .network__card:hover{ border-color:var(--signal-edge); box-shadow:var(--lift-3),inset 0 1px 0 oklch(100% 0 0 / .12); }
+  .network__meta{ display:flex; justify-content:space-between; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.07em; text-transform:uppercase; transform:translateZ(24px); }
+  .network__card h3{ max-width:9ch; margin-top:auto; color:var(--ink-100); font-size:clamp(3.1rem,7vw,7.5rem); font-weight:850; line-height:.82; letter-spacing:-.075em; transform:translateZ(42px); }
+  .network__card:not(.network__card--featured) h3{ font-size:clamp(2.8rem,5vw,5.8rem); }
+  .network__card > p{ max-width:47ch; margin-top:1.5rem; color:var(--ink-300); font-family:var(--font-mono); font-size:var(--t-micro); line-height:1.65; transform:translateZ(30px); }
+  .network__card > a{ width:max-content; display:flex; align-items:center; gap:.8rem; margin-top:1.8rem; padding-bottom:.35rem; border-bottom:1px solid var(--rule-loud); color:var(--ink-100); font-family:var(--font-mono); font-size:var(--t-tiny); transform:translateZ(36px); transition:color .25s,border-color .25s; }
+  .network__card > a:hover{ color:var(--signal-100); border-color:var(--signal-100); }
+  .network__card > i{ position:absolute; right:-8%; bottom:-25%; width:48%; aspect-ratio:1; border:1px solid var(--rule); border-radius:50%; box-shadow:0 0 0 4vw oklch(100% 0 0 / .018),0 0 0 8vw oklch(100% 0 0 / .012); transform:translateZ(8px); }
+  .network__card--featured > i{ right:5%; bottom:-44%; width:min(40rem,48%); border-color:var(--signal-edge); }
+  .network__contact{ margin-top:2rem; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .network__contact a{ color:var(--ink-200); border-bottom:1px solid var(--rule); }
 
-  /* ---------------- Schedule ---------------- */
+  .proof{ background:var(--ground-000); }
+  .proof__head{ display:flex; justify-content:space-between; align-items:end; gap:3rem; margin-bottom:clamp(3rem,7vw,7rem); }
+  .proof__head > div > p,.proof__head > p{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .proof__head h2{ max-width:10ch; margin-top:.7rem; color:var(--ink-100); font-size:var(--t-h1); font-weight:850; line-height:.83; letter-spacing:-.075em; }
+  .proof__head > p{ max-width:42ch; }
+  .proof__image{ width:calc(100% - var(--s-gutter) * 2); max-width:1440px; height:min(66vw,760px); margin:auto; overflow:hidden; border-radius:16px; }
+  .proof__image img{ width:100%; height:100%; object-fit:cover; object-position:center 35%; filter:saturate(.7) contrast(1.08) brightness(.76); }
+  .proof__stats{ display:grid; grid-template-columns:repeat(3,1fr); margin-top:3rem; }
+  .proof__stat{ padding:1.2rem 1rem 0 0; border-top:1px solid var(--rule); transition:transform .55s var(--e-entry),border-color .35s var(--e-out); }
+  .proof__stat:hover{ transform:translateY(-5px); border-color:var(--signal-edge); }
+  .proof__stat dt,.proof__stat p{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .proof__stat dd{ margin:.5rem 0; color:var(--ink-100); font-size:clamp(2.5rem,5vw,5.4rem); font-weight:850; line-height:.9; letter-spacing:-.07em; }
 
-  .sched{ list-style:none; padding:0; margin:0; }
-  .sched__row{
-    display:grid;
-    gap:var(--s-2);
-    padding-block:var(--s-5);
-    border-block-start:1px solid var(--rule-faint);
-    transition:background-color var(--d-fast) var(--e-out);
+  @media (max-width:819px){
+    .craft{ height:auto; padding-block:7rem; }
+    .craft__pin{ position:relative; min-height:auto; overflow:visible; }
+    .craft__intro{ position:relative; inset:auto; margin-bottom:5rem; }
+    .craft__side{ display:none; }
+    .craft__wheel{ position:relative; display:grid; padding-inline:var(--s-gutter); }
+    .craft__row{ position:relative; left:auto; top:auto; width:100%; grid-template-columns:74px 1fr; padding:1.2rem 0; border-top:1px solid var(--rule); opacity:1 !important; filter:none !important; transform:none !important; }
+    .craft__row img{ width:74px; height:64px; }
+    .craft__row > div{ grid-template-columns:2.2rem 1fr; }
+    .craft__row h2{ font-size:clamp(1.7rem,7vw,3rem); }
+    .craft__row span{ grid-column:2; }
+    .field{ height:auto; padding-block:7rem; }
+    .field__pin{ position:relative; min-height:auto; overflow:visible; }
+    .field__top{ position:relative; inset:auto; display:grid; margin-bottom:3rem; }
+    .field__top > p{ text-align:left; }
+    .field__deck{ position:relative; left:auto; top:auto; width:auto; aspect-ratio:auto; display:grid; gap:1rem; padding-inline:var(--s-gutter); transform:none; perspective:none; }
+    .field__card{ position:relative; inset:auto; width:100%; height:min(112vw,620px); opacity:1; filter:none; transform:none; transition:none; }
+    .field__caption{ display:none; }
+    .field__rail{ display:none; }
+    .signature{ min-height:110vh; }
+    .signature__object{ width:82vw; }
+    .signature__copy{ right:var(--s-gutter); }
+    .process{ padding-block:6rem 3rem; overflow:hidden; }
+    .process__pin{ min-height:auto; overflow:visible; padding:0; }
+    .process__head{ display:grid; align-items:start; }
+    .process__viewport{ overflow-x:auto; scroll-snap-type:x mandatory; padding:0 var(--s-gutter) 1rem; }
+    .process__track{ gap:1rem; padding:0; transform:none !important; }
+    .phase{ width:82vw; scroll-snap-align:start; }
+    .process__progress{ display:none; }
+    .network__head{ grid-template-columns:1fr; align-items:start; }
+    .network__eyebrow{ grid-column:auto; }
+    .network__head h2{ font-size:clamp(3.2rem,13vw,6rem); }
+    .network__grid{ grid-template-columns:1fr; }
+    .network__card--featured{ grid-column:auto; }
+    .network__card,.network__card--featured{ min-height:31rem; }
+    .proof__head{ display:grid; align-items:start; }
+    .proof__stats{ grid-template-columns:repeat(2,1fr); gap:2rem 1rem; }
   }
-  @media (min-width:760px){
-    .sched__row{
-      grid-template-columns:11rem minmax(0, 1fr);
-      gap:var(--s-6);
-      align-items:baseline;
-    }
+  @media (max-width:520px){
+    .craft__row{ grid-template-columns:58px 1fr; gap:.8rem; }
+    .craft__row img{ width:58px; height:54px; }
+    .craft__row > div{ gap:.5rem; }
+    .field__card h3{ font-size:2.7rem; }
+    .signature__badge--b{ display:none; }
+    .proof__stats{ grid-template-columns:1fr 1fr; }
   }
-  .sched__row:hover{ background:oklch(100% 0 0 / 0.014); }
-  .sched__time{ color:var(--signal-100); }
-  .sched__head{
-    font-family:var(--font-display);
-    font-size:var(--t-h3);
-    font-weight:400;
-    color:var(--ink-100);
-    margin-block-end:var(--s-2);
-  }
-  .sched__copy{ color:var(--ink-300); max-inline-size:58ch; }
-  .sched__note{
-    margin-block-start:var(--s-5);
-    font-size:var(--t-small);
-    color:var(--ink-400);
-    font-style:italic;
-  }
-
-  /* ---------------- Free ---------------- */
-
-  .free{ display:grid; gap:var(--s-7); align-items:start; }
-  @media (min-width:960px){
-    .free{ grid-template-columns:1fr minmax(300px, 26rem); gap:var(--s-9); }
-    .free__card{ position:sticky; inset-block-start:calc(var(--nav-h, 76px) + var(--s-6)); }
-  }
-
-  .free__card{ padding:var(--s-6); display:grid; gap:var(--s-4); }
-  .free__list{
-    list-style:none; padding:0;
-    display:grid; gap:var(--s-4);
-    font-size:var(--t-small);
-    color:var(--ink-200);
-  }
-  .free__list li{
-    display:grid;
-    grid-template-columns:auto 1fr;
-    gap:var(--s-3);
-    align-items:start;
-  }
-  .free__list li::before{
-    content:'';
-    inline-size:6px; block-size:6px;
-    margin-block-start:0.5em;
-    border-radius:var(--r-pill);
-    background:var(--signal-200);
+  @media (prefers-reduced-motion:reduce){
+    .craft__row{ filter:none !important; }
+    .field__card{ transition:none; }
   }
 </style>

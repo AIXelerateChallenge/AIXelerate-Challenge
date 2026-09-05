@@ -1,54 +1,33 @@
 ---
-/**
- * Interior-page opener. A shorter, quieter relative of the hero: same
- * atmosphere and the same masked line reveal, without the full-viewport
- * weight. Lines are passed as an array so the reveal can stagger them.
- */
-interface Props {
-  eyebrow: string;
-  /** Each string is one reveal line; may contain <em> for the accent. */
-  lines: string[];
-  lead?: string;
-}
+import SnailMark from './SnailMark.astro';
+interface Props { eyebrow:string; lines:string[]; lead:string }
 const { eyebrow, lines, lead } = Astro.props;
 ---
+
 <header class="opener">
-  <div class="opener__wash" aria-hidden="true"></div>
-  <div class="shell opener__inner">
-    <p class="label reveal">{eyebrow}</p>
-    <h1 class="opener__title display" data-lines>
-      {lines.map((l) => <span set:html={l} />)}
+  <div class="opener__corners" aria-hidden="true"></div>
+  <div class="opener__mark" aria-hidden="true"><SnailMark /></div>
+  <div class="opener__inner shell">
+    <p class="opener__eyebrow">AIX / {eyebrow}</p>
+    <h1 class="opener__title" data-lines>
+      {lines.map((line) => <span set:html={line} />)}
     </h1>
-    {lead && <p class="lead reveal" data-reveal-delay="160" set:html={lead} />}
-    <slot />
+    <div class="opener__foot">
+      <p>{lead}</p>
+      <span>Scroll / Explore</span>
+    </div>
   </div>
 </header>
 
 <style>
-  .opener{
-    position:relative;
-    padding-block:calc(var(--nav-h, 76px) + var(--s-9)) var(--s-8);
-    overflow:hidden;
-    isolation:isolate;
-    border-block-end:1px solid var(--rule-faint);
-  }
-  .opener__wash{
-    position:absolute;
-    inset-block-start:-70%;
-    inset-inline-start:-5%;
-    inline-size:min(110vw, 1100px);
-    aspect-ratio:1;
-    z-index:var(--z-base);
-    background:radial-gradient(circle, oklch(76% 0.17 68 / 0.13), transparent 60%);
-    filter:blur(28px);
-    pointer-events:none;
-  }
-  .opener__inner{ position:relative; z-index:var(--z-content); display:grid; gap:var(--s-5); }
-  .opener__title{
-    font-size:var(--t-h1);
-    line-height:var(--lh-tight);
-    max-inline-size:18ch;
-    text-wrap:balance;
-  }
-  .opener__title :global(em){ font-style:italic; color:var(--signal-100); }
+  .opener{ position:relative; min-height:min(860px,92dvh); overflow:hidden; display:flex; align-items:flex-end; color:var(--ink-100); background:radial-gradient(circle at 78% 40%,oklch(26% .015 285 / .45),transparent 33%),var(--ground-000); }
+  .opener__corners{ position:absolute; inset:6rem var(--s-gutter) 1.5rem; background:linear-gradient(var(--rule-loud),var(--rule-loud)) left top/18px 1px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) left top/1px 18px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) right bottom/18px 1px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) right bottom/1px 18px no-repeat; }
+  .opener__mark{ position:absolute; right:-8vw; top:12%; width:min(52vw,700px); color:var(--signal-100); opacity:.16; transform:rotate(-8deg); }
+  .opener__inner{ position:relative; display:grid; gap:1.5rem; padding-top:9rem; padding-bottom:clamp(3rem,7vw,6rem); }
+  .opener__eyebrow,.opener__foot span{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
+  .opener__title{ max-width:12ch; color:var(--ink-100); font-family:var(--font-display); font-size:var(--t-h1); font-weight:850; line-height:.82; letter-spacing:-.078em; }
+  .opener__title :global(em){ color:var(--signal-100); font-style:normal; font-weight:500; }
+  .opener__foot{ display:flex; justify-content:space-between; align-items:end; gap:2rem; margin-top:1.5rem; }
+  .opener__foot p{ max-width:64ch; color:var(--ink-300); font-family:var(--font-mono); font-size:clamp(.78rem,.72rem + .22vw,.9rem); line-height:1.7; }
+  @media (max-width:620px){ .opener{ min-height:760px; } .opener__mark{ width:110vw; right:-46vw; top:22%; } .opener__foot{ display:grid; } }
 </style>

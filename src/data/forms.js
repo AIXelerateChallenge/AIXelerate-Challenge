@@ -28,7 +28,7 @@ export const studentFields = [
   },
   {
     type: 'textarea', name: 'idea', label: 'What do you want to build?',
-    placeholder: 'A rough idea is fine — this only helps us match you with the right mentor.',
+    placeholder: 'A rough idea is fine. This only helps us match you with the right mentor.',
   },
   {
     type: 'text', name: 'referral', label: 'How did you hear about us?',

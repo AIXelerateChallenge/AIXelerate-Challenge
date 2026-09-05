@@ -1,222 +1,59 @@
 ---
-import { nav, cta } from '../data/site.js';
-
-interface Props { transparent?: boolean }
+import { nav } from '../data/site.js';
+interface Props { transparent?:boolean }
 const { transparent = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const items = [{ href:'/', label:'Index' }, ...nav, { href:'/apply', label:'Apply' }];
 ---
 
-<header class:list={['nav', { 'nav--transparent': transparent }]} data-nav>
-  <div class="nav__inner shell">
+<header class:list={['nav', { 'nav--stage': transparent }]} data-nav>
+  <a class="nav__mark" href="/" aria-label="AIXelerate Challenge, home">
+    <span>AI</span><i aria-hidden="true"></i><span>X</span>
+  </a>
 
-    <a class="nav__brand" href="/" aria-label="AIXelerate Challenge, home">
-      <span class="nav__mark" aria-hidden="true">AX</span>
-      <span class="nav__wordmark">
-        <span>AIXelerate</span>
-        <span class="nav__wordmark-2">Challenge</span>
-      </span>
-    </a>
+  <nav class="nav__chain" aria-label="Main navigation">
+    {items.map((item) => (
+      <a href={item.href} class:list={{ 'is-current': path === item.href }} aria-current={path === item.href ? 'page' : undefined}>{item.label}</a>
+    ))}
+  </nav>
 
-    <nav class="nav__links" aria-label="Main">
-      {nav.map((item) => (
-        <a
-          href={item.href}
-          class:list={['nav__link', { 'is-current': path === item.href }]}
-          aria-current={path === item.href ? 'page' : undefined}
-        >
-          {item.label}
-        </a>
-      ))}
-    </nav>
+  <button class="nav__toggle" type="button" aria-expanded="false" aria-controls="nav-drawer" aria-label="Open navigation" data-nav-toggle>
+    <span></span><span></span><span></span>
+  </button>
 
-    <div class="nav__actions">
-      <a class="btn btn--signal btn--sm" href={cta.student.href}>Apply</a>
-      <button
-        class="nav__toggle"
-        type="button"
-        aria-expanded="false"
-        aria-controls="nav-drawer"
-        data-nav-toggle
-      >
-        <span class="visually-hidden">Menu</span>
-        <span class="nav__toggle-bar" aria-hidden="true"></span>
-        <span class="nav__toggle-bar" aria-hidden="true"></span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile drawer. Not a scaled-down desktop nav: it is a full-height
-       index with the same weight the desktop bar gives the wordmark. -->
   <div class="nav__drawer" id="nav-drawer" data-nav-drawer hidden>
-    <div class="nav__drawer-inner">
-      <p class="label">Index</p>
-      <ul class="nav__drawer-list">
-        <li><a href="/">Home</a></li>
-        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
-      </ul>
-      <div class="nav__drawer-cta">
-        <a class="btn btn--signal" href={cta.student.href}>{cta.student.label}</a>
-        <a class="btn btn--ghost"  href={cta.mentor.href}>{cta.mentor.label}</a>
-      </div>
-    </div>
+    <p class="nav__drawer-label">AIXelerate / Navigate</p>
+    <ol>
+      {items.map((item, i) => (
+        <li><span>{String(i + 1).padStart(2, '0')}</span><a href={item.href}>{item.label}</a></li>
+      ))}
+    </ol>
+    <p class="nav__drawer-foot">Free AI build sprints for high school students.</p>
   </div>
 </header>
 
 <style>
-  .nav{
-    position:fixed;
-    inset-block-start:0;
-    inline-size:100%;
-    z-index:var(--z-hud);
-    background:oklch(11.5% 0.006 265 / 0.86);
-    backdrop-filter:blur(14px) saturate(1.3);
-    border-block-end:1px solid var(--rule-faint);
-    transition:background var(--d-base) var(--e-out),
-               border-color var(--d-base) var(--e-out),
-               backdrop-filter var(--d-base) var(--e-out);
-  }
-  /* Hero pages: the bar starts invisible and materialises past the fold. */
-  .nav--transparent:not(.is-scrolled){
-    background:transparent;
-    backdrop-filter:none;
-    border-color:transparent;
-  }
-
-  .nav__inner{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:var(--s-5);
-    block-size:var(--nav-h, 76px);
-    transition:block-size var(--d-base) var(--e-out);
-  }
-  .nav.is-scrolled .nav__inner{ --nav-h:64px; }
-
-  /* ---------- Brand ---------- */
-  .nav__brand{ display:flex; align-items:center; gap:var(--s-3); }
-
-  .nav__mark{
-    display:grid;
-    place-items:center;
-    inline-size:34px; block-size:34px;
-    border:1px solid var(--signal-edge);
-    border-radius:var(--r-sharp);
-    background:var(--signal-wash);
-    color:var(--signal-100);
-    font-family:var(--font-mono);
-    font-size:0.6875rem;
-    font-weight:600;
-    letter-spacing:0.08em;
-    transition:background var(--d-fast) var(--e-out),
-               border-color var(--d-fast) var(--e-out);
-  }
-  .nav__brand:hover .nav__mark{
-    background:var(--signal-200);
-    border-color:var(--signal-200);
-    color:var(--ground-000);
-  }
-
-  .nav__wordmark{
-    display:flex; flex-direction:column;
-    font-family:var(--font-display);
-    font-size:1rem;
-    line-height:1.02;
-    color:var(--ink-100);
-  }
-  .nav__wordmark-2{ color:var(--ink-400); font-style:italic; }
-
-  /* ---------- Links ---------- */
-  .nav__links{ display:none; gap:var(--s-6); }
-  @media (min-width:900px){ .nav__links{ display:flex; } }
-
-  .nav__link{
-    position:relative;
-    padding-block:var(--s-2);
-    font-family:var(--font-mono);
-    font-size:var(--t-tiny);
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:var(--ink-300);
-    transition:color var(--d-fast) var(--e-out);
-  }
-  .nav__link::after{
-    content:'';
-    position:absolute;
-    inset-block-end:0; inset-inline-start:0;
-    block-size:1px; inline-size:100%;
-    background:var(--signal-200);
-    transform:scaleX(0);
-    transform-origin:right;
-    transition:transform var(--d-base) var(--e-out);
-  }
-  .nav__link:hover{ color:var(--ink-100); }
-  .nav__link:hover::after{ transform:scaleX(1); transform-origin:left; }
-  .nav__link.is-current{ color:var(--signal-100); }
-  .nav__link.is-current::after{ transform:scaleX(1); }
-
-  /* ---------- Actions ---------- */
-  .nav__actions{ display:flex; align-items:center; gap:var(--s-3); }
-  .nav__actions .btn{ display:none; }
-  @media (min-width:900px){ .nav__actions .btn{ display:inline-flex; } }
-
-  .nav__toggle{
-    display:grid;
-    place-content:center;
-    gap:5px;
-    inline-size:44px; block-size:44px;   /* 44px touch target */
-    border:1px solid var(--rule);
-    border-radius:var(--r-soft);
-  }
-  @media (min-width:900px){ .nav__toggle{ display:none; } }
-
-  .nav__toggle-bar{
-    inline-size:16px; block-size:1.5px;
-    background:var(--ink-200);
-    transition:transform var(--d-fast) var(--e-out),
-               opacity var(--d-fast) var(--e-out);
-  }
-  /* Indexed from the bars themselves — the visually-hidden label is the
-     button's first child, so :first-child would miss the top bar. */
-  .nav__toggle[aria-expanded='true'] .nav__toggle-bar:nth-of-type(2){
-    transform:translateY(3.25px) rotate(45deg);
-  }
-  .nav__toggle[aria-expanded='true'] .nav__toggle-bar:nth-of-type(3){
-    transform:translateY(-3.25px) rotate(-45deg);
-  }
-
-  /* ---------- Drawer ---------- */
-  .nav__drawer{
-    position:fixed;
-    inset:var(--nav-h, 76px) 0 0;
-    z-index:var(--z-transient);
-    background:var(--ground-000);
-    border-block-start:1px solid var(--rule-faint);
-    overflow-y:auto;
-    overscroll-behavior:contain;
-  }
+  .nav{ position:fixed; inset:0 0 auto; z-index:var(--z-hud); height:64px; display:flex; align-items:center; justify-content:space-between; padding-inline:var(--s-gutter); color:var(--ink-100); background:linear-gradient(to bottom,oklch(10% 0 0 / .76),transparent); transition:background-color var(--d-fast) var(--e-out),backdrop-filter var(--d-fast) var(--e-out); }
+  .nav.is-scrolled{ background:oklch(14.5% .006 285 / .88); border-bottom:1px solid var(--rule-faint); backdrop-filter:blur(16px); }
+  .nav__mark{ display:flex; align-items:center; gap:.55rem; min-width:48px; min-height:48px; color:var(--ink-100); font-size:.93rem; font-weight:800; letter-spacing:.08em; }
+  .nav__mark i{ width:34px; height:1px; background:currentColor; transform:scaleX(.68); transform-origin:left; transition:transform var(--d-fast) var(--e-out),background-color var(--d-fast) var(--e-out); }
+  .nav__mark:hover i{ background:var(--signal-100); transform:scaleX(1); }
+  .nav__chain{ display:none; align-items:center; }
+  .nav__chain a{ position:relative; display:grid; place-items:center; min-height:32px; padding:.35rem .8rem; border:1px solid var(--rule-loud); border-left:0; color:var(--ink-200); font-family:var(--font-mono); font-size:.62rem; letter-spacing:.04em; transition:color var(--d-fast) var(--e-out),border-color var(--d-fast) var(--e-out),background-color var(--d-fast) var(--e-out); }
+  .nav__chain a:first-child{ border-left:1px solid var(--rule-loud); border-radius:var(--r-pill) 0 0 var(--r-pill); }
+  .nav__chain a:last-child{ border-radius:0 var(--r-pill) var(--r-pill) 0; }
+  .nav__chain a:hover,.nav__chain a.is-current{ color:var(--ink-100); border-color:var(--signal-300); background:oklch(62% .22 29 / .08); }
+  .nav__toggle{ display:grid; place-content:center; gap:4px; width:48px; height:48px; }
+  .nav__toggle span{ width:23px; height:1px; background:var(--ink-100); transition:transform var(--d-fast) var(--e-out),opacity var(--d-fast) var(--e-out); }
+  .nav__toggle[aria-expanded='true'] span:first-child{ transform:translateY(5px) rotate(45deg); }
+  .nav__toggle[aria-expanded='true'] span:nth-child(2){ opacity:0; }
+  .nav__toggle[aria-expanded='true'] span:last-child{ transform:translateY(-5px) rotate(-45deg); }
+  .nav__drawer{ position:fixed; inset:0; z-index:-1; min-height:100dvh; padding:8rem var(--s-gutter) 3rem; color:var(--ink-100); background:var(--ground-000); }
   .nav__drawer[hidden]{ display:none; }
-
-  .nav__drawer-inner{
-    padding:var(--s-7) var(--s-gutter) var(--s-8);
-    display:flex; flex-direction:column; gap:var(--s-5);
-  }
-
-  .nav__drawer-list{ list-style:none; padding:0; display:grid; }
-  .nav__drawer-list li + li{ border-block-start:1px solid var(--rule-faint); }
-  .nav__drawer-list a{
-    display:block;
-    padding-block:var(--s-4);
-    font-family:var(--font-display);
-    font-size:var(--t-h3);
-    color:var(--ink-100);
-    transition:color var(--d-fast) var(--e-out),
-               padding-inline-start var(--d-fast) var(--e-out);
-  }
-  .nav__drawer-list a:hover,
-  .nav__drawer-list a:focus-visible{
-    color:var(--signal-100);
-    padding-inline-start:var(--s-3);
-  }
-
-  .nav__drawer-cta{ display:grid; gap:var(--s-3); margin-block-start:var(--s-4); }
+  .nav__drawer-label,.nav__drawer-foot{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); text-transform:uppercase; letter-spacing:.08em; }
+  .nav__drawer ol{ list-style:none; padding:2rem 0 3rem; }
+  .nav__drawer li{ display:grid; grid-template-columns:3rem 1fr; align-items:baseline; border-top:1px solid var(--rule); }
+  .nav__drawer li > span{ color:var(--signal-100); font-family:var(--font-mono); font-size:var(--t-micro); }
+  .nav__drawer a{ display:block; padding:.35em 0; font-size:clamp(2.7rem,13vw,5.5rem); font-weight:800; line-height:1; letter-spacing:-.065em; }
+  @media (min-width:820px){ .nav__chain{ display:flex; } .nav__toggle{ display:none; } }
 </style>

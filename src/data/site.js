@@ -34,12 +34,11 @@ export const links = {
   hcb:         { href: 'https://hcb.hackclub.com', label: 'HCB', todo: false },
 };
 
-/** Verified facts from the July 2026 sprint. Do not invent numbers here. */
+/** First-sprint facts supplied by the AIXelerate team. */
 export const stats = [
-  { value: '80+',  label: 'Sign-ups',   note: 'first sprint, one month of planning' },
-  { value: '$0',   label: 'To enter',   note: 'free, and staying that way' },
-  { value: '5',    label: 'Sponsors',   note: 'backing the July 2026 sprint' },
-  { value: '3',    label: 'Judges',     note: 'industry and academic' },
+  { value: '80+',     count: 80,   prefix: '',  suffix: '+', label: 'Sign-ups', note: 'first sprint, one month of planning' },
+  { value: '$5,000+', count: 5000, prefix: '$', suffix: '+', label: 'Raised',   note: 'to make the event completely free' },
+  { value: '5',       count: 5,    prefix: '',  suffix: '',  label: 'Sponsors', note: 'backing the July 2026 sprint' },
 ];
 
 export const fiscal = {

@@ -59,7 +59,7 @@ const { items, label } = Astro.props;
     aspect-ratio:4 / 5;
     margin:0;
     overflow:hidden;
-    border-radius:var(--r-panel);
+    border-radius:12px;
     border:1px solid var(--rule-faint);
     background:var(--ground-100);
     scroll-snap-align:center;
@@ -68,14 +68,12 @@ const { items, label } = Astro.props;
   .gal__item img{
     inline-size:100%; block-size:100%;
     object-fit:cover;
-    /* Warm the photography toward the sodium palette so the images sit
-       inside the art direction instead of beside it. */
-    filter:saturate(0.60) contrast(1.10) sepia(0.26) brightness(0.80);
+    filter:saturate(.66) contrast(1.08) brightness(.76);
     transition:filter var(--d-slow) var(--e-out),
                transform var(--d-slow) var(--e-out);
   }
   .gal__item:hover img{
-    filter:saturate(1) contrast(1.02) sepia(0) brightness(1);
+    filter:saturate(1) contrast(1.02) brightness(.95);
     transform:scale(1.035);
   }
 
@@ -84,8 +82,8 @@ const { items, label } = Astro.props;
     inset-block-end:var(--s-4);
     inset-inline-start:var(--s-4);
     padding:var(--s-1) var(--s-3);
-    border-radius:var(--r-pill);
-    background:oklch(11.5% 0.006 265 / 0.7);
+    border-radius:6px;
+    background:oklch(11.5% .006 285 / .76);
     backdrop-filter:blur(6px);
     color:var(--signal-100);
   }

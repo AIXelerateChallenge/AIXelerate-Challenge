@@ -6,28 +6,19 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site.js';
 
-interface Props {
-  title: string;
-  description: string;
-  /** Hero pages start with a transparent nav that solidifies on scroll. */
-  transparentNav?: boolean;
-}
-
+interface Props { title:string; description:string; transparentNav?:boolean }
 const { title, description, transparentNav = false } = Astro.props;
-const pageTitle = title === site.name ? site.name : `${title} — ${site.name}`;
+const pageTitle = title === site.name ? site.name : `${title} / ${site.name}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://aixeleratechallenge.org');
 ---
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <!-- Sets html.js before first paint so the reveal styles can hide
-       content only when scripting can bring it back. -->
   <script is:inline>document.documentElement.classList.add('js');</script>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical.href} />
-
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content={site.name} />
   <meta property="og:title" content={pageTitle} />
@@ -35,58 +26,30 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://aixeleratec
   <meta property="og:url" content={canonical.href} />
   <meta property="og:image" content={new URL('/images/flyer-main.png', canonical).href} />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="theme-color" content="#131317" />
+  <meta name="theme-color" content="#121214" />
   <link rel="icon" href="/images/mark.svg" type="image/svg+xml" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!--
-    Three families, three distinct jobs — the deliberate exception to the
-    two-family rule: Instrument Serif carries display voice, Inter Tight
-    carries reading, JetBrains Mono carries structure (labels, numerals,
-    metadata). Only the weights actually used are requested.
-  -->
-  <link
-    rel="stylesheet"
-    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
-  />
-
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" />
   <script type="application/ld+json" set:html={JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'EducationalOrganization',
-    name: site.name,
-    url: 'https://aixeleratechallenge.org',
-    description: site.tagline,
-    sponsor: {
-      '@type': 'NGO',
-      name: 'The Hack Foundation (d.b.a. Hack Club)',
-      identifier: '81-2908499',
-    },
+    '@context':'https://schema.org',
+    '@type':'EducationalOrganization',
+    name:site.name,
+    url:'https://aixeleratechallenge.org',
+    description:site.tagline,
+    sponsor:{ '@type':'NGO', name:'The Hack Foundation (d.b.a. Hack Club)', identifier:'81-2908499' },
   })} />
 </head>
-
-<body>
+<body class:list={{ 'has-stage-nav': transparentNav }}>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
-
   <Nav transparent={transparentNav} />
-
-  <main id="main">
-    <slot />
-  </main>
-
+  <main id="main"><slot /></main>
   <Footer />
-
-  <script>
-    import '../scripts/motion.js';
-  </script>
+  <script>import '../scripts/motion.js';</script>
 </body>
 </html>
 
 <style is:global>
-  /* Grain texture is inlined as a data URI so it costs no request and
-     cannot be blocked by a CSP that disallows external images. */
-  .grain{
-    --grain-url: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
+  .grain{ --grain-url:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 </style>

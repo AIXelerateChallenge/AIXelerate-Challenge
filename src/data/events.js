@@ -1,6 +1,6 @@
 /**
  * Event record. Facts here are carried over verbatim from the previous
- * site — sign-ups, sponsors, judges, and the vibes.diy credit are all
+ * site — sign-ups, sponsors, and the vibes.diy credit are all
  * as originally stated. Do not add numbers that are not sourced.
  */
 
@@ -15,13 +15,12 @@ export const events = [
     summary:
       'The first event AIXelerate ever ran, planned in about a month.',
     body: [
-      'The AIXelerate 2026 Build Sprint in July was the first event held by the AIXelerate Organization. In roughly one month of planning we brought in over 80 sign-ups, 5 sponsors, and 3 judges.',
+      'The AIXelerate 2026 Build Sprint in July was the first event held by the AIXelerate Organization. In roughly one month of planning we brought in over 80 sign-ups and 5 sponsors.',
       'Every participating student was given $50 of Claude credit through vibes.diy, so that compute cost was never the thing standing between an idea and a working prototype.',
     ],
     facts: [
       { k: 'Sign-ups', v: '80+' },
       { k: 'Sponsors', v: '5' },
-      { k: 'Judges',   v: '3' },
       { k: 'Credit per student', v: '$50' },
     ],
     gallery: [

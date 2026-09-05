@@ -1,196 +1,56 @@
-/* =========================================================================
-   Shared UI vocabulary. Buttons, panels, section headers, marks.
-   Every hover/focus/active state here is designed, not inherited.
-   ========================================================================= */
-
-/* ---------------------------------- Buttons ---------------------------- */
-
 .btn{
-  --btn-y: var(--s-4);
-  --btn-x: var(--s-6);
   position:relative;
   display:inline-flex;
   align-items:center;
   justify-content:center;
-  gap:var(--s-3);
-  padding:var(--btn-y) var(--btn-x);
-  min-block-size:48px;
+  gap:.7rem;
+  min-height:48px;
+  padding:.8rem 1.2rem;
+  border:1px solid var(--rule-loud);
   border-radius:var(--r-pill);
   font-family:var(--font-mono);
   font-size:var(--t-tiny);
   font-weight:600;
-  letter-spacing:0.07em;
-  text-transform:uppercase;
+  letter-spacing:.02em;
   white-space:nowrap;
-  transition:transform var(--d-fast) var(--e-out),
-             background-color var(--d-fast) var(--e-out),
-             color var(--d-fast) var(--e-out),
-             border-color var(--d-fast) var(--e-out),
-             box-shadow var(--d-base) var(--e-out);
+  transition:transform var(--d-fast) var(--e-out),background-color var(--d-fast) var(--e-out),color var(--d-fast) var(--e-out),border-color var(--d-fast) var(--e-out);
 }
-.btn--sm{ --btn-y:var(--s-3); --btn-x:var(--s-5); min-block-size:40px; }
+.btn::after{ content:'\2197'; font-size:.95em; transform:translateY(-1px); }
+.btn--sm{ min-height:38px; padding:.48rem .9rem; }
+.btn:active{ transform:scale(.97); }
+.btn--signal{ color:var(--ground-000); border-color:var(--signal-100); background:var(--signal-100); }
+.btn--signal:hover{ color:var(--ink-100); border-color:var(--signal-300); background:var(--signal-300); transform:translateY(-1px); }
+.btn--ghost{ color:var(--ink-100); background:oklch(100% 0 0 / .025); }
+.btn--ghost:hover{ color:var(--signal-100); border-color:var(--signal-edge); transform:translateY(-1px); }
+.btn--quiet{ min-height:auto; padding-inline:0; border:0; border-radius:0; color:var(--signal-100); }
+.btn[disabled],.btn[aria-disabled='true']{ opacity:.45; pointer-events:none; }
 
-.btn:active{ transform:translateY(1px) scale(0.985); }
+.sec-head{ display:grid; grid-template-columns:auto 1fr; gap:1rem clamp(1.5rem,4vw,5rem); margin-block-end:clamp(3rem,7vw,7rem); }
+.sec-head__meta{ grid-column:1; display:flex; align-items:center; gap:.7rem; align-self:start; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.07em; text-transform:uppercase; }
+.sec-head__meta::after{ content:''; width:min(7vw,5rem); height:1px; background:var(--rule-loud); }
+.sec-head__title{ grid-column:1 / -1; max-width:16ch; color:var(--ink-100); font-family:var(--font-display); font-size:var(--t-h2); font-weight:800; line-height:.94; letter-spacing:var(--tr-display); text-wrap:balance; }
+.sec-head__title em{ color:var(--signal-100); font-style:normal; font-weight:500; }
+@media (min-width:820px){ .sec-head__title{ grid-column:2; } }
 
-/* Primary — the sodium signal. Exactly one per view. */
-.btn--signal{
-  background:var(--signal-200);
-  color:var(--ground-000);
-  box-shadow:0 0 0 0 var(--signal-edge);
-}
-.btn--signal:hover{
-  background:var(--signal-100);
-  box-shadow:0 14px 40px -18px oklch(76% 0.17 68 / 0.85);
-}
-
-/* Secondary — outline that fills on approach. */
-.btn--ghost{
-  border:1px solid var(--rule-loud);
-  color:var(--ink-100);
-}
-.btn--ghost:hover{
-  border-color:var(--signal-edge);
-  background:var(--signal-wash);
-  color:var(--signal-100);
-}
-
-/* Tertiary — a text link that behaves like a control. */
-.btn--quiet{
-  padding-inline:0;
-  min-block-size:auto;
-  color:var(--ink-300);
-  border-radius:var(--r-sharp);
-}
-.btn--quiet::after{
-  content:'→';
-  transition:transform var(--d-fast) var(--e-out);
-}
-.btn--quiet:hover{ color:var(--signal-100); }
-.btn--quiet:hover::after{ transform:translateX(4px); }
-
-.btn[disabled], .btn[aria-disabled='true']{
-  opacity:0.5; pointer-events:none;
-}
-
-/* ---------------------------------- Section header --------------------- */
-/* A mono index number + rule + title. Recurs on every page so sections
-   read as entries in one document rather than unrelated blocks.        */
-
-.sec-head{
-  display:grid;
-  gap:var(--s-4);
-  margin-block-end:var(--s-7);
-}
-.sec-head__meta{
-  display:flex;
-  align-items:center;
-  gap:var(--s-4);
-}
-.sec-head__meta::after{
-  content:'';
-  flex:1;
-  block-size:1px;
-  background:linear-gradient(90deg, var(--rule) 0%, transparent 70%);
-}
-.sec-head__title{
-  font-family:var(--font-display);
-  font-size:var(--t-h2);
-  line-height:var(--lh-tight);
-  letter-spacing:var(--tr-display);
-  color:var(--ink-100);
-  max-inline-size:20ch;
-  text-wrap:balance;
-}
-.sec-head__title em{ font-style:italic; color:var(--signal-100); }
-
-/* ---------------------------------- Panel ------------------------------ */
-
-.panel{
-  position:relative;
-  background:var(--ground-050);
-  border:1px solid var(--rule-faint);
-  border-radius:var(--r-panel);
-  transition:border-color var(--d-base) var(--e-out),
-             background-color var(--d-base) var(--e-out),
-             transform var(--d-base) var(--e-out);
-}
+.panel{ position:relative; border:1px solid var(--rule); border-radius:var(--r-panel); background:var(--ground-050); box-shadow:var(--lift-1); }
 .panel--raised{ background:var(--ground-100); box-shadow:var(--lift-2); }
 
-/* ---------------------------------- Stat ------------------------------- */
+.stat__value{ color:var(--ink-100); font-family:var(--font-display); font-size:var(--t-h2); font-weight:800; line-height:1; letter-spacing:-.06em; font-variant-numeric:tabular-nums; }
+.stat__label{ color:var(--signal-100); font-family:var(--font-mono); font-size:var(--t-micro); text-transform:uppercase; }
+.stat__note{ max-width:24ch; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
 
-.stat__value{
-  font-family:var(--font-display);
-  font-size:var(--t-h2);
-  line-height:1;
-  color:var(--ink-100);
-  font-variant-numeric:tabular-nums;
-}
-.stat__label{
-  font-family:var(--font-mono);
-  font-size:var(--t-micro);
-  letter-spacing:var(--tr-label);
-  text-transform:uppercase;
-  color:var(--signal-100);
-}
-.stat__note{
-  font-size:var(--t-small);
-  color:var(--ink-400);
-  max-inline-size:24ch;
-}
+html.js .reveal{ opacity:0; transform:translateY(18px); filter:blur(4px); transition:opacity var(--d-slow) var(--e-entry),transform var(--d-slow) var(--e-entry),filter var(--d-base) var(--e-entry); }
+html.js .reveal.is-in{ opacity:1; transform:none; filter:none; }
 
-/* ---------------------------------- Reveal ----------------------------- */
-/* Base state for scroll-revealed elements. The hidden state applies only
-   under html.js, which an inline head script sets. If scripting is off or
-   the module fails, the selector never matches and everything renders
-   visible — content is never gated behind a script.                    */
+.line-mask{ display:block; overflow:hidden; padding-bottom:.04em; }
+html.js .line-inner{ display:block; transform:translateY(108%); filter:blur(6px); transition:transform var(--d-cine) var(--e-entry),filter var(--d-slow) var(--e-entry); }
+html.js [data-lines].is-revealed .line-inner{ transform:none; filter:none; }
 
-html.js .reveal{
-  opacity:0;
-  transform:translateY(18px);
-  transition:opacity var(--d-slow) var(--e-entry),
-             transform var(--d-slow) var(--e-entry);
-}
-html.js .reveal.is-in{ opacity:1; transform:none; }
-
-@media (prefers-reduced-motion: reduce){
-  html.js .reveal{ opacity:1; transform:none; }
-}
-
-/* ---------------------------------- Masked line reveal ----------------- */
-/* The signature moment: headline lines rise out from behind their own
-   edge. Wrapping is done by motion.js so the markup stays a plain
-   heading; with no JS this collapses to an ordinary visible headline. */
-
-.line-mask{ display:block; overflow:hidden; padding-block-end:0.06em; }
-
-html.js .line-inner{
-  display:block;
-  transform:translateY(105%);
-  transition:transform var(--d-cine) var(--e-entry);
-}
-html.js [data-lines].is-revealed .line-inner{ transform:translateY(0); }
-
-@media (prefers-reduced-motion: reduce){
-  html.js .line-inner{ transform:none; }
-}
-
-/* ---------------------------------- Rotating word ---------------------- */
-
-.rotor{
-  display:inline-block;
-  color:var(--signal-100);
-  font-style:italic;
-  transition:opacity var(--d-fast) var(--e-out),
-             transform var(--d-fast) var(--e-out);
-}
-.rotor.is-out{ opacity:0; transform:translateY(-0.22em); }
-
-/* ---------------------------------- Accordion -------------------------- */
-
-.acc__panel{
-  display:grid;
-  grid-template-rows:0fr;
-  transition:grid-template-rows var(--d-base) var(--e-inout);
-}
+.acc__panel{ display:grid; grid-template-rows:0fr; transition:grid-template-rows var(--d-base) var(--e-inout); }
 .acc__panel > *{ overflow:hidden; }
 [data-accordion-item].is-open .acc__panel{ grid-template-rows:1fr; }
+
+@media (prefers-reduced-motion:reduce){
+  html.js .reveal{ opacity:1; transform:none; filter:none; }
+  html.js .line-inner{ transform:none; filter:none; }
+}

@@ -12,7 +12,7 @@ import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
   <PageHeader
     eyebrow="Apply"
     lines={['Three minutes now.', 'Two days <em>later</em>.']}
-    lead="One form, two roles. Nothing here is a filter — we are collecting enough to match you with the right team and the right mentor."
+    lead="One form, two roles. Nothing here is a filter. We are collecting enough to match you with the right team and the right mentor."
   />
 
   <section class="section apply" aria-labelledby="apply-title">
@@ -64,7 +64,7 @@ import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
           <p class="label">Received</p>
           <h3 class="done__h display">You're in the pile.</h3>
           <p class="done__p">
-            We read every application. Expect an email within a week — check spam,
+            We read every application. Expect an email within a week. Check spam,
             because we are a small nonprofit and mail providers are suspicious of us.
           </p>
           <a class="btn btn--ghost" href="/">Back to home</a>
@@ -78,7 +78,7 @@ import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
       >
         <p class="apply__note">
           Mentors give anywhere from a few hours to a full weekend. You do not need to
-          be an AI specialist — teams need product, design, and ethics reviewers just
+          be an AI specialist. Teams need product, design, and ethics reviewers just
           as much.
         </p>
 
@@ -96,7 +96,7 @@ import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
 
         <div class="done" data-done hidden>
           <p class="label">Received</p>
-          <h3 class="done__h display">Thank you — genuinely.</h3>
+          <h3 class="done__h display">Thank you. Genuinely.</h3>
           <p class="done__p">
             Mentors are the part of this we cannot buy. We will be in touch with sprint
             dates and what a rotation looks like.
@@ -160,8 +160,8 @@ import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
 
   .apply__note{
     margin-block-end:var(--s-6);
-    padding-inline-start:var(--s-4);
-    border-inline-start:2px solid var(--signal-edge);
+    padding-block-start:var(--s-4);
+    border-block-start:1px solid var(--signal-edge);
     color:var(--ink-300);
     font-size:var(--t-small);
     max-inline-size:62ch;
@@ -337,7 +337,7 @@ import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
         }
         say(result.error || 'Something went wrong. Please try again.', 'error');
       } catch {
-        say('Network error — check your connection and try again.', 'error');
+        say('Network error. Check your connection and try again.', 'error');
       } finally {
         btn.disabled = false;
         btn.textContent = original;

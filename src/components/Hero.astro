@@ -1,213 +1,116 @@
 ---
-import { cta, stats } from '../data/site.js';
-const rotating = JSON.stringify(['prompts', 'GPUs', 'benchmarks', 'compute', 'parameters']);
+import { cta } from '../data/site.js';
+import SnailMark from './SnailMark.astro';
+
+const tiles = [
+  { src:'/images/aix3.jpg', cls:'t1' },
+  { src:'/images/aix1.jpg', cls:'t2' },
+  { src:'/images/aix4.jpg', cls:'t3' },
+  { src:'/images/aix5.jpg', cls:'t4' },
+  { src:'/images/conference.jpg', cls:'t5' },
+  { src:'/images/aix2.jpg', cls:'t6' },
+  { src:'/images/aix1.jpg', cls:'t7' },
+  { src:'/images/aix4.jpg', cls:'t8' },
+  { src:'/images/aix3.jpg', cls:'t9' },
+  { src:'/images/aix5.jpg', cls:'t10' },
+  { src:'/images/aix2.jpg', cls:'t11' },
+];
 ---
 
-<section class="hero" aria-labelledby="hero-title">
+<section class="hero" aria-labelledby="hero-title" data-hero>
+  <div class="hero__corners" aria-hidden="true"></div>
+  <div class="hero__stage" data-hero-stage>
+    <div class="hero__word hero__word--a"><h1 id="hero-title">AI</h1></div>
+    <div class="hero__word hero__word--b" aria-hidden="true">XELERATE</div>
 
-  <!-- L0 atmosphere: a slow sodium wash. CSS-only, no WebGL payload
-       standing between a first-time visitor and the headline. -->
-  <div class="hero__wash" aria-hidden="true"></div>
-  <div class="hero__horizon" aria-hidden="true"></div>
-
-  <div class="hero__inner shell">
-
-    <p class="hero__eyebrow label">
-      <span class="hero__dot" aria-hidden="true"></span>
-      Free · High school · Two days
-    </p>
-
-    <h1 class="hero__title display" id="hero-title" data-lines>
-      <span>AI doesn't need better</span>
-      <span><span class="rotor" data-rotate={rotating}>prompts</span>.</span>
-      <span>It needs better <em>ideas</em>.</span>
-    </h1>
-
-    <p class="hero__lead lead">
-      AIXelerate is a two-day build sprint for high schoolers. You bring a problem
-      worth solving. We bring mentors, judges, compute, and a hard deadline.
-      You leave with something that runs.
-    </p>
-
-    <div class="hero__actions">
-      <a class="btn btn--signal" href={cta.student.href}>{cta.student.label}</a>
-      <a class="btn btn--ghost"  href={cta.mentor.href}>{cta.mentor.label}</a>
+    <div class="hero__collage" aria-hidden="true" data-hero-stack>
+      <div class="hero__signature"><SnailMark /></div>
+      {tiles.map((tile) => <div class:list={['hero__tile', tile.cls]}><img src={tile.src} alt="" /></div>)}
     </div>
 
-    <!-- Spec strip: the facts, set in mono, treated as instrumentation
-         rather than marketing. -->
-    <dl class="hero__spec">
-      {stats.map((s) => (
-        <div class="hero__spec-item">
-          <dt class="label">{s.label}</dt>
-          <dd class="hero__spec-value">{s.value}</dd>
-        </div>
-      ))}
-    </dl>
+    <ul class="hero__list" aria-label="What the sprint is about">
+      <li>Problem first</li><li>Build in public</li><li>Ship on Sunday</li>
+    </ul>
+
+    <div class="hero__meta">
+      <p>Open to high school students</p>
+      <p>Next date announcing soon</p>
+      <p>$5,000+ raised / entry free</p>
+    </div>
+
+    <a class="hero__dock" href={cta.student.href}>
+      <span class="hero__bubble">Got a rough idea?<br />That is enough.</span>
+      <span class="hero__dock-icon"><SnailMark /></span>
+      <span>Apply for the<br />next build sprint</span>
+    </a>
   </div>
 
-  <a class="hero__scroll" href="#competition">
-    <span class="label">Scroll</span>
-    <span class="hero__scroll-line" aria-hidden="true"></span>
-  </a>
+  <a class="hero__scroll" href="#studio"><i></i><span>Scroll</span></a>
+  <p class="visually-hidden">AIXelerate is a free 48-hour AI build sprint for high school students.</p>
 </section>
 
 <style>
-  .hero{
-    position:relative;
-    min-block-size:100svh;
-    display:flex;
-    align-items:flex-end;
-    padding-block:calc(var(--nav-h, 76px) + var(--s-6)) var(--s-7);
-    overflow:hidden;
-    isolation:isolate;
-  }
+  .hero{ --pointer-x:50%; --pointer-y:50%; position:relative; min-height:100dvh; overflow:hidden; color:var(--ink-100); background:radial-gradient(circle at 50% 52%,oklch(24% .012 285 / .55),transparent 34%),var(--ground-000); isolation:isolate; }
+  .hero::before{ content:''; position:absolute; inset:0; z-index:0; pointer-events:none; background:radial-gradient(circle 18rem at var(--pointer-x) var(--pointer-y),oklch(78% .17 68 / .075),transparent 72%); transition:opacity .4s; }
+  .hero__stage{ position:absolute; inset:0; min-height:100dvh; will-change:transform,opacity,filter; }
+  .hero::after{ content:''; position:absolute; inset:0; z-index:-1; pointer-events:none; background-image:radial-gradient(circle at center,oklch(100% 0 0 / .18) 0 1px,transparent 1.4px); background-size:17vw 19vh; mask-image:linear-gradient(to bottom,transparent,black 18%,black 80%,transparent); opacity:.22; }
+  .hero__corners{ position:absolute; inset:6rem var(--s-gutter) 1.6rem; pointer-events:none; background:linear-gradient(var(--rule-loud),var(--rule-loud)) left top/18px 1px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) left top/1px 18px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) right bottom/18px 1px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) right bottom/1px 18px no-repeat; }
+  .hero__word{ position:absolute; z-index:1; font-family:var(--font-display); font-size:var(--t-hero); font-weight:900; line-height:.76; letter-spacing:-.085em; }
+  .hero__word--a{ left:var(--s-gutter); top:10.5%; }
+  .hero__word--a h1{ margin:0; font:inherit; }
+  .hero__word--b{ right:var(--s-gutter); bottom:9%; }
 
-  /* ---------- Atmosphere ---------- */
+  .hero__collage{ position:absolute; z-index:2; left:50%; top:49%; width:min(44vw,560px); height:min(59vh,600px); transform:translate(-50%,-50%) rotateX(0) rotateY(0); transform-style:preserve-3d; perspective:1000px; transition:transform 160ms linear; }
+  .hero__signature{ position:absolute; inset:5% 2%; z-index:0; color:var(--signal-100); opacity:.22; transform:translateZ(-60px) rotate(-8deg); filter:blur(.2px); }
+  .hero__tile{ --mx:0px; --my:0px; --mr:0deg; --hover-z:0px; --z:0px; --r:0deg; position:absolute; width:24%; height:36%; overflow:hidden; border:1px solid oklch(100% 0 0 / .14); border-radius:clamp(7px,1vw,14px); background:var(--ground-100); box-shadow:var(--lift-3); transform:translate3d(var(--mx),var(--my),calc(var(--z) + var(--hover-z))) rotate(calc(var(--r) + var(--mr))); transform-style:preserve-3d; backface-visibility:hidden; will-change:transform; transition:border-color .3s,box-shadow .4s; }
+  .hero__tile img{ width:100%; height:100%; object-fit:cover; filter:saturate(.72) contrast(1.07) brightness(.82); transition:transform .7s var(--e-entry),filter .45s var(--e-out); }
+  .hero__tile:hover{ --hover-z:38px; z-index:30; border-color:var(--signal-edge); box-shadow:0 38px 90px -28px oklch(0% 0 0 / .95),0 0 0 1px var(--signal-edge); }
+  .hero__tile:hover img{ transform:scale(1.09); filter:saturate(.95) contrast(1.04) brightness(.94); }
+  .t1{ --z:-35px; --r:-3deg; left:2%; top:16%; width:24%; height:40%; z-index:3; }
+  .t2{ --z:15px; --r:2deg; left:19%; top:2%; width:24%; height:38%; z-index:6; }
+  .t3{ --z:55px; --r:-1deg; left:40%; top:0; width:26%; height:42%; z-index:9; }
+  .t4{ --z:5px; --r:3deg; left:63%; top:10%; width:25%; height:40%; z-index:5; }
+  .t5{ --z:-18px; --r:4deg; left:78%; top:30%; width:22%; height:36%; z-index:2; }
+  .t6{ --z:-5px; --r:-4deg; left:0; top:52%; width:23%; height:37%; z-index:4; }
+  .t7{ --z:75px; --r:2deg; left:17%; top:44%; width:28%; height:44%; z-index:10; }
+  .t8{ --z:42px; --r:-3deg; left:44%; top:42%; width:27%; height:45%; z-index:8; }
+  .t9{ --z:4px; --r:4deg; left:66%; top:48%; width:25%; height:40%; z-index:5; }
+  .t10{ --z:25px; --r:-2deg; left:28%; top:72%; width:26%; height:30%; z-index:7; }
+  .t11{ --z:-8px; --r:2deg; left:53%; top:74%; width:24%; height:28%; z-index:3; }
 
-  .hero__wash{
-    position:absolute;
-    inset-block-start:-30%;
-    inset-inline-start:50%;
-    inline-size:min(140vw, 1600px);
-    aspect-ratio:1;
-    translate:-50% 0;
-    z-index:var(--z-base);
-    background:radial-gradient(
-      circle at 50% 45%,
-      oklch(76% 0.17 68 / 0.16) 0%,
-      oklch(70% 0.15 55 / 0.07) 32%,
-      transparent 62%
-    );
-    filter:blur(30px);
-    animation:hero-breathe 14s var(--e-inout) infinite;
-  }
-  @keyframes hero-breathe{
-    0%,100%{ opacity:0.75; scale:1; }
-    50%    { opacity:1;    scale:1.06; }
-  }
+  .hero__list,.hero__meta{ position:absolute; z-index:3; list-style:none; padding:0; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); line-height:2.1; }
+  .hero__list{ left:var(--s-gutter); bottom:8.5%; }
+  .hero__meta{ right:var(--s-gutter); top:10%; text-align:right; }
+  .hero__dock{ position:absolute; z-index:4; right:var(--s-gutter); bottom:30%; display:grid; grid-template-columns:46px auto; align-items:center; gap:.7rem; min-height:64px; padding:.45rem .8rem .45rem .45rem; border:1px solid var(--rule-faint); border-radius:14px; color:var(--ink-300); background:oklch(12% .006 285 / .72); box-shadow:var(--lift-2); backdrop-filter:blur(12px); font-family:var(--font-mono); font-size:.61rem; line-height:1.45; animation:dock-float 6.5s ease-in-out infinite; transition:border-color var(--d-fast) var(--e-out); }
+  .hero__dock:hover{ transform:translateY(-3px); border-color:var(--signal-edge); }
+  .hero__dock-icon{ width:46px; height:46px; padding:7px; border-radius:11px; color:var(--ground-000); background:var(--signal-100); }
+  .hero__bubble{ position:absolute; left:-5.7rem; top:-2.45rem; padding:.48rem .65rem; border-radius:7px 7px 0 7px; color:var(--ink-100); background:var(--signal-300); white-space:nowrap; transform-origin:bottom right; animation:bubble-pop 8s var(--e-entry) 1.2s infinite both; }
+  .hero__scroll{ position:absolute; z-index:3; left:50%; bottom:1.4rem; display:grid; justify-items:center; gap:.45rem; color:var(--ink-400); font-family:var(--font-mono); font-size:.55rem; letter-spacing:.28em; text-transform:uppercase; transform:translateX(-50%); }
+  .hero__scroll i{ position:relative; width:1px; height:38px; overflow:hidden; background:var(--rule-loud); }
+  .hero__scroll i::after{ content:''; position:absolute; inset:0; background:var(--ink-100); animation:cue-run 2.1s var(--e-inout) infinite; }
+  @keyframes dock-float{ 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-7px); } }
+  @keyframes bubble-pop{ 0%,8%,86%,100%{ opacity:0; transform:scale(.72) translateY(7px); } 14%,78%{ opacity:1; transform:none; } }
+  @keyframes cue-run{ 0%{ transform:translateY(-100%); } 55%,100%{ transform:translateY(100%); } }
 
-  /* A single hairline horizon — the one piece of "instrument" chrome. */
-  .hero__horizon{
-    position:absolute;
-    inset-block-end:0; inset-inline:0;
-    block-size:1px;
-    z-index:var(--z-base);
-    background:linear-gradient(90deg,
-      transparent, var(--signal-edge) 22%, var(--signal-edge) 78%, transparent);
+  @media (max-width:900px){
+    .hero__word--a{ top:14%; }
+    .hero__word--b{ bottom:15%; font-size:clamp(4rem,16.5vw,8rem); }
+    .hero__collage{ top:48%; width:min(72vw,520px); height:min(54vh,540px); }
+    .hero__meta{ top:18%; }
+    .hero__dock{ bottom:27%; }
   }
-
-  .hero__inner{
-    position:relative;
-    z-index:var(--z-content);
-    inline-size:100%;
-    display:grid;
-    gap:var(--s-5);
+  @media (max-width:620px){
+    .hero__corners{ top:5.2rem; }
+    .hero__word{ font-size:clamp(4.4rem,24vw,7rem); }
+    .hero__word--a{ top:15%; }
+    .hero__word--b{ right:1rem; bottom:16%; font-size:clamp(3.1rem,16.7vw,5.2rem); }
+    .hero__collage{ top:48%; width:88vw; height:48vh; }
+    .hero__meta{ display:none; }
+    .hero__list{ bottom:7.5rem; line-height:1.75; }
+    .hero__dock{ right:1.2rem; bottom:24%; grid-template-columns:40px; padding:.35rem; }
+    .hero__dock > span:last-child{ display:none; }
+    .hero__dock-icon{ width:40px; height:40px; }
+    .hero__bubble{ left:-6.1rem; top:-2.55rem; }
   }
-
-  /* ---------- Eyebrow ---------- */
-
-  .hero__eyebrow{
-    display:flex;
-    align-items:center;
-    gap:var(--s-3);
-    color:var(--ink-300);
-  }
-  .hero__dot{
-    inline-size:6px; block-size:6px;
-    border-radius:var(--r-pill);
-    background:var(--signal-200);
-    box-shadow:0 0 0 0 oklch(76% 0.17 68 / 0.6);
-    animation:pulse 2.8s var(--e-out) infinite;
-  }
-  @keyframes pulse{
-    0%  { box-shadow:0 0 0 0   oklch(76% 0.17 68 / 0.55); }
-    70% { box-shadow:0 0 0 9px oklch(76% 0.17 68 / 0); }
-    100%{ box-shadow:0 0 0 0   oklch(76% 0.17 68 / 0); }
-  }
-
-  /* ---------- Headline ---------- */
-
-  .hero__title{
-    /* The fluid scale is width-driven; on a short viewport that overshoots
-       and pushes the spec strip below the fold. Cap against height too,
-       with a floor so landscape phones do not collapse the headline. */
-    font-size:max(2.75rem, min(var(--t-hero), 13.5vh));
-    line-height:var(--lh-hero);
-    max-inline-size:16ch;
-    text-wrap:balance;
-  }
-
-  /* ---------- Lead + actions ---------- */
-
-  .hero__lead{ max-inline-size:52ch; }
-
-  .hero__actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:var(--s-3);
-    margin-block-start:var(--s-2);
-  }
-
-  /* ---------- Spec strip ---------- */
-
-  .hero__spec{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:var(--s-5) var(--s-6);
-    margin-block-start:var(--s-4);
-    padding-block-start:var(--s-5);
-    border-block-start:1px solid var(--rule-faint);
-  }
-  @media (min-width:720px){
-    .hero__spec{ grid-template-columns:repeat(4, auto); justify-content:start; gap:var(--s-9); }
-  }
-
-  .hero__spec-item{ display:grid; gap:var(--s-2); }
-  .hero__spec-value{
-    font-family:var(--font-display);
-    font-size:var(--t-h3);
-    line-height:1;
-    color:var(--ink-100);
-    font-variant-numeric:tabular-nums;
-  }
-
-  /* ---------- Scroll cue ---------- */
-
-  .hero__scroll{
-    position:absolute;
-    inset-block-end:var(--s-6);
-    inset-inline-end:var(--s-gutter);
-    z-index:var(--z-content);
-    display:none;
-    align-items:center;
-    gap:var(--s-3);
-    padding-block:var(--s-2);   /* clears the 24px minimum target size */
-    color:var(--ink-400);
-    transition:color var(--d-fast) var(--e-out);
-  }
-  @media (min-width:900px){ .hero__scroll{ display:flex; } }
-
-  .hero__scroll:hover{ color:var(--signal-100); }
-  .hero__scroll-line{
-    inline-size:56px; block-size:1px;
-    background:var(--rule-loud);
-    position:relative;
-    overflow:hidden;
-  }
-  .hero__scroll-line::after{
-    content:'';
-    position:absolute; inset-block:0; inset-inline-start:0;
-    inline-size:40%;
-    background:var(--signal-200);
-    animation:scroll-sweep 2.6s var(--e-inout) infinite;
-  }
-  @keyframes scroll-sweep{
-    0%  { transform:translateX(-100%); }
-    100%{ transform:translateX(250%); }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .hero__wash, .hero__dot, .hero__scroll-line::after{ animation:none; }
-  }
+  @media (prefers-reduced-motion:reduce){ .hero__collage{ transition:none; } }
 </style>

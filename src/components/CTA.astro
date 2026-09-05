@@ -1,49 +1,42 @@
 ---
 import { cta } from '../data/site.js';
+import SnailMark from './SnailMark.astro';
+const ghosts = Array.from({ length:18 }, (_, i) => ({
+  x:`${(i % 4) * 30 - 10}%`, y:`${Math.floor(i / 4) * 24 - 4}%`,
+  r:`${((i * 7) % 19) - 9}deg`, s:`${1.1 + ((i * 13) % 28) / 10}rem`,
+}));
 ---
-<section class="cta section" aria-labelledby="cta-title">
-  <div class="cta__inner shell">
-    <div class="cta__wash" aria-hidden="true"></div>
-    <p class="label reveal">Get involved</p>
-    <h2 class="cta__title display reveal" id="cta-title" data-reveal-delay="80">
-      Build it, or help someone <em>else</em> build it.
-    </h2>
-    <p class="lead reveal" data-reveal-delay="140">
-      Students apply to join the next sprint. Engineers, researchers, designers and
-      founders sign up to mentor. Both take about three minutes.
-    </p>
-    <div class="cta__actions reveal" data-reveal-delay="200">
+
+<section class="cta" aria-labelledby="cta-title">
+  <div class="cta__ghosts" aria-hidden="true">
+    {ghosts.map((g) => <span style={`left:${g.x};top:${g.y};rotate:${g.r};font-size:${g.s}`}>BUILD SOMETHING REAL</span>)}
+  </div>
+  <div class="cta__core shell">
+    <p class="cta__eyebrow reveal">Next / applications open</p>
+    <div class="cta__head"><h2 class="reveal" id="cta-title">Build it here.</h2><svg viewBox="0 0 1000 40" aria-hidden="true"><path d="M8 27 C150 8 300 34 460 20 S760 6 992 24" /></svg></div>
+    <a class="cta__dock reveal" data-reveal-delay="80" href={cta.student.href}>
+      <span><SnailMark /></span><p>Students start here.<br />Three minutes.</p>
+    </a>
+    <div class="cta__actions reveal" data-reveal-delay="140">
       <a class="btn btn--signal" href={cta.student.href}>{cta.student.label}</a>
-      <a class="btn btn--ghost"  href={cta.mentor.href}>{cta.mentor.label}</a>
+      <a class="btn btn--ghost" href={cta.mentor.href}>{cta.mentor.label}</a>
     </div>
   </div>
 </section>
 
 <style>
-  .cta{ position:relative; overflow:hidden; }
-  .cta__inner{
-    position:relative;
-    display:grid;
-    gap:var(--s-5);
-    justify-items:start;
-  }
-  .cta__wash{
-    position:absolute;
-    inset-block-start:-60%;
-    inset-inline-start:-10%;
-    inline-size:min(90vw, 900px);
-    aspect-ratio:1;
-    z-index:-1;
-    background:radial-gradient(circle, oklch(76% 0.17 68 / 0.12), transparent 62%);
-    filter:blur(24px);
-    pointer-events:none;
-  }
-  .cta__title{
-    font-size:var(--t-h1);
-    line-height:var(--lh-tight);
-    max-inline-size:16ch;
-    text-wrap:balance;
-  }
-  .cta__title em{ font-style:italic; color:var(--signal-100); }
-  .cta__actions{ display:flex; flex-wrap:wrap; gap:var(--s-3); margin-block-start:var(--s-3); }
+  .cta{ position:relative; min-height:100dvh; overflow:hidden; display:grid; place-items:center; background:var(--ground-000); }
+  .cta__ghosts{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+  .cta__ghosts span{ position:absolute; color:var(--ink-100); font-weight:850; letter-spacing:-.06em; white-space:nowrap; opacity:.045; }
+  .cta__core{ position:relative; display:grid; justify-items:center; gap:1.8rem; text-align:center; }
+  .cta__eyebrow{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
+  .cta__head{ position:relative; }
+  .cta__head h2{ color:var(--ink-100); font-size:clamp(4.2rem,12vw,12rem); font-weight:900; line-height:.8; letter-spacing:-.085em; }
+  .cta__head svg{ position:absolute; left:3%; bottom:-1.2rem; width:94%; height:2rem; overflow:visible; }
+  .cta__head path{ fill:none; stroke:var(--signal-300); stroke-width:7; vector-effect:non-scaling-stroke; }
+  .cta__dock{ display:grid; grid-template-columns:52px auto; align-items:center; gap:.8rem; margin-top:1rem; padding:.45rem 1rem .45rem .45rem; border:1px solid var(--rule); border-radius:15px; color:var(--ink-300); background:var(--ground-050); box-shadow:var(--lift-2); text-align:left; font-family:var(--font-mono); font-size:var(--t-micro); transition:transform var(--d-fast) var(--e-out),border-color var(--d-fast) var(--e-out); }
+  .cta__dock:hover{ transform:translateY(-3px); border-color:var(--signal-edge); }
+  .cta__dock > span{ width:52px; height:52px; padding:7px; border-radius:11px; color:var(--ground-000); background:var(--signal-100); }
+  .cta__actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:.7rem; }
+  @media (max-width:520px){ .cta{ min-height:820px; } .cta__head h2{ font-size:23vw; } .cta__actions{ width:100%; } .cta__actions .btn{ width:100%; } }
 </style>

@@ -6,11 +6,11 @@ import SnailMark from '../components/SnailMark.astro';
 import { site, stats } from '../data/site.js';
 
 const moves = [
-  { title:'Frame', note:'Cut the idea until it can move.', image:'/images/aix3.jpg' },
-  { title:'Team', note:'Match on curiosity, not credentials.', image:'/images/aix5.jpg' },
-  { title:'Build', note:'Put a rough prototype in someone’s hands.', image:'/images/aix1.jpg' },
-  { title:'Test', note:'Privacy, fairness, safety, and who is missing.', image:'/images/aix2.jpg' },
-  { title:'Demo', note:'Six minutes, a live demo, honest trade-offs.', image:'/images/aix4.jpg' },
+  { title:'Frame the problem', note:'Cut the idea until it can move.', image:'/images/aix3.jpg' },
+  { title:'Find your team', note:'Match on curiosity, not credentials.', image:'/images/aix5.jpg' },
+  { title:'Build with AI', note:'Put a rough prototype in someone’s hands.', image:'/images/aix1.jpg' },
+  { title:'Test the impact', note:'Privacy, fairness, safety, and who is missing.', image:'/images/aix2.jpg' },
+  { title:'Demo day', note:'Six minutes, a live demo, honest trade-offs.', image:'/images/aix4.jpg' },
 ];
 
 const frames = [
@@ -44,7 +44,7 @@ const pathways = [
     title:'Start a club',
     body:'Bring AIXelerate to your campus as a student-led club. We will help shape the format, build rhythm, and connect your group to the wider community.',
     action:'Start a school club',
-    href:`mailto:${site.email}?subject=${encodeURIComponent('Start an AIXelerate club at my school')}`,
+    href:'https://discord.gg/VWRW4stAFu',
   },
   {
     n:'03',
@@ -52,7 +52,7 @@ const pathways = [
     title:'Host a hackathon',
     body:'Run a local build sprint under the AIXelerate name with our playbook, brand, and support—while your team makes it work for your community.',
     action:'Host with AIXelerate',
-    href:`mailto:${site.email}?subject=${encodeURIComponent('Host an AIXelerate hackathon')}`,
+    href:'https://discord.gg/VWRW4stAFu',
   },
 ];
 ---
@@ -63,39 +63,51 @@ const pathways = [
   <section class="craft" id="studio" aria-labelledby="craft-title" data-craft>
     <div class="craft__pin">
       <div class="craft__intro shell">
-        <p class="craft__statement reveal" id="craft-title">We give high school students the room, people, and deadline to turn an AI idea into something another person can actually use.</p>
+        <h2 class="craft__statement" id="craft-title">We give high school students the room, people, and deadline to turn an AI idea into something another person can actually use.</h2>
       </div>
-      <p class="craft__side craft__side--left">The sprint</p>
-      <p class="craft__side craft__side--right">$5K+ raised / free entry</p>
-      <div class="craft__wheel" data-craft-wheel aria-label="The five moves of an AIXelerate sprint">
-        {moves.map((move, i) => (
-          <article class="craft__row" data-craft-row={i}>
-            <img src={move.image} alt="" loading="lazy" />
-            <div><p>0{i + 1}</p><h2>{move.title}</h2><span>{move.note}</span></div>
-          </article>
-        ))}
+      <div class="craft__stage">
+        <p class="craft__side craft__side--left">The sprint</p>
+        <p class="craft__side craft__side--right">48 hours / all in</p>
+        <div class="craft__wheel" data-craft-wheel aria-label="The five moves of an AIXelerate sprint">
+          {moves.map((move, i) => (
+            <article class="craft__row" data-craft-row={i}>
+              <img src={move.image} alt="" width="96" height="96" loading="lazy" />
+              <div><h3>{move.title}</h3><span class="visually-hidden">{move.note}</span></div>
+            </article>
+          ))}
+        </div>
       </div>
+      <dl class="craft__stats shell" aria-label="The people and support behind the sprint">
+        <div class="craft__stat"><dt>Raised for the sprint</dt><dd>$5K<span>+</span></dd><p>Making the entire experience free.</p></div>
+        <div class="craft__stat"><dt>Student sign-ups</dt><dd>80<span>+</span></dd><p>For our first build sprint.</p></div>
+        <div class="craft__stat"><dt>Sponsors backing us</dt><dd>5</dd><p>Helping students turn ideas into builds.</p></div>
+        <div class="craft__stat craft__stat--speakers"><dt>Coming to speak</dt><dd>Industry<br />professionals<span aria-hidden="true">↗</span></dd><p>Real experience. Fresh perspectives.</p></div>
+      </dl>
     </div>
   </section>
 
   <section class="field" id="work" aria-labelledby="field-title" data-field>
     <div class="field__pin">
-      <div class="field__top shell">
-        <div><p class="field__eyebrow">Field notes / July 2026</p><h2 id="field-title">What building<br />looked like.</h2></div>
-        <p>Five moments from the first AIXelerate sprint. No stock photos. No simulated dashboard. Just the room.</p>
+      <div class="field__top">
+        <h2 id="field-title">What building looked like</h2>
+        <p>July 2026 <span aria-hidden="true">/</span> Five moments</p>
       </div>
       <div class="field__deck">
         {frames.map((frame, i) => (
           <article class:list={['field__card', { 'is-active': i === 0 }]} data-field-card={i}>
             <img src={frame.image} alt={frame.caption} loading={i === 0 ? 'eager' : 'lazy'} style={`object-position:${frame.pos}`} />
             <div class="field__shade"></div>
-            <p class="field__number">{frame.n} / 05</p>
+            <p class="field__number">{frame.n} / {String(frames.length).padStart(2, '0')}</p>
             <h3>{frame.title}</h3>
             <p class="field__caption">{frame.caption}</p>
           </article>
         ))}
       </div>
-      <div class="field__rail shell"><span data-field-index>01</span><i><b data-field-progress></b></i><p data-field-name>The room</p></div>
+      <div class="field__rail" aria-hidden="true">
+        <div class="field__index"><span data-field-index>01</span><span class="field__total">/{String(frames.length).padStart(2, '0')}</span></div>
+        <i class="field__progress"><b data-field-progress></b></i>
+        <div class="field__detail"><p data-field-name>{frames[0].title}</p><p data-field-caption>{frames[0].caption}</p></div>
+      </div>
     </div>
   </section>
 
@@ -176,122 +188,129 @@ const pathways = [
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const wide = window.matchMedia('(min-width: 820px)').matches;
 
-    if (!reduced && wide) {
-      gsap.registerPlugin(ScrollTrigger);
-
+    gsap.registerPlugin(ScrollTrigger);
+    const craftMedia = gsap.matchMedia();
+    craftMedia.add('(min-width: 820px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)', () => {
       const craft = document.querySelector('[data-craft]');
       const wheel = document.querySelector('[data-craft-wheel]');
-      const baseRows = [...document.querySelectorAll('[data-craft-row]')];
-      if (craft && wheel && baseRows.length) {
-        baseRows.forEach((row) => {
+      if (!craft || !wheel) return;
+      const originals = [...wheel.querySelectorAll('[data-craft-row]')];
+      const clones = [];
+      // A larger ring keeps neighboring words nearly face-on, like the reference.
+      for (let copy = 0; copy < 3; copy++) {
+        originals.forEach(row => {
           const clone = row.cloneNode(true);
           clone.setAttribute('aria-hidden', 'true');
           clone.removeAttribute('data-craft-row');
           wheel.appendChild(clone);
-        });
-
-        const rows = [...wheel.querySelectorAll('.craft__row')];
-        const step = 360 / rows.length;
-        const wheelState = { angle:0 };
-        let radius = 220;
-
-        const placeWheel = () => {
-          wheel.style.transform = `translate(-50%,-50%) rotateX(${-wheelState.angle}deg)`;
-          rows.forEach((row, i) => {
-            const angle = i * step;
-            const delta = ((angle - wheelState.angle) % 360 + 540) % 360 - 180;
-            const face = Math.cos(delta * Math.PI / 180);
-            row.style.transform = `translate(-50%,-50%) rotateX(${angle}deg) translateZ(${radius}px)`;
-            row.style.opacity = String(Math.max(0, Math.min(1, (face - .02) * 1.55)));
-            row.style.filter = `blur(${Math.max(0, 1 - face) * 1.6}px)`;
-            row.classList.toggle('is-facing', Math.abs(delta) < step * .55);
-            const title = row.querySelector('h2');
-            if (title) title.style.transform = `scale(${(.72 + .28 * Math.max(0, face)).toFixed(3)})`;
-          });
-        };
-        const sizeWheel = () => {
-          const gap = Math.max(58, Math.min(92, window.innerWidth * .052));
-          radius = gap / (2 * Math.sin(Math.PI / rows.length));
-          placeWheel();
-        };
-        sizeWheel();
-        window.addEventListener('resize', sizeWheel, { passive:true });
-        gsap.to(wheelState, {
-          angle: 430,
-          ease:'none',
-          onUpdate:placeWheel,
-          scrollTrigger:{ trigger:craft, start:'top top', end:'bottom bottom', scrub:.55, invalidateOnRefresh:true },
+          clones.push(clone);
         });
       }
+      craft.classList.add('is-animated');
+      const rows = [...wheel.querySelectorAll('.craft__row')];
+      const step = 360 / rows.length;
+      const state = { angle: step * 2 };
+      let radius = 300;
+      const render = () => {
+        rows.forEach((row, index) => {
+          const delta = ((index * step - state.angle) % 360 + 540) % 360 - 180;
+          const radians = delta * Math.PI / 180;
+          const face = Math.cos(radians);
+          const y = Math.sin(radians) * radius;
+          const z = (face - 1) * radius;
+          row.style.transform = `translate(-50%, -50%) translate3d(0, ${y}px, ${z}px) rotateX(${-delta}deg)`;
+          row.style.opacity = String(Math.max(0, Math.min(1, (face - .25) / .75)));
+          row.classList.toggle('is-facing', Math.abs(delta) < step * .5);
+        });
+      };
+      const resize = () => {
+        const rowHeight = originals[0].getBoundingClientRect().height;
+        const titleSize = parseFloat(getComputedStyle(originals[0].querySelector('h3')).fontSize);
+        const gap = Math.max(titleSize * 1.15, Math.min(rowHeight, 120));
+        radius = gap / Math.sin(step * Math.PI / 180);
+        render();
+      };
+      resize();
+      window.addEventListener('resize', resize, { passive:true });
+      gsap.to(state, {
+        angle: step * 7,
+        ease:'none',
+        onUpdate:render,
+        scrollTrigger:{ trigger:craft, start:'top top', end:'bottom bottom', scrub:.4, invalidateOnRefresh:true },
+      });
+      return () => {
+        window.removeEventListener('resize', resize);
+        clones.forEach(clone => clone.remove());
+        originals.forEach(row => { row.removeAttribute('style'); row.classList.remove('is-facing'); });
+        craft.classList.remove('is-animated');
+      };
+    });
 
+    const fieldMedia = gsap.matchMedia();
+    fieldMedia.add('(min-width: 820px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)', () => {
       const field = document.querySelector('[data-field]');
+      const deck = field?.querySelector('.field__deck');
       const cards = [...document.querySelectorAll('[data-field-card]')];
       const index = document.querySelector('[data-field-index]');
       const name = document.querySelector('[data-field-name]');
+      const caption = document.querySelector('[data-field-caption]');
       const progress = document.querySelector('[data-field-progress]');
-      if (field && cards.length) {
-        const deckState = { position:0 };
-        let shown = -1;
-        const renderDeck = (velocity = 0) => {
-          const position = deckState.position;
-          const front = Math.min(cards.length - 1, Math.floor(position));
-          cards.forEach((card, i) => {
-            const delta = i - position;
-            let x;
-            let y;
-            let rotation;
-            let scale;
-            let opacity;
-            let z;
-            if (delta < 0) {
-              const passed = Math.min(-delta, 1.6);
-              x = -passed * window.innerWidth * .42;
-              y = -passed * window.innerHeight * .30;
-              rotation = -passed * 22;
-              scale = 1 + passed * .22;
-              opacity = Math.max(0, 1 - passed * 1.5);
-              z = 100 + i;
-            } else {
-              const depth = Math.min(delta, 4);
-              x = depth * 56;
-              y = depth * 37;
-              rotation = depth * -4.2;
-              scale = 1 - depth * .062;
-              opacity = Math.max(0, 1 - depth * .13);
-              z = 100 - Math.round(depth * 10);
-            }
-            card.style.zIndex = String(z);
-            card.style.opacity = String(opacity);
-            card.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
-            card.style.filter = velocity > 1400 ? `blur(${Math.min(3.5, velocity / 1200).toFixed(2)}px)` : 'none';
-            card.classList.toggle('is-active', i === front);
-            card.style.pointerEvents = i === front ? 'auto' : 'none';
-          });
-          if (front !== shown) {
-            shown = front;
-            index.textContent = String(front + 1).padStart(2, '0');
-            name.textContent = cards[front].querySelector('h3').textContent;
-          }
-        };
-        renderDeck();
-        gsap.to(deckState, {
-          position: cards.length - .001,
-          ease:'none',
-          onUpdate:renderDeck,
-          scrollTrigger:{
-            trigger:field,
-            start:'top top',
-            end:'bottom bottom',
-            scrub:.48,
-            invalidateOnRefresh:true,
-            onUpdate:(self) => {
-              progress.style.transform = `scaleX(${self.progress})`;
-              renderDeck(Math.abs(self.getVelocity()));
-            },
-          },
-        });
-      }
+      if (!field || !deck || !cards.length) return;
 
+      field.classList.add('is-animated');
+      const state = { position:0 };
+      let cardSize = deck.clientWidth;
+      let shown = -1;
+      const render = () => {
+        const position = state.position;
+        const front = Math.min(cards.length - 1, Math.floor(position + .5));
+        // The fan spans the stage; its last photograph settles at the center.
+        const remaining = 1 - position / (cards.length - 1);
+        cards.forEach((card, i) => {
+          const delta = i - position;
+          const depth = Math.max(0, delta);
+          const passed = Math.max(0, -delta);
+          const x = -cardSize * .22 * remaining + depth * cardSize * .21 - passed * cardSize * .9;
+          const y = -cardSize * .07 * remaining + depth * cardSize * .09 - passed * cardSize * .48;
+          const rotation = -10 * remaining + depth * 3 - passed * 18;
+          const scale = delta < 0 ? 1 + passed * .12 : 1 - depth * .065;
+          const opacity = delta < 0 ? Math.max(0, 1 - passed * 1.25) : 1 - depth * .12;
+          card.style.zIndex = String(cards.length - i);
+          card.style.opacity = String(opacity);
+          card.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0) rotate(${rotation.toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+          card.classList.toggle('is-active', i === front);
+        });
+        progress.style.transform = `scaleX(${(position + 1) / cards.length})`;
+        if (front !== shown) {
+          shown = front;
+          index.textContent = String(front + 1).padStart(2, '0');
+          name.textContent = cards[front].querySelector('h3').textContent;
+          caption.textContent = cards[front].querySelector('.field__caption').textContent;
+        }
+      };
+      const resize = () => { cardSize = deck.clientWidth; render(); };
+      render();
+      window.addEventListener('resize', resize, { passive:true });
+      // Hold each frame briefly, including the final one, so every photo can be read.
+      const timeline = gsap.timeline({
+        scrollTrigger:{ trigger:field, start:'top top', end:'bottom bottom', scrub:.45, invalidateOnRefresh:true },
+      });
+      cards.slice(1).forEach((_, i) => {
+        timeline.to(state, { position:i + 1, duration:.7, ease:'power2.inOut', onUpdate:render }, i + .3);
+      });
+      timeline.to(state, { duration:.3 });
+      return () => {
+        window.removeEventListener('resize', resize);
+        field.classList.remove('is-animated');
+        cards.forEach((card, i) => {
+          card.removeAttribute('style');
+          card.classList.toggle('is-active', i === 0);
+        });
+        progress.style.removeProperty('transform');
+      };
+    });
+
+    if (!reduced && wide) {
       const process = document.querySelector('[data-process]');
       const track = document.querySelector('[data-process-track]');
       const processProgress = document.querySelector('[data-process-progress]');
@@ -350,40 +369,94 @@ const pathways = [
 </Base>
 
 <style>
-  .craft{ position:relative; height:290vh; background:var(--ground-000); }
-  .craft__pin{ position:sticky; top:0; min-height:100dvh; overflow:hidden; perspective:1100px; }
-  .craft__intro{ position:absolute; inset:8vh 0 auto; z-index:3; }
-  .craft__statement{ max-width:43ch; color:var(--ink-200); font-family:var(--font-mono); font-size:clamp(.92rem,1.45vw,1.28rem); line-height:1.65; }
-  .craft__side{ position:absolute; z-index:3; top:51%; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; writing-mode:vertical-rl; }
-  .craft__side--left{ left:var(--s-gutter); transform:rotate(180deg); }
-  .craft__side--right{ right:var(--s-gutter); }
-  .craft__wheel{ position:absolute; left:50%; top:56%; width:min(88vw,1000px); height:clamp(280px,38vw,430px); transform:translate(-50%,-50%); transform-style:preserve-3d; will-change:transform; }
-  .craft__row{ position:absolute; left:50%; top:50%; width:100%; min-height:94px; display:grid; grid-template-columns:94px 1fr; align-items:center; gap:1.4rem; transform-origin:center; transform-style:preserve-3d; backface-visibility:hidden; will-change:transform,opacity,filter; }
-  .craft__row img{ width:94px; height:78px; object-fit:cover; border-radius:10px; filter:saturate(.65) contrast(1.1); }
-  .craft__row > div{ display:grid; grid-template-columns:3rem minmax(0,1fr) minmax(12rem,.55fr); align-items:center; gap:1rem; }
-  .craft__row p,.craft__row span{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
-  .craft__row h2{ color:var(--signal-300); font-size:clamp(2rem,5.2vw,4.6rem); font-weight:800; line-height:.86; letter-spacing:-.065em; white-space:nowrap; transition:color 180ms linear; }
-  .craft__row.is-facing h2{ color:var(--ink-100); }
+  .craft{ position:relative; background:var(--ground-000); padding-block:6rem 3rem; }
+  .craft__pin{ position:relative; }
+  .craft__intro{ padding-block:1.5rem 2.5rem; text-align:center; }
+  .craft__statement{ max-width:45ch; margin-inline:auto; color:var(--ink-300); font-family:var(--font-mono); font-size:clamp(.85rem,1.15vw,1.25rem); font-weight:400; line-height:1.65; }
+  .craft__stage{ position:relative; }
+  .craft__side{ display:none; }
+  .craft__wheel{ width:100%; max-width:1440px; margin-inline:auto; padding-inline:var(--s-gutter); }
+  .craft__row{ display:flex; align-items:center; justify-content:center; gap:clamp(.7rem,1.5vw,1.7rem); padding-block:.8rem; }
+  .craft__row img{ flex:none; width:clamp(48px,5.3vw,96px); aspect-ratio:1; height:auto; object-fit:cover; object-position:50% 42%; border-radius:15%; }
+  .craft__row > div{ min-width:0; }
+  .craft__row h3{ color:var(--signal-300); font-size:clamp(1.25rem,5.7vw,7.2rem); font-weight:850; line-height:.98; letter-spacing:-.045em; text-transform:uppercase; }
+  .craft__row:nth-child(3) h3{ color:var(--ink-100); }
+  .craft__stats{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; margin-top:2rem; }
+  .craft__stat{ position:relative; display:flex; flex-direction:column; align-items:flex-start; min-height:clamp(150px,12vw,205px); padding:clamp(1rem,1.6vw,1.8rem); border:1px solid var(--rule-loud); border-radius:18px; background:linear-gradient(160deg,oklch(24% .008 285),oklch(17% .006 285)); box-shadow:inset 0 1px 0 oklch(96% .009 92 / .06); }
+  .craft__stat::after{ content:'···'; position:absolute; top:8px; right:17px; color:var(--ink-400); font-size:18px; letter-spacing:3px; }
+  .craft__stat dt{ margin-bottom:1rem; padding-right:.5rem; color:var(--ink-300); font-family:var(--font-mono); font-size:clamp(.58rem,.72vw,.78rem); letter-spacing:.06em; text-transform:uppercase; }
+  .craft__stat dd{ color:var(--ink-100); font-size:clamp(2.8rem,4.5vw,5.3rem); font-weight:800; line-height:1; letter-spacing:-.055em; }
+  .craft__stat dd>span{ color:var(--signal-100); }
+  .craft__stat p{ margin-top:auto; padding-top:.75rem; color:var(--ink-300); font-size:clamp(.65rem,.78vw,.85rem); line-height:1.45; }
+  .craft__stat--speakers dd{ position:relative; font-size:clamp(1.2rem,2.1vw,2.5rem); line-height:1.1; letter-spacing:-.035em; }
+  .craft__stat--speakers dd>span{ position:absolute; top:0; right:-1.3em; font-size:.7em; }
+  @media(min-width:820px) and (min-height:650px) and (prefers-reduced-motion:no-preference){
+    .craft.is-animated{ height:240svh; padding-block:0; }
+    .craft.is-animated .craft__pin{ position:sticky; top:0; height:100svh; display:grid; grid-template-rows:auto minmax(0,1fr) auto; padding-block:clamp(80px,10svh,120px) 24px; overflow:hidden; }
+    .craft.is-animated .craft__intro{ padding-block:0 20px; z-index:2; }
+    .craft.is-animated .craft__stage{ min-height:0; overflow:hidden; perspective:1400px; }
+    .craft.is-animated .craft__stage::before,.craft.is-animated .craft__stage::after{ content:''; position:absolute; left:0; right:0; height:25%; z-index:2; pointer-events:none; }
+    .craft.is-animated .craft__stage::before{ top:0; background:linear-gradient(var(--ground-000),transparent); }
+    .craft.is-animated .craft__stage::after{ bottom:0; background:linear-gradient(transparent,var(--ground-000)); }
+    .craft.is-animated .craft__wheel{ position:absolute; inset:0; padding:0; transform-style:preserve-3d; }
+    .craft.is-animated .craft__row{ position:absolute; top:50%; left:50%; width:100%; padding:0; backface-visibility:hidden; transform-style:preserve-3d; }
+    .craft.is-animated .craft__row h3{ white-space:nowrap; color:var(--signal-300); transition:color .2s linear; }
+    .craft.is-animated .craft__row.is-facing h3{ color:var(--ink-100); }
+    .craft.is-animated .craft__side{ display:block; position:absolute; z-index:3; top:50%; transform:translateY(-50%); color:var(--ink-300); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
+    .craft.is-animated .craft__side--left{ left:var(--s-gutter); color:var(--signal-300); text-decoration:line-through; text-decoration-thickness:1px; }
+    .craft.is-animated .craft__side--right{ right:var(--s-gutter); }
+    .craft.is-animated .craft__stats{ margin-top:15px; position:relative; z-index:3; }
+  }
+  @media(min-width:820px) and (max-width:1150px){ .craft.is-animated .craft__side{ display:none; } }
+  @media(max-width:819px){
+    .craft__stats{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; }
+    .craft__row{ justify-content:flex-start; border-top:1px solid var(--rule); padding-block:1.3rem; }
+    .craft__row h3{ font-size:clamp(1.3rem,4.6vw,2.7rem); }
+    .craft__stat{ min-height:165px; border-radius:12px; }
+    .craft__stat--speakers dd{ font-size:clamp(1.2rem,3.3vw,1.8rem); }
+    .craft__stat--speakers dd>span{ display:none; }
+    .craft__statement{ max-width:43ch; }
+  }
 
-  .field{ position:relative; height:520vh; background:oklch(12.5% .006 285); }
-  .field__pin{ position:sticky; top:0; min-height:100dvh; overflow:hidden; }
-  .field__top{ position:absolute; inset:8vh 0 auto; z-index:5; display:flex; justify-content:space-between; gap:2rem; }
-  .field__top > div > p,.field__top > p{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
-  .field__top h2{ margin-top:.7rem; color:var(--ink-100); font-size:clamp(2.2rem,5vw,5.4rem); font-weight:800; line-height:.88; letter-spacing:-.065em; }
-  .field__top > p{ max-width:39ch; text-align:right; }
-  .field__deck{ position:absolute; left:50%; top:54%; width:clamp(270px,32vw,440px); aspect-ratio:1 / 1.08; transform:translate(-50%,-50%); transform-style:preserve-3d; perspective:1400px; }
-  .field__card{ position:absolute; inset:0; width:100%; height:100%; overflow:hidden; border-radius:18px; opacity:0; box-shadow:0 34px 80px -25px oklch(0% 0 0 / .88); backface-visibility:hidden; will-change:transform,opacity,filter; pointer-events:none; }
-  .field__card img{ width:100%; height:100%; object-fit:cover; filter:saturate(.75) contrast(1.06) brightness(.82); }
-  .field__shade{ position:absolute; inset:0; background:linear-gradient(to top,oklch(5% 0 0 / .78),transparent 45%),linear-gradient(to bottom,oklch(5% 0 0 / .25),transparent 35%); }
-  .field__number,.field__caption{ position:absolute; color:var(--ink-200); font-family:var(--font-mono); font-size:var(--t-micro); }
-  .field__number{ top:1.1rem; left:1.2rem; }
-  .field__caption{ right:1.2rem; bottom:1.2rem; max-width:25ch; text-align:right; opacity:0; transform:translateY(8px); transition:opacity .35s var(--e-out),transform .45s var(--e-entry); }
-  .field__card h3{ position:absolute; left:1.2rem; bottom:1.1rem; max-width:72%; color:var(--ink-100); font-size:clamp(2.4rem,4.3vw,4.8rem); font-weight:800; line-height:.86; letter-spacing:-.075em; }
-  .field__card.is-active .field__caption{ opacity:1; transform:none; }
-  .field__rail{ position:absolute; left:0; right:0; bottom:2rem; display:grid; grid-template-columns:3rem 1fr minmax(9rem,auto); align-items:center; gap:1rem; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); }
-  .field__rail > i{ height:1px; background:var(--rule); overflow:hidden; }
-  .field__rail b{ display:block; width:100%; height:100%; background:var(--signal-300); transform:scaleX(0); transform-origin:left; }
-  .field__rail p{ text-align:right; }
+  .field{ position:relative; padding-block:6rem; background:var(--ground-000); }
+  .field__pin{ position:relative; }
+  .field__top{ position:relative; z-index:var(--z-content); display:flex; justify-content:space-between; align-items:start; gap:2rem; margin:0 var(--s-gutter) 3rem; }
+  .field__top h2,.field__top > p{ font-family:var(--font-mono); font-size:clamp(.65rem,.8vw,.9rem); font-weight:400; line-height:1.5; letter-spacing:.08em; text-transform:uppercase; }
+  .field__top h2{ color:var(--signal-300); text-decoration:line-through; text-decoration-thickness:1px; }
+  .field__top > p{ color:var(--ink-300); text-align:right; }
+  .field__top > p span{ margin-inline:.5em; color:var(--ink-500); }
+  .field__top::before,.field__top::after{ content:''; position:absolute; top:-1rem; height:.5rem; border-left:1px solid var(--ink-400); }
+  .field__top::before{ left:0; }
+  .field__top::after{ right:0; }
+  .field__deck{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr)); gap:2rem; padding-inline:var(--s-gutter); }
+  .field__card{ position:relative; aspect-ratio:1; overflow:hidden; border:1px solid var(--rule-loud); border-radius:var(--r-panel); background:var(--ground-100); isolation:isolate; }
+  .field__card img{ width:100%; height:100%; object-fit:cover; filter:saturate(.75) contrast(1.06) brightness(.88); }
+  .field__shade{ position:absolute; inset:0; background:linear-gradient(to top,oklch(5% 0 0 / .72),transparent 40%),linear-gradient(to bottom,oklch(5% 0 0 / .22),transparent 30%); }
+  .field__number,.field__caption,.field__card h3{ position:absolute; color:var(--ink-100); font-family:var(--font-mono); font-size:clamp(.7rem,.85vw,.95rem); font-weight:400; }
+  .field__number{ top:1.25rem; right:1.25rem; letter-spacing:.08em; }
+  .field__card h3{ left:1.25rem; bottom:5rem; padding:.35rem .85rem; border:1px solid var(--rule-loud); border-radius:var(--r-pill); background:oklch(10% 0 0 / .76); line-height:1.4; }
+  .field__caption{ left:1.25rem; right:1.25rem; bottom:1.25rem; max-width:34ch; font-size:var(--t-micro); }
+  .field__rail{ display:none; }
+  @media(min-width:820px) and (min-height:600px) and (prefers-reduced-motion:no-preference){
+    .field.is-animated{ height:420svh; padding:0; }
+    .field.is-animated .field__pin{ position:sticky; top:0; height:100svh; overflow:hidden; isolation:isolate; }
+    .field.is-animated .field__top{ position:absolute; inset:clamp(100px,13svh,160px) var(--s-gutter) auto; margin:0; }
+    .field.is-animated .field__deck{ position:absolute; left:46%; top:49%; width:min(40vw,58svh,760px); aspect-ratio:1; display:block; padding:0; transform:translate(-50%,-50%); }
+    .field.is-animated .field__card{ position:absolute; inset:0; width:100%; height:100%; box-shadow:0 2rem 4rem -1.5rem oklch(0% 0 0 / .8); backface-visibility:hidden; will-change:transform,opacity; }
+    .field.is-animated .field__caption{ display:none; }
+    .field.is-animated .field__card h3{ bottom:1.25rem; }
+    .field.is-animated .field__number,.field.is-animated .field__card h3{ opacity:0; transition:opacity .25s var(--e-out); }
+    .field.is-animated .field__card.is-active .field__number,.field.is-animated .field__card.is-active h3{ opacity:1; }
+    .field.is-animated .field__rail{ position:absolute; z-index:var(--z-content); inset:auto var(--s-gutter) 3rem; display:grid; grid-template-columns:1fr minmax(12rem,28vw) 1fr; align-items:end; gap:2rem; }
+    .field__index{ position:relative; display:flex; align-items:flex-start; gap:.65rem; width:max-content; color:var(--ink-100); font-family:var(--font-display); font-size:clamp(5rem,7.5vw,10rem); font-weight:800; line-height:.75; letter-spacing:-.065em; font-variant-numeric:tabular-nums; }
+    .field__index::after{ content:''; position:absolute; left:0; bottom:-1rem; width:1rem; height:1rem; border-left:1px solid var(--ink-400); border-bottom:1px solid var(--ink-400); }
+    .field__total{ margin-top:.08em; color:var(--ink-400); font-size:.34em; line-height:1; letter-spacing:-.055em; }
+    .field__progress{ display:block; height:1px; margin-bottom:.3rem; background:var(--rule-loud); overflow:hidden; }
+    .field__progress b{ display:block; width:100%; height:100%; background:var(--signal-300); transform:scaleX(.2); transform-origin:left; }
+    .field__detail{ justify-self:end; max-width:31ch; font-family:var(--font-mono); font-size:clamp(.65rem,.75vw,.82rem); text-align:right; }
+    .field__detail > p:first-child{ color:var(--ink-200); text-transform:uppercase; letter-spacing:.1em; }
+    .field__detail > p + p{ margin-top:.6rem; color:var(--ink-300); line-height:1.6; }
+  }
 
   .signature{ min-height:180vh; background:var(--ground-000); }
   .signature__stage{ position:sticky; top:0; min-height:100dvh; overflow:hidden; display:grid; place-items:center; perspective:1000px; }
@@ -450,24 +523,11 @@ const pathways = [
   .proof__stat dd{ margin:.5rem 0; color:var(--ink-100); font-size:clamp(2.5rem,5vw,5.4rem); font-weight:850; line-height:.9; letter-spacing:-.07em; }
 
   @media (max-width:819px){
-    .craft{ height:auto; padding-block:7rem; }
-    .craft__pin{ position:relative; min-height:auto; overflow:visible; }
-    .craft__intro{ position:relative; inset:auto; margin-bottom:5rem; }
-    .craft__side{ display:none; }
-    .craft__wheel{ position:relative; display:grid; padding-inline:var(--s-gutter); }
-    .craft__row{ position:relative; left:auto; top:auto; width:100%; grid-template-columns:74px 1fr; padding:1.2rem 0; border-top:1px solid var(--rule); opacity:1 !important; filter:none !important; transform:none !important; }
-    .craft__row img{ width:74px; height:64px; }
-    .craft__row > div{ grid-template-columns:2.2rem 1fr; }
-    .craft__row h2{ font-size:clamp(1.7rem,7vw,3rem); }
-    .craft__row span{ grid-column:2; }
-    .field{ height:auto; padding-block:7rem; }
-    .field__pin{ position:relative; min-height:auto; overflow:visible; }
-    .field__top{ position:relative; inset:auto; display:grid; margin-bottom:3rem; }
-    .field__top > p{ text-align:left; }
-    .field__deck{ position:relative; left:auto; top:auto; width:auto; aspect-ratio:auto; display:grid; gap:1rem; padding-inline:var(--s-gutter); transform:none; perspective:none; }
-    .field__card{ position:relative; inset:auto; width:100%; height:min(112vw,620px); opacity:1; filter:none; transform:none; transition:none; }
-    .field__caption{ display:none; }
-    .field__rail{ display:none; }
+    .field__top{ gap:1rem; }
+    .field__top h2{ max-width:19ch; }
+    .field__top > p{ max-width:16ch; }
+    .field__deck{ grid-template-columns:1fr; }
+    .field__card{ aspect-ratio:4 / 5; }
     .signature{ min-height:110vh; }
     .signature__object{ width:82vw; }
     .signature__copy{ right:var(--s-gutter); }
@@ -488,10 +548,6 @@ const pathways = [
     .proof__stats{ grid-template-columns:repeat(2,1fr); gap:2rem 1rem; }
   }
   @media (max-width:520px){
-    .craft__row{ grid-template-columns:58px 1fr; gap:.8rem; }
-    .craft__row img{ width:58px; height:54px; }
-    .craft__row > div{ gap:.5rem; }
-    .field__card h3{ font-size:2.7rem; }
     .signature__badge--b{ display:none; }
     .proof__stats{ grid-template-columns:1fr 1fr; }
   }

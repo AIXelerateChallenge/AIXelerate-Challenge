@@ -1,5 +1,6 @@
 ---
 import { nav } from '../data/site.js';
+import AixMark from './AixMark.astro';
 interface Props { transparent?:boolean }
 const { transparent = false } = Astro.props;
 const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
@@ -8,7 +9,7 @@ const items = [{ href:'/', label:'Index' }, ...nav, { href:'/apply', label:'Appl
 
 <header class:list={['nav', { 'nav--stage': transparent }]} data-nav>
   <a class="nav__mark" href="/" aria-label="AIXelerate Challenge, home">
-    <span>AI</span><i aria-hidden="true"></i><span>X</span>
+    <AixMark />
   </a>
 
   <nav class="nav__chain" aria-label="Main navigation">
@@ -33,16 +34,26 @@ const items = [{ href:'/', label:'Index' }, ...nav, { href:'/apply', label:'Appl
 </header>
 
 <style>
-  .nav{ position:fixed; inset:0 0 auto; z-index:var(--z-hud); height:64px; display:flex; align-items:center; justify-content:space-between; padding-inline:var(--s-gutter); color:var(--ink-100); background:linear-gradient(to bottom,oklch(10% 0 0 / .76),transparent); transition:background-color var(--d-fast) var(--e-out),backdrop-filter var(--d-fast) var(--e-out); }
-  .nav.is-scrolled{ background:oklch(14.5% .006 285 / .88); border-bottom:1px solid var(--rule-faint); backdrop-filter:blur(16px); }
-  .nav__mark{ display:flex; align-items:center; gap:.55rem; min-width:48px; min-height:48px; color:var(--ink-100); font-size:.93rem; font-weight:800; letter-spacing:.08em; }
-  .nav__mark i{ width:34px; height:1px; background:currentColor; transform:scaleX(.68); transform-origin:left; transition:transform var(--d-fast) var(--e-out),background-color var(--d-fast) var(--e-out); }
-  .nav__mark:hover i{ background:var(--signal-100); transform:scaleX(1); }
+  .nav{ position:fixed; inset:0 0 auto; z-index:var(--z-hud); height:64px; display:flex; align-items:center; justify-content:space-between; padding-inline:var(--s-gutter); color:var(--ink-100); background:var(--brand-cream); transition:background-color var(--d-fast) var(--e-out),backdrop-filter var(--d-fast) var(--e-out); }
+  .nav.is-scrolled{ background:rgb(255 252 217 / .94); border-bottom:1px solid var(--rule-faint); backdrop-filter:blur(16px); }
+
+  /* Over the hero the bar rides the artwork: no fill, no rule, ink flips to cream.
+     It only becomes a cream sheet once the hero has been scrolled past. */
+  .nav--stage:not(.is-scrolled){ background:transparent; color:var(--brand-cream); }
+  .nav--stage:not(.is-scrolled) .nav__mark{ color:var(--brand-cream); }
+  .nav--stage:not(.is-scrolled) .nav__mark:hover{ color:var(--ground-000); }
+  .nav--stage:not(.is-scrolled) .nav__chain a{ color:rgb(255 252 217 / .76); border-color:rgb(255 252 217 / .34); background:transparent; }
+  .nav--stage:not(.is-scrolled) .nav__chain a:hover,
+  .nav--stage:not(.is-scrolled) .nav__chain a.is-current{ color:var(--brand-ink); border-color:var(--brand-cream); background:var(--brand-cream); }
+  .nav--stage:not(.is-scrolled) .nav__toggle span{ background:var(--brand-cream); }
+  .nav__mark{ display:flex; align-items:center; gap:.55rem; min-width:48px; min-height:48px; color:var(--brand-orange); width:85px; }
+  .nav__mark :global(svg){ width:100%; }
+  .nav__mark:hover{ color:var(--brand-orange-ink); }
   .nav__chain{ display:none; align-items:center; }
-  .nav__chain a{ position:relative; display:grid; place-items:center; min-height:32px; padding:.35rem .8rem; border:1px solid var(--rule-loud); border-left:0; color:var(--ink-200); font-family:var(--font-mono); font-size:.62rem; letter-spacing:.04em; transition:color var(--d-fast) var(--e-out),border-color var(--d-fast) var(--e-out),background-color var(--d-fast) var(--e-out); }
+  .nav__chain a{ position:relative; display:grid; place-items:center; min-height:32px; padding:.35rem .8rem; border:1px solid var(--rule-loud); border-left:0; color:var(--ink-200); font-family:var(--font-mono); font-size:.75rem; letter-spacing:.04em; transition:color var(--d-fast) var(--e-out),border-color var(--d-fast) var(--e-out),background-color var(--d-fast) var(--e-out); }
   .nav__chain a:first-child{ border-left:1px solid var(--rule-loud); border-radius:var(--r-pill) 0 0 var(--r-pill); }
   .nav__chain a:last-child{ border-radius:0 var(--r-pill) var(--r-pill) 0; }
-  .nav__chain a:hover,.nav__chain a.is-current{ color:var(--ink-100); border-color:var(--signal-300); background:oklch(62% .22 29 / .08); }
+  .nav__chain a:hover,.nav__chain a.is-current{ color:var(--ink-100); border-color:var(--signal-300); background:var(--signal-wash); }
   .nav__toggle{ display:grid; place-content:center; gap:4px; width:48px; height:48px; }
   .nav__toggle span{ width:23px; height:1px; background:var(--ink-100); transition:transform var(--d-fast) var(--e-out),opacity var(--d-fast) var(--e-out); }
   .nav__toggle[aria-expanded='true'] span:first-child{ transform:translateY(5px) rotate(45deg); }
@@ -54,6 +65,6 @@ const items = [{ href:'/', label:'Index' }, ...nav, { href:'/apply', label:'Appl
   .nav__drawer ol{ list-style:none; padding:2rem 0 3rem; }
   .nav__drawer li{ display:grid; grid-template-columns:3rem 1fr; align-items:baseline; border-top:1px solid var(--rule); }
   .nav__drawer li > span{ color:var(--signal-100); font-family:var(--font-mono); font-size:var(--t-micro); }
-  .nav__drawer a{ display:block; padding:.35em 0; font-size:clamp(2.7rem,13vw,5.5rem); font-weight:800; line-height:1; letter-spacing:-.065em; }
+  .nav__drawer a{ display:block; padding:.35em 0; font-family:var(--font-display); font-size:clamp(2.4rem,11vw,5.5rem); font-weight:800; line-height:1; letter-spacing:-.065em; }
   @media (min-width:820px){ .nav__chain{ display:flex; } .nav__toggle{ display:none; } }
 </style>

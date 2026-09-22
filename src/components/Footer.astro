@@ -1,5 +1,6 @@
 ---
 import { site, nav, cta, links, fiscal } from '../data/site.js';
+import AixMark from './AixMark.astro';
 const year = new Date().getFullYear();
 const ticker = ['Problem first','Build early','Test impact','Ship Sunday','$5K+ raised / entry free'];
 ---
@@ -10,7 +11,7 @@ const ticker = ['Problem first','Build early','Test impact','Ship Sunday','$5K+ 
   </div>
   <div class="foot__main shell">
     <div class="foot__brand">
-      <a href="/" aria-label="AIXelerate Challenge home">AI<i></i>X</a>
+      <a href="/" aria-label="AIXelerate Challenge home"><AixMark /></a>
       <p>{site.tagline}</p>
       <span>Free / Responsible / Built by students</span>
     </div>
@@ -26,25 +27,25 @@ const ticker = ['Problem first','Build early','Test impact','Ship Sunday','$5K+ 
 
 <style>
   .foot{ overflow:hidden; color:var(--ink-200); border-top:1px solid var(--rule-faint); background:var(--ground-000); }
-  .foot__ticker{ overflow:hidden; padding-block:1.4rem; border-bottom:1px solid var(--rule); }
+  .foot__ticker{ background:var(--brand-blue); overflow:hidden; padding-block:1.4rem; border-bottom:1px solid var(--rule); }
   .foot__ticker > div{ width:max-content; display:flex; animation:ticker 28s linear infinite; }
   .foot__ticker:hover > div{ animation-play-state:paused; }
-  .foot__ticker span{ display:flex; align-items:center; gap:1.6rem; padding-right:1.6rem; color:var(--ink-100); font-size:clamp(1.4rem,3vw,3rem); font-weight:800; letter-spacing:-.05em; white-space:nowrap; }
-  .foot__ticker i{ color:var(--signal-100); font-style:normal; font-size:.5em; }
+  .foot__ticker span{ display:flex; align-items:center; gap:1.6rem; padding-right:1.6rem; color:var(--brand-cream); font-family:var(--font-display); font-size:clamp(1.4rem,3vw,3rem); font-weight:800; letter-spacing:-.05em; white-space:nowrap; }
+  .foot__ticker i{ color:var(--brand-cream); font-style:normal; font-size:.5em; }
   @keyframes ticker{ to{ transform:translateX(-50%); } }
   .foot__main{ display:grid; grid-template-columns:minmax(0,1.5fr) repeat(2,minmax(10rem,.5fr)); gap:4rem; padding-block:clamp(4rem,8vw,8rem); }
   .foot__brand{ display:grid; justify-items:start; align-content:start; gap:1rem; }
-  .foot__brand > a{ display:flex; align-items:center; gap:.6rem; color:var(--ink-100); font-weight:850; }
-  .foot__brand > a i{ width:28px; height:1px; background:var(--signal-100); }
+  .foot__brand > a{ display:flex; align-items:center; gap:.6rem; color:var(--brand-orange); width:120px; }
+  .foot__brand > a :global(svg){ width:100%; }
   .foot__brand > p{ max-width:40ch; color:var(--ink-300); }
   .foot__brand > span,.foot__col > p{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); text-transform:uppercase; letter-spacing:.07em; }
   .foot__col{ display:grid; align-content:start; gap:1rem; }
   .foot__col ul{ list-style:none; padding:0; }
   .foot__col a{ display:inline-block; padding:.3rem 0; color:var(--ink-300); font-family:var(--font-mono); font-size:var(--t-tiny); transition:color var(--d-fast) var(--e-out); }
   .foot__col a:hover{ color:var(--signal-100); }
-  .foot__legal{ display:grid; grid-template-columns:auto 1fr; gap:1rem; align-items:start; padding-block:1.6rem; border-top:1px solid var(--rule); color:var(--ink-400); font-family:var(--font-mono); font-size:.58rem; line-height:1.6; }
+  .foot__legal{ display:grid; grid-template-columns:auto 1fr; gap:1rem; align-items:start; padding-block:1.6rem; border-top:1px solid var(--rule); color:var(--ink-400); font-family:var(--font-mono); font-size:.72rem; line-height:1.6; }
   .foot__legal img{ border-radius:7px; opacity:.7; }
-  .foot__base{ min-height:70px; display:flex; align-items:center; justify-content:space-between; gap:1rem; border-top:1px solid var(--rule-faint); color:var(--ink-400); font-family:var(--font-mono); font-size:.58rem; }
+  .foot__base{ min-height:70px; display:flex; align-items:center; justify-content:space-between; gap:1rem; border-top:1px solid var(--rule-faint); color:var(--ink-400); font-family:var(--font-mono); font-size:.72rem; }
   @media (max-width:760px){ .foot__main{ grid-template-columns:1fr 1fr; } .foot__brand{ grid-column:1 / -1; } }
   @media (max-width:480px){ .foot__main{ grid-template-columns:1fr; } .foot__brand{ grid-column:auto; } .foot__legal{ grid-template-columns:1fr; } .foot__base{ align-items:flex-start; flex-direction:column; justify-content:center; } }
   @media (prefers-reduced-motion:reduce){ .foot__ticker > div{ animation:none; } }

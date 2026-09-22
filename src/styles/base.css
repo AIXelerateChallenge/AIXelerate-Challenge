@@ -3,10 +3,17 @@
 
 html{
   background:var(--ground-000);
-  color-scheme:dark;
+  color-scheme:light;
   scroll-behavior:smooth;
   -webkit-text-size-adjust:100%;
+  /* No scrollbar gutter: it cut a pale stripe down the full-bleed hero.
+     Wheel, trackpad, keyboard and drag-scroll are unaffected. */
+  scrollbar-width:none;
+  -ms-overflow-style:none;
 }
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar{ width:0; height:0; }
 
 body{
   min-width:320px;
@@ -23,6 +30,7 @@ body{
 
 img,svg,video,canvas{ display:block; max-width:100%; }
 img{ height:auto; }
+h1,h2,h3{ font-family:var(--font-display); }
 a{ color:inherit; text-decoration:none; }
 button,input,select,textarea{ font:inherit; color:inherit; }
 button{ border:0; background:none; cursor:pointer; }
@@ -38,7 +46,7 @@ button{ border:0; background:none; cursor:pointer; }
   line-height:var(--lh-tight);
   letter-spacing:var(--tr-display);
 }
-.display em{ color:var(--signal-100); font-style:normal; font-weight:500; }
+.display em{ color:var(--brand-orange); font-style:normal; font-weight:inherit; }
 
 .label{
   color:var(--ink-400);

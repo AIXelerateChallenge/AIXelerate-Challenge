@@ -18,9 +18,17 @@ function initNav() {
   const bar = document.querySelector('[data-nav]');
   if (!bar) return;
 
-  const sync = () => bar.classList.toggle('is-scrolled', window.scrollY > 48);
+  // A bar sitting over the hero stays transparent for the whole hero, not
+  // just the first 48px — otherwise a cream slab lands mid-artwork.
+  const stage = bar.classList.contains('nav--stage')
+    ? document.querySelector('[data-hero]')
+    : null;
+  const threshold = () => (stage ? stage.offsetHeight - bar.offsetHeight : 48);
+
+  const sync = () => bar.classList.toggle('is-scrolled', window.scrollY > threshold());
   sync();
   window.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync, { passive: true });
 
   const toggle = bar.querySelector('[data-nav-toggle]');
   const drawer = bar.querySelector('[data-nav-drawer]');

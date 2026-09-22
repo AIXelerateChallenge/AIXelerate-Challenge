@@ -25,18 +25,20 @@ const ghosts = Array.from({ length:18 }, (_, i) => ({
 </section>
 
 <style>
-  .cta{ position:relative; min-height:100dvh; overflow:hidden; display:grid; place-items:center; background:var(--ground-000); }
+  .cta{ position:relative; min-height:100dvh; overflow:hidden; display:grid; place-items:center; background:var(--brand-gradient); }
   .cta__ghosts{ position:absolute; inset:0; overflow:hidden; pointer-events:none; }
-  .cta__ghosts span{ position:absolute; color:var(--ink-100); font-weight:850; letter-spacing:-.06em; white-space:nowrap; opacity:.045; }
+  .cta__ghosts span{ position:absolute; color:var(--brand-orange-ink); font-family:var(--font-display); font-weight:900; letter-spacing:-.06em; white-space:nowrap; opacity:.045; }
   .cta__core{ position:relative; display:grid; justify-items:center; gap:1.8rem; text-align:center; }
-  .cta__eyebrow{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
+  .cta__eyebrow{ color:var(--brand-ink); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
   .cta__head{ position:relative; }
-  .cta__head h2{ color:var(--ink-100); font-size:clamp(4.2rem,12vw,12rem); font-weight:900; line-height:.8; letter-spacing:-.085em; }
+  .cta__head h2{ color:var(--brand-ink); font-size:clamp(3.8rem,10.5vw,11rem); font-weight:900; line-height:1; letter-spacing:-.055em; }
   .cta__head svg{ position:absolute; left:3%; bottom:-1.2rem; width:94%; height:2rem; overflow:visible; }
   .cta__head path{ fill:none; stroke:var(--signal-300); stroke-width:7; vector-effect:non-scaling-stroke; }
   .cta__dock{ display:grid; grid-template-columns:52px auto; align-items:center; gap:.8rem; margin-top:1rem; padding:.45rem 1rem .45rem .45rem; border:1px solid var(--rule); border-radius:15px; color:var(--ink-300); background:var(--ground-050); box-shadow:var(--lift-2); text-align:left; font-family:var(--font-mono); font-size:var(--t-micro); transition:transform var(--d-fast) var(--e-out),border-color var(--d-fast) var(--e-out); }
   .cta__dock:hover{ transform:translateY(-3px); border-color:var(--signal-edge); }
-  .cta__dock > span{ width:52px; height:52px; padding:7px; border-radius:11px; color:var(--ground-000); background:var(--signal-100); }
+  .cta__dock > span{ width:52px; height:52px; padding:7px; border-radius:11px; color:var(--brand-cream); background:var(--brand-orange); }
+  .cta__actions :global(.btn--signal){ color:var(--brand-orange-ink); background:var(--brand-cream); border-color:var(--brand-cream); }
+  .cta__actions :global(.btn--signal:hover){ color:var(--brand-white); background:var(--brand-orange-ink); border-color:var(--brand-orange-ink); }
   .cta__actions{ display:flex; flex-wrap:wrap; justify-content:center; gap:.7rem; }
-  @media (max-width:520px){ .cta{ min-height:820px; } .cta__head h2{ font-size:23vw; } .cta__actions{ width:100%; } .cta__actions .btn{ width:100%; } }
+  @media (max-width:520px){ .cta{ min-height:820px; } .cta__head h2{ font-size:19vw; } .cta__actions{ width:100%; } .cta__actions .btn{ width:100%; } }
 </style>

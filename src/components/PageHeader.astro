@@ -20,14 +20,14 @@ const { eyebrow, lines, lead } = Astro.props;
 </header>
 
 <style>
-  .opener{ position:relative; min-height:min(860px,92dvh); overflow:hidden; display:flex; align-items:flex-end; color:var(--ink-100); background:radial-gradient(circle at 78% 40%,oklch(26% .015 285 / .45),transparent 33%),var(--ground-000); }
+  .opener{ position:relative; min-height:min(860px,92dvh); overflow:hidden; display:flex; align-items:flex-end; color:var(--ink-100); background:var(--brand-cream); }
   .opener__corners{ position:absolute; inset:6rem var(--s-gutter) 1.5rem; background:linear-gradient(var(--rule-loud),var(--rule-loud)) left top/18px 1px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) left top/1px 18px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) right bottom/18px 1px no-repeat,linear-gradient(var(--rule-loud),var(--rule-loud)) right bottom/1px 18px no-repeat; }
-  .opener__mark{ position:absolute; right:-8vw; top:12%; width:min(52vw,700px); color:var(--signal-100); opacity:.16; transform:rotate(-8deg); }
+  .opener__mark{ position:absolute; right:-8vw; top:12%; width:min(52vw,700px); color:var(--brand-blue); opacity:.18; transform:rotate(-8deg); }
   .opener__inner{ position:relative; display:grid; gap:1.5rem; padding-top:9rem; padding-bottom:clamp(3rem,7vw,6rem); }
-  .opener__eyebrow,.opener__foot span{ color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
-  .opener__title{ max-width:12ch; color:var(--ink-100); font-family:var(--font-display); font-size:var(--t-h1); font-weight:850; line-height:.82; letter-spacing:-.078em; }
-  .opener__title :global(em){ color:var(--signal-100); font-style:normal; font-weight:500; }
+  .opener__eyebrow,.opener__foot span{ color:var(--brand-ink); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
+  .opener__title{ max-width:12ch; color:var(--brand-orange); font-family:var(--font-display); font-size:clamp(3rem,7.3vw,8.4rem); font-weight:900; line-height:1; letter-spacing:-.045em; }
+  .opener__title :global(em){ color:var(--brand-ink); font-style:normal; font-weight:inherit; }
   .opener__foot{ display:flex; justify-content:space-between; align-items:end; gap:2rem; margin-top:1.5rem; }
-  .opener__foot p{ max-width:64ch; color:var(--ink-300); font-family:var(--font-mono); font-size:clamp(.78rem,.72rem + .22vw,.9rem); line-height:1.7; }
+  .opener__foot p{ max-width:64ch; color:var(--brand-ink); font-family:var(--font-mono); font-size:clamp(.78rem,.72rem + .22vw,.9rem); line-height:1.7; }
   @media (max-width:620px){ .opener{ min-height:760px; } .opener__mark{ width:110vw; right:-46vw; top:22%; } .opener__foot{ display:grid; } }
 </style>

@@ -10,6 +10,14 @@
 export const WEB_APP_URL =
   'https://script.google.com/macros/s/AKfycbynQ2t5cI1YZvvZTwElpPIVBpSSQZWAhuDQhuglAOrvoD2kMPCzNOMCUl87OsKgQY-TDA/exec';
 
+export const contactTopics = {
+  cohort:'Join an online cohort',
+  club:'Start a school club',
+  host:'Host a hackathon',
+  sponsor:'Sponsor a sprint',
+  general:'Talk with the team',
+};
+
 export const studentFields = [
   { type: 'text',   name: 'name',   label: 'Full name', placeholder: 'Jordan Lee', required: true, half: true },
   { type: 'email',  name: 'email',  label: 'Email', placeholder: 'you@email.com', required: true, half: true },

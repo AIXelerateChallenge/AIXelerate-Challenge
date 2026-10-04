@@ -2,7 +2,7 @@
 import { site, nav, cta, links, fiscal } from '../data/site.js';
 import AixMark from './AixMark.astro';
 const year = new Date().getFullYear();
-const ticker = ['Problem first','Build early','Test impact','Ship Sunday','$5K+ raised / entry free'];
+const ticker = ['Problem first','Build early','Test impact','Ship Saturday','$5K+ funding goal'];
 ---
 
 <footer class="foot">
@@ -13,10 +13,10 @@ const ticker = ['Problem first','Build early','Test impact','Ship Sunday','$5K+ 
     <div class="foot__brand">
       <a href="/" aria-label="AIXelerate Challenge home"><AixMark /></a>
       <p>{site.tagline}</p>
-      <span>Free / Responsible / Built by students</span>
+      <span>Accessible / Responsible / Built by students</span>
     </div>
-    <nav class="foot__col" aria-label="Explore"><p>Explore</p><ul><li><a href="/">Index</a></li>{nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul></nav>
-    <nav class="foot__col" aria-label="Take part"><p>Take part</p><ul><li><a href={cta.student.href}>Student application</a></li><li><a href={cta.mentor.href}>Mentor application</a></li><li><a href={links.sponsor.href}>{links.sponsor.label}</a></li><li><a href={`mailto:${site.email}`}>Email</a></li></ul></nav>
+    <nav class="foot__col" aria-label="Explore"><p>Explore</p><ul><li><a href="/">Home</a></li>{nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul></nav>
+    <nav class="foot__col" aria-label="Take part"><p>Take part</p><ul><li><a href={cta.student.href}>Student application</a></li><li><a href={cta.mentor.href}>Mentor application</a></li><li><a href={links.sponsor.href}>{links.sponsor.label}</a></li><li><a href="/contact">Contact the team</a></li></ul></nav>
   </div>
   <div class="foot__legal shell">
     <img src="/images/hcb-icon-dark.png" alt="Hack Club Bank" width="34" height="34" loading="lazy" />

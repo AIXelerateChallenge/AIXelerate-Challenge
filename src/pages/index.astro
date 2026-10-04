@@ -22,10 +22,10 @@ const frames = [
 ];
 
 const phases = [
-  { n:'01', time:'SAT / 09:00', title:'Interrogate', body:'Name the user, the friction, and the assumption most likely to be wrong.', list:['Problem framing','Team formation','Scope cut'] },
-  { n:'02', time:'SAT / 12:00', title:'Prototype', body:'Make the smallest real thing that lets another person react honestly.', list:['Build track','Mentor rotations','User test'] },
-  { n:'03', time:'SUN / 10:00', title:'Challenge', body:'Review privacy, fairness, safety, and what happens when the system fails.', list:['Impact review','Failure modes','Revision'] },
-  { n:'04', time:'SUN / 15:00', title:'Present', body:'Show the working build, the trade-offs, and the next version you would make.', list:['Live demo','Six-minute pitch','Judge feedback'] },
+  { n:'01', time:'SAT / 10 AM', title:'Opening ceremony', body:'Meet the community, get oriented, and start the day together.', list:['Welcome','Summit overview','Team formation'] },
+  { n:'02', time:'SAT / 11 AM', title:'Build session', body:'Turn your idea into a working prototype with your team and mentors.', list:['Build with AI','Mentor feedback','Test and iterate'] },
+  { n:'03', time:'SAT / 4 PM', title:'Judging', body:'Show what you built and explain the problem, the impact, and the trade-offs.', list:['Live demos','Project review','Judge feedback'] },
+  { n:'04', time:'SAT / 6:20 PM', title:'Awards ceremony', body:'Celebrate the projects, the people, and everything you made in one day.', list:['Awards','Team recognition','Community celebration'] },
 ];
 
 const pathways = [
@@ -35,7 +35,7 @@ const pathways = [
     title:'Online cohorts',
     body:'We are building guided online cohorts for students who cannot make it to an in-person sprint. Small teams, live mentor sessions, shared build hours, and a real demo at the end.',
     action:'Join the interest list',
-    href:`mailto:${site.email}?subject=${encodeURIComponent('Online cohort interest')}`,
+    href:'/contact?topic=cohort',
     featured:true,
   },
   {
@@ -44,7 +44,7 @@ const pathways = [
     title:'Start a club',
     body:'Bring AIXelerate to your campus as a student-led club. We will help shape the format, build rhythm, and connect your group to the wider community.',
     action:'Start a school club',
-    href:'https://discord.gg/VWRW4stAFu',
+    href:'/contact?topic=club',
   },
   {
     n:'03',
@@ -52,7 +52,7 @@ const pathways = [
     title:'Host a hackathon',
     body:'Run a local build sprint under the AIXelerate name with our playbook, brand, and support—while your team makes it work for your community.',
     action:'Host with AIXelerate',
-    href:'https://discord.gg/VWRW4stAFu',
+    href:'/contact?topic=host',
   },
 ];
 ---
@@ -66,8 +66,10 @@ const pathways = [
         <h2 class="craft__statement" id="craft-title">We give high school students the room, people, and deadline to turn an AI idea into something another person can actually use.</h2>
       </div>
       <div class="craft__stage">
-        <p class="craft__side craft__side--left">The sprint</p>
-        <p class="craft__side craft__side--right">48 hours / all in</p>
+        <div class="craft__labels">
+          <p class="craft__side craft__side--left">The summit</p>
+          <p class="craft__side craft__side--right">10 hours / all in</p>
+        </div>
         <div class="craft__wheel" data-craft-wheel aria-label="The five moves of an AIXelerate sprint">
           {moves.map((move, i) => (
             <article class="craft__row" data-craft-row={i}>
@@ -78,9 +80,9 @@ const pathways = [
         </div>
       </div>
       <dl class="craft__stats shell" aria-label="The people and support behind the sprint">
-        <div class="craft__stat"><dt>Raised for the sprint</dt><dd>$5K<span>+</span></dd><p>Making the entire experience free.</p></div>
-        <div class="craft__stat"><dt>Student sign-ups</dt><dd>80<span>+</span></dd><p>For our first build sprint.</p></div>
-        <div class="craft__stat"><dt>Sponsors backing us</dt><dd>5</dd><p>Helping students turn ideas into builds.</p></div>
+        <div class="craft__stat"><dt>Funding goal for the sprint</dt><dd>$5K<span>+</span></dd><p>Making the experience as affordable as possible.</p></div>
+        <div class="craft__stat"><dt>Projected attendees</dt><dd><span>~</span>400</dd><p>For the January 2027 summit.</p></div>
+        <div class="craft__stat craft__stat--support"><dt>University support</dt><dd>University<br />of UP</dd><p>Supporting the January summit.</p></div>
         <div class="craft__stat craft__stat--speakers"><dt>Coming to speak</dt><dd>Industry<br />professionals<span aria-hidden="true">↗</span></dd><p>Real experience. Fresh perspectives.</p></div>
       </dl>
     </div>
@@ -124,8 +126,8 @@ const pathways = [
   <section class="process" id="process" aria-labelledby="process-title" data-process>
     <div class="process__pin">
       <div class="process__head shell">
-        <div><p>The 48 hours</p><h2 id="process-title">Four moves,<br />no theatre.</h2></div>
-        <p>Students see something real on Saturday, not a polished deck on Sunday.</p>
+        <div><p>The 10 hours</p><h2 id="process-title">Four moves,<br />no theatre.</h2></div>
+        <p>All on Saturday, January 16, 2027. One day to meet, build, and share something real.</p>
       </div>
       <div class="process__viewport">
         <div class="process__track" data-process-track>
@@ -146,7 +148,7 @@ const pathways = [
 
   <section class="network section" id="network" aria-labelledby="network-title">
     <div class="network__head shell">
-      <p class="network__eyebrow reveal">Beyond one weekend / what comes next</p>
+      <p class="network__eyebrow reveal">Beyond one day / what comes next</p>
       <h2 class="reveal" id="network-title">One room becomes<br /><em>a network.</em></h2>
       <p class="network__intro reveal" data-reveal-delay="80">AIXelerate is growing into a format students can join online, bring to school, or host in their own community.</p>
     </div>
@@ -161,15 +163,15 @@ const pathways = [
         </article>
       ))}
     </div>
-    <p class="network__contact shell reveal">Have a different idea? <a href={`mailto:${site.email}?subject=${encodeURIComponent('Build with AIXelerate')}`}>Talk directly with the team ↗</a></p>
+    <p class="network__contact shell reveal">Have a different idea? <a href="/contact?topic=general">Talk directly with the team ↗</a></p>
   </section>
 
   <section class="proof section" aria-labelledby="proof-title">
     <div class="proof__head shell">
       <div><p>First sprint / July 2026</p><h2 id="proof-title">One month to fill a room.</h2></div>
-      <p>The first cohort proved the premise: when cost disappears and the standard stays high, students show up ready to build.</p>
+      <p>Our first cohort brought students together to turn ideas into working projects, with mentors and a room full of people ready to build.</p>
     </div>
-    <div class="proof__image reveal"><img src="/images/conference.jpg" alt="Four AIXelerate students standing together after the event." loading="lazy" /></div>
+    <div class="proof__image reveal"><img src="/images/aix2.jpg" alt="Students building together around tables at the first AIXelerate live event." loading="lazy" /></div>
     <dl class="proof__stats shell">
       {stats.map((stat, i) => (
         <div class="proof__stat reveal" data-reveal-delay={i * 70}>
@@ -189,6 +191,13 @@ const pathways = [
     const wide = window.matchMedia('(min-width: 820px)').matches;
 
     gsap.registerPlugin(ScrollTrigger);
+    const signature = document.querySelector('.signature');
+    if (signature && !reduced) {
+      const observer = new IntersectionObserver(([entry]) => {
+        signature.classList.toggle('is-in-view', entry.isIntersecting);
+      }, { threshold:0.15 });
+      observer.observe(signature);
+    }
     const craftMedia = gsap.matchMedia();
     craftMedia.add('(min-width: 820px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)', () => {
       const craft = document.querySelector('[data-craft]');
@@ -374,7 +383,9 @@ const pathways = [
   .craft__intro{ padding-block:1.5rem 2.5rem; text-align:center; }
   .craft__statement{ max-width:45ch; margin-inline:auto; color:var(--ink-300); font-family:var(--font-mono); font-size:clamp(.85rem,1.15vw,1.25rem); font-weight:400; line-height:1.65; }
   .craft__stage{ position:relative; }
-  .craft__side{ display:none; }
+  .craft__labels{ display:flex; justify-content:space-between; gap:1rem; padding-inline:var(--s-gutter); margin-bottom:1.5rem; }
+  .craft__side{ color:var(--ink-300); font-family:var(--font-mono); font-size:var(--t-micro); text-transform:uppercase; }
+  .craft__side--left{ color:var(--signal-300); }
   .craft__wheel{ width:100%; max-width:1440px; margin-inline:auto; padding-inline:var(--s-gutter); }
   .craft__row{ display:flex; align-items:center; justify-content:center; gap:clamp(.7rem,1.5vw,1.7rem); padding-block:.8rem; }
   .craft__row img{ flex:none; width:clamp(48px,5.3vw,96px); aspect-ratio:1; height:auto; object-fit:cover; object-position:50% 42%; border-radius:15%; }
@@ -388,12 +399,13 @@ const pathways = [
   .craft__stat dd{ color:var(--brand-orange); font-family:var(--font-display); font-size:clamp(2.8rem,4.5vw,5.3rem); font-weight:800; line-height:1; letter-spacing:-.055em; }
    .craft__stat dd>span{ color:var(--brand-orange); }
   .craft__stat p{ margin-top:auto; padding-top:.75rem; color:var(--ink-300); font-size:clamp(.65rem,.78vw,.85rem); line-height:1.45; }
-  .craft__stat--speakers dd{ position:relative; font-size:clamp(1.2rem,2.1vw,2.5rem); line-height:1.1; letter-spacing:-.035em; }
+  .craft__stat--support dd,.craft__stat--speakers dd{ position:relative; font-size:clamp(1.2rem,2.1vw,2.5rem); line-height:1.1; letter-spacing:-.035em; }
   .craft__stat--speakers dd>span{ position:absolute; top:0; right:-1.3em; font-size:.7em; }
   @media(min-width:820px) and (min-height:650px) and (prefers-reduced-motion:no-preference){
     .craft.is-animated{ height:240svh; padding-block:0; }
     .craft.is-animated .craft__pin{ position:sticky; top:0; height:100svh; display:grid; grid-template-rows:auto minmax(0,1fr) auto; padding-block:clamp(80px,10svh,120px) 24px; overflow:hidden; }
     .craft.is-animated .craft__intro{ padding-block:0 20px; z-index:2; }
+    .craft.is-animated .craft__labels{ display:contents; }
     .craft.is-animated .craft__stage{ min-height:0; overflow:hidden; perspective:1400px; }
     .craft.is-animated .craft__stage::before,.craft.is-animated .craft__stage::after{ content:''; position:absolute; left:0; right:0; height:25%; z-index:2; pointer-events:none; }
     .craft.is-animated .craft__stage::before{ top:0; background:linear-gradient(var(--ground-000),transparent); }
@@ -403,7 +415,7 @@ const pathways = [
     .craft.is-animated .craft__row h3{ white-space:nowrap; color:var(--signal-300); transition:color .2s linear; }
     .craft.is-animated .craft__row.is-facing h3{ color:var(--ink-100); }
     .craft.is-animated .craft__side{ display:block; position:absolute; z-index:3; top:50%; transform:translateY(-50%); color:var(--ink-300); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
-    .craft.is-animated .craft__side--left{ left:var(--s-gutter); color:var(--signal-300); text-decoration:line-through; text-decoration-thickness:1px; }
+    .craft.is-animated .craft__side--left{ left:var(--s-gutter); color:var(--signal-300);  }
     .craft.is-animated .craft__side--right{ right:var(--s-gutter); }
     .craft.is-animated .craft__stats{ margin-top:15px; position:relative; z-index:3; }
   }
@@ -413,7 +425,8 @@ const pathways = [
     .craft__row{ justify-content:flex-start; border-top:1px solid var(--rule); padding-block:1.3rem; }
     .craft__row h3{ font-size:clamp(1.3rem,4.6vw,2.7rem); }
     .craft__stat{ min-height:165px; border-radius:12px; }
-    .craft__stat--speakers dd{ font-size:clamp(1.2rem,3.3vw,1.8rem); }
+    .craft__stat::after{ display:none; }
+    .craft__stat--support dd,.craft__stat--speakers dd{ font-size:clamp(1.2rem,3.3vw,1.8rem); }
     .craft__stat--speakers dd>span{ display:none; }
     .craft__statement{ max-width:43ch; }
   }
@@ -422,7 +435,7 @@ const pathways = [
   .field__pin{ position:relative; }
   .field__top{ position:relative; z-index:var(--z-content); display:flex; justify-content:space-between; align-items:start; gap:2rem; margin:0 var(--s-gutter) 3rem; }
   .field__top h2,.field__top > p{ font-family:var(--font-mono); font-size:clamp(.65rem,.8vw,.9rem); font-weight:400; line-height:1.5; letter-spacing:.08em; text-transform:uppercase; }
-  .field__top h2{ color:var(--signal-300); text-decoration:line-through; text-decoration-thickness:1px; }
+  .field__top h2{ color:var(--signal-300);  }
   .field__top > p{ color:var(--ink-300); text-align:right; }
   .field__top > p span{ margin-inline:.5em; color:var(--ink-500); }
   .field__top::before,.field__top::after{ content:''; position:absolute; top:-1rem; height:.5rem; border-left:1px solid var(--ink-400); }
@@ -462,6 +475,14 @@ const pathways = [
   .signature__stage{ position:sticky; top:0; min-height:100dvh; overflow:hidden; display:grid; place-items:center; perspective:1000px; }
   .signature__stage::before{ content:''; position:absolute; width:min(70vw,880px); aspect-ratio:1; border:1px solid rgb(255 252 217 / .2); border-radius:50%; box-shadow:0 0 0 8vw rgb(255 252 217 / .05),0 0 0 16vw rgb(255 252 217 / .03); }
   .signature__object{ width:min(52vw,650px); color:var(--brand-cream); opacity:1; transform:rotate(-8deg); }
+  @media (prefers-reduced-motion:no-preference){
+    .signature__object{ animation:snail-scoot 3.6s ease-in-out infinite; animation-play-state:paused; }
+    .signature.is-in-view .signature__object{ animation-play-state:running; }
+  }
+  @keyframes snail-scoot{
+    0%,100%{ transform:translate(-24px,10px) rotate(-8deg); }
+    50%{ transform:translate(24px,-18px) rotate(5deg) scale(1.04); }
+  }
   .signature__badge{ position:absolute; top:2rem; color:var(--ink-400); font-family:var(--font-mono); font-size:var(--t-micro); letter-spacing:.08em; text-transform:uppercase; }
   .signature__badge--a{ left:var(--s-gutter); }
   .signature__badge--b{ right:var(--s-gutter); }
@@ -515,7 +536,7 @@ const pathways = [
   .proof__head h2{ max-width:10ch; margin-top:.7rem; color:var(--ink-100); font-size:var(--t-h1); font-weight:850; line-height:1.04; letter-spacing:-.045em; }
   .proof__head > p{ max-width:42ch; }
   .proof__image{ width:calc(100% - var(--s-gutter) * 2); max-width:1440px; height:min(66vw,760px); margin:auto; overflow:hidden; border-radius:16px; }
-  .proof__image img{ width:100%; height:100%; object-fit:cover; object-position:center 35%; filter:saturate(1) contrast(1.02); }
+  .proof__image img{ width:100%; height:100%; object-fit:cover; object-position:center 65%; filter:saturate(1) contrast(1.02); }
   .proof__stats{ display:grid; grid-template-columns:repeat(3,1fr); margin-top:3rem; }
   .proof__stat{ padding:1.2rem 1rem 0 0; border-top:1px solid var(--rule); transition:transform .55s var(--e-entry),border-color .35s var(--e-out); }
   .proof__stat:hover{ transform:translateY(-5px); border-color:var(--signal-edge); }
@@ -534,7 +555,7 @@ const pathways = [
     .process{ padding-block:6rem 3rem; overflow:hidden; }
     .process__pin{ min-height:auto; overflow:visible; padding:0; }
     .process__head{ display:grid; align-items:start; }
-    .process__viewport{ overflow-x:auto; scroll-snap-type:x mandatory; padding:0 var(--s-gutter) 1rem; }
+    .process__viewport{ overflow-x:auto; scroll-snap-type:x mandatory; scroll-padding-inline:var(--s-gutter); padding:0 var(--s-gutter) 1rem; }
     .process__track{ gap:1rem; padding:0; transform:none !important; }
     .phase{ width:82vw; scroll-snap-align:start; }
     .process__progress{ display:none; }
@@ -554,5 +575,7 @@ const pathways = [
   @media (prefers-reduced-motion:reduce){
     .craft__row{ filter:none !important; }
     .field__card{ transition:none; }
+    .process__viewport{ overflow-x:auto; scroll-padding-inline:var(--s-gutter); padding-bottom:1rem; }
+    .process__progress{ display:none; }
   }
 </style>

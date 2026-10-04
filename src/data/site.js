@@ -7,8 +7,8 @@
 export const site = {
   name: 'AIXelerate Challenge',
   tagline:
-    'A free AI build sprint for high schoolers who would rather ship an idea than perfect a prompt.',
-  email: 'hello@aixeleratechallenge.org', // TODO: confirm the real address
+    'A 10-hour AI summit for high schoolers who would rather ship an idea than perfect a prompt.',
+  email: 'vishakh.a@aixeleratechallenge.org',
 };
 
 export const nav = [
@@ -28,7 +28,7 @@ export const cta = {
  */
 export const links = {
   donate:      { href: '#', label: 'Give to AIXelerate',  todo: true },
-  sponsor:     { href: '#', label: 'Sponsor a sprint',    todo: true },
+  sponsor:     { href: '/contact?topic=sponsor', label: 'Sponsor a sprint', todo: false },
   instagram:   { href: '#', label: 'Instagram',           todo: true },
   hackClub:    { href: 'https://hackclub.com', label: 'Hack Club', todo: false },
   hcb:         { href: 'https://hcb.hackclub.com', label: 'HCB', todo: false },
@@ -37,8 +37,8 @@ export const links = {
 /** First-sprint facts supplied by the AIXelerate team. */
 export const stats = [
   { value: '80+',     count: 80,   prefix: '',  suffix: '+', label: 'Sign-ups', note: 'first sprint, one month of planning' },
-  { value: '$5,000+', count: 5000, prefix: '$', suffix: '+', label: 'Raised',   note: 'to make the event completely free' },
-  { value: '5',       count: 5,    prefix: '',  suffix: '',  label: 'Sponsors', note: 'backing the July 2026 sprint' },
+  { value: '$50', count: 50, prefix: '$', suffix: '', label: 'AI credit per student', note: 'through vibes.diy at the first sprint' },
+  { value: '1', count: 1, prefix: '', suffix: '', label: 'First live event', note: 'July 2026 build sprint' },
 ];
 
 export const fiscal = {

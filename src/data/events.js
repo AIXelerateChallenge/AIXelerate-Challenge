@@ -15,17 +15,16 @@ export const events = [
     summary:
       'The first event AIXelerate ever ran, planned in about a month.',
     body: [
-      'The AIXelerate 2026 Build Sprint in July was the first event held by the AIXelerate Organization. In roughly one month of planning we brought in over 80 sign-ups and 5 sponsors.',
+      'The AIXelerate 2026 Build Sprint in July was the first event held by the AIXelerate Organization. In roughly one month of planning we brought in over 80 sign-ups.',
       'Every participating student was given $50 of Claude credit through vibes.diy, so that compute cost was never the thing standing between an idea and a working prototype.',
     ],
     facts: [
       { k: 'Sign-ups', v: '80+' },
-      { k: 'Sponsors', v: '5' },
       { k: 'Credit per student', v: '$50' },
     ],
     gallery: [
       { src: '/images/aix1.jpg', alt: 'Students working together at the July 2026 build sprint.' },
-      { src: '/images/aix2.jpg', alt: 'A team presenting their project to judges.' },
+      { src: '/images/aix2.jpg', alt: 'Students building together around tables at the July 2026 sprint.' },
       { src: '/images/aix3.jpg', alt: 'Mentors reviewing a team’s architecture.' },
       { src: '/images/aix4.jpg', alt: 'Participants collaborating during the build hours.' },
       { src: '/images/aix5.jpg', alt: 'The sprint room during final demos.' },

@@ -38,8 +38,6 @@ function initNav() {
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
     drawer.hidden = !open;
-    // Lock the page behind the drawer so the background does not scroll.
-    document.body.style.overflow = open ? 'hidden' : '';
     if (open) drawer.querySelector('a')?.focus();
   };
 
@@ -60,8 +58,15 @@ function initNav() {
     if (e.target.closest('a')) setOpen(false);
   });
 
-  // Returning to desktop width must not leave the body scroll-locked.
-  const desktop = window.matchMedia('(min-width: 900px)');
+  document.addEventListener('click', (e) => {
+    if (!bar.contains(e.target)) setOpen(false);
+  });
+  bar.addEventListener('focusout', (e) => {
+    if (!bar.contains(e.relatedTarget)) setOpen(false);
+  });
+
+  // Match the CSS breakpoint when switching back to desktop navigation.
+  const desktop = window.matchMedia('(min-width: 820px)');
   desktop.addEventListener('change', (e) => { if (e.matches) setOpen(false); });
 }
 

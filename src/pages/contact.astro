@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Field from '../components/Field.astro';
+import { WEB_APP_URL, contactTopics } from '../data/forms.js';
+import { site } from '../data/site.js';
+
+const fields = [
+  { type:'text', name:'name', label:'Your name', required:true, half:true },
+  { type:'email', name:'email', label:'Email', required:true, half:true },
+  { type:'select', name:'topic', label:'How would you like to get involved?', required:true, options:Object.values(contactTopics) },
+  { type:'text', name:'schoolOrCity', label:'School, organisation, or city', optional:true },
+  { type:'textarea', name:'message', label:'Tell us a little more', placeholder:'Share your idea or question. A few sentences is plenty.', required:true },
+];
+---
+
+<Base title="Contact" description="Join an online cohort, start a school club, host an AIXelerate event, or talk with our team.">
+  <PageHeader eyebrow="Get in touch" lines={['Your next idea', 'starts <em>here</em>.']} lead="Tell us what you have in mind. Whether you want to join online, start a club, host an event, or ask a question, this is the place." />
+  <section class="section contact" aria-labelledby="contact-title">
+    <div class="shell shell--narrow">
+      <h2 id="contact-title">Talk with the team</h2>
+      <p class="contact__intro">Messages go to Vishakh at <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <form id="contact-form" novalidate>
+        <div class="contact__fields">
+          {fields.map((field) => <Field field={field} idPrefix="contact" />)}
+        </div>
+        <div class="contact__trap" aria-hidden="true"><label>Leave this blank<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+        <div class="contact__foot">
+          <button class="btn btn--signal" type="submit">Send message</button>
+          <p id="contact-status" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+      <div id="contact-done" class="contact__done" hidden>
+        <h3 tabindex="-1">Thanks for reaching out.</h3>
+        <p data-confirmation>Your message has been sent to Vishakh. We will reply to the email you provided.</p>
+        <a class="btn btn--ghost" href="/">Back to home</a>
+      </div>
+      <noscript><p>Email <a href={`mailto:${site.email}`}>{site.email}</a> to get in touch.</p></noscript>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact h2{ font-size:var(--t-h3); }
+  .contact__intro{ margin-block:1rem 2rem; color:var(--ink-300); }
+  .contact__intro a{ text-decoration:underline; overflow-wrap:anywhere; }
+  .contact__fields{ display:grid; gap:var(--s-5); }
+  .contact__foot{ display:flex; align-items:center; flex-wrap:wrap; gap:1rem; margin-top:2rem; }
+  .contact__foot p{ color:var(--ink-300); }
+  .contact__foot p[data-error]{ color:var(--err); }
+  .contact__trap{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); }
+  .contact__done{ display:grid; justify-items:start; gap:1.5rem; padding:2rem; border:1px solid var(--rule); border-radius:var(--r-panel); background:var(--ground-100); }
+  .contact__done h3{ font-size:var(--t-h3); }
+  .contact__done[hidden],form[hidden]{ display:none; }
+  @media(min-width:680px){ .contact__fields{ grid-template-columns:repeat(2,minmax(0,1fr)); } .contact__fields > :global(.field:not(.field--half)){ grid-column:1 / -1; } }
+</style>
+
+<script define:vars={{ WEB_APP_URL, contactTopics }}>
+  const form = document.querySelector('#contact-form');
+  const status = document.querySelector('#contact-status');
+  const submit = form.querySelector('button[type="submit"]');
+  const done = document.querySelector('#contact-done');
+  const topic = new URLSearchParams(location.search).get('topic');
+  if (Object.hasOwn(contactTopics, topic)) form.elements.topic.value = contactTopics[topic];
+
+  form.addEventListener('input', (event) => {
+    const field = event.target;
+    if (!field.validity.valid) return;
+    field.removeAttribute('aria-invalid');
+    field.closest('.field')?.querySelector('[data-field-error]')?.replaceChildren();
+  });
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (submit.disabled) return;
+    let invalid;
+    form.querySelectorAll('input, select, textarea').forEach((field) => {
+      const error = field.closest('.field')?.querySelector('[data-field-error]');
+      if (!error) return;
+      error.textContent = field.validity.valid ? '' : field.validationMessage;
+      field.toggleAttribute('aria-invalid', !field.validity.valid);
+      if (!field.validity.valid) { field.setAttribute('aria-invalid', 'true'); invalid ||= field; }
+    });
+    if (invalid) { invalid.focus(); return; }
+    submit.disabled = true;
+    submit.textContent = 'Sending…';
+    status.textContent = 'Sending your message…';
+    status.removeAttribute('data-error');
+    try {
+      const response = await fetch(WEB_APP_URL, {
+        method:'POST',
+        headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+        body:JSON.stringify({ ...Object.fromEntries(new FormData(form)), formType:'contact' }),
+        signal:AbortSignal.timeout(30000),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error('Submission failed');
+      if (result.notified !== true) {
+        done.querySelector('[data-confirmation]').textContent = 'Your message was saved, but the email notification could not be delivered. You can also reach Vishakh directly at the email address above.';
+      }
+      form.hidden = true;
+      done.hidden = false;
+      done.querySelector('h3').focus();
+    } catch {
+      status.textContent = 'We could not confirm your message was sent. Please try again, or email Vishakh using the address above.';
+      status.setAttribute('data-error', '');
+    } finally {
+      submit.disabled = false;
+      submit.textContent = 'Send message';
+    }
+  });
+</script>

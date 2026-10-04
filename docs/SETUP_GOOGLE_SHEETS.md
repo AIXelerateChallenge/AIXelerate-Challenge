@@ -1,96 +1,45 @@
-# Connecting join.html to Google Sheets
+# Forms and email delivery
 
-This turns your Google Sheet into the backend for all four registration
-forms — no server hosting required. Takes about 10 minutes.
+The site posts student and mentor applications from `/apply`, and enquiries from
+`/contact`, to the Google Apps Script URL in `src/data/forms.js`.
+`apps-script/Code.gs` saves submissions in separate Student, Mentor, and Contact
+sheet tabs and sends a notification to **vishakh.a@aixeleratechallenge.org**.
+Replies go to the visitor's email address. No Outlook integration is needed.
 
-## 1. Create the Sheet
+## Update the existing deployment
 
-1. Go to [sheets.google.com](https://sheets.google.com) and create a new,
-   blank spreadsheet.
-2. Name it something like **AIXelerate Challenge — Registrations**.
-3. You don't need to add any tabs or headers yourself — the script creates
-   them automatically the first time each form is submitted.
+1. Open the Google Sheet connected to the existing forms, then **Extensions → Apps Script**.
+2. Replace the script with the contents of `apps-script/Code.gs` and save.
+3. Authorize the script's spreadsheet and email permissions using the deployment owner's account.
+4. Choose **Deploy → Manage deployments → Edit → New version → Deploy**.
+   Run as the owner and allow access to **Anyone** so visitors can submit.
+   Updating the existing deployment preserves the URL already in the site.
+5. If Google issues a different deployment URL, update `WEB_APP_URL` in
+   `src/data/forms.js` and rebuild the site.
 
-## 2. Add the script
+Saving the script alone does not update the deployed endpoint. The old script
+does not accept contact enquiries or send email notifications.
 
-1. In the Sheet, go to **Extensions > Apps Script**.
-2. Delete the placeholder code in `Code.gs`.
-3. Paste in the full contents of the `Code.gs` file provided alongside this
-   guide.
-4. (Optional but recommended once you're live) Set a shared secret so random
-   people can't read your submissions if they guess your URL:
-   - In `Code.gs`, change `const TOKEN = "";` to something like
-     `const TOKEN = "aix2026-9f2k";` — any string you like.
-   - You'll paste this same value into `join.html` in step 4.
-5. Click the **Save** icon (or Ctrl/Cmd+S).
+## Verify after deployment
 
-## 3. Deploy as a Web App
+- Submit one clearly marked test enquiry with a reply address you control.
+- Confirm a Contact row appears and the notification arrives at Vishakh's inbox.
+- Confirm Reply addresses the submitter, then check a student and mentor application.
+- Check each homepage pathway preselects the intended contact topic.
 
-1. Click **Deploy > New deployment**.
-2. Click the gear icon next to "Select type" and choose **Web app**.
-3. Fill in:
-   - **Description:** anything, e.g. "Registrations API"
-   - **Execute as:** Me (your account)
-   - **Who has access:** Anyone
-4. Click **Deploy**.
-5. The first time, Google will ask you to authorize the script — click
-   through the "Google hasn't verified this app" warning (this is normal for
-   scripts you write yourself): **Advanced > Go to [project name] (unsafe) >
-   Allow**.
-6. Copy the **Web app URL** it gives you. It looks like:
-   `https://script.google.com/macros/s/AKfycb.../exec`
+Local automated checks use mocks and do not send real email. Delivery to the
+inbox still needs verification after deployment.
 
-   Keep this — you'll paste it into `join.html` next.
+## Failure handling and access
 
-> **If you ever edit `Code.gs` later:** you must create a **New deployment**
-> (or use "Manage deployments" > edit > new version) for changes to take
-> effect. Just saving the script is not enough.
+Submissions are saved before email is attempted. If email delivery fails, the
+contact page reports that the message was saved and offers the direct email
+address. Check the sheet and Apps Script execution logs for notifications that
+could not be sent.
 
-## 4. Connect join.html
+The optional `TOKEN` is for server-side exports only. With a blank token the GET
+endpoint denies access; never place an export token in the public site.
+Use the Google Sheet directly to review submissions.
 
-Open `join.html` and find this near the top of the `<script>` block:
-
-```js
-const SHEETS_CONFIG = {
-  webAppUrl: "",     // paste your Apps Script Web App URL here
-  sharedToken: ""    // must match TOKEN in Code.gs, if you set one
-};
-```
-
-Paste your Web app URL and (if you set one) your token:
-
-```js
-const SHEETS_CONFIG = {
-  webAppUrl: "https://script.google.com/macros/s/AKfycb.../exec",
-  sharedToken: "aix2026-9f2k"
-};
-```
-
-Save and re-upload `join.html` to your host. That's it — submissions will
-now:
-- Save instantly to the visitor's browser (as before, for the local
-  dashboard/offline case), **and**
-- Get sent to your Google Sheet in the background.
-
-## 5. Try it
-
-1. Open your live `join.html`, submit a test entry in each of the 4 tabs.
-2. Check your Google Sheet — you should see new tabs appear (Competitor,
-   Volunteer, Mentor/Judge, Board Member) with your test rows.
-3. On the page, click **View Saved Responses** — it will now pull live data
-   from the Sheet (falling back to local-only data if the Sheet can't be
-   reached, e.g. you haven't deployed yet).
-
-## Notes & limits
-
-- **Free, no server to maintain.** Apps Script runs on Google's
-  infrastructure.
-- **Quota:** Free Google accounts get generous daily quotas (well beyond
-  what a hackathon registration page needs — thousands of requests/day).
-- **Security:** the shared token is basic obscurity, not real
-  authentication. Don't put anything highly sensitive in these forms. For
-  real access control, you'd want a proper backend with authentication.
-- **Editing columns:** if you add a new form field later, add its name to
-  the matching array in `SHEET_CONFIG` inside `Code.gs` (order = column
-  order), redeploy, and it'll start showing up as a new column.
-- **CSV export still works** the same way as before, from local data.
+When adding fields, update both the form and `SHEET_CONFIG`. Preserve the column
+order of existing tabs or migrate their headers and rows before deploying.

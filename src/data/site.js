@@ -27,6 +27,7 @@ export const cta = {
  * href="#" — they are marked here so they are findable in one place.
  */
 export const links = {
+  safeguarding: { href: '/safety', label: 'Youth safety policy', todo: false },
   donate:      { href: '#', label: 'Give to AIXelerate',  todo: true },
   sponsor:     { href: '/contact?topic=sponsor', label: 'Sponsor a sprint', todo: false },
   instagram:   { href: '#', label: 'Instagram',           todo: true },

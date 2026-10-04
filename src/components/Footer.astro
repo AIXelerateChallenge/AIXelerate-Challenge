@@ -22,7 +22,7 @@ const ticker = ['Problem first','Build early','Test impact','Ship Saturday','$5K
     <img src="/images/hcb-icon-dark.png" alt="Hack Club Bank" width="34" height="34" loading="lazy" />
     <p>{site.name} is fiscally sponsored by {fiscal.sponsorName}, a 501(c)(3) nonprofit (EIN: {fiscal.ein}). Fiscal sponsorship does not imply endorsement, partnership, or direct funding from Hack Club or HCB.</p>
   </div>
-  <div class="foot__base shell"><p>© {year} AIXelerate Challenge</p><p>Built to make access less theoretical.</p></div>
+  <div class="foot__base shell"><p>© {year} AIXelerate Challenge</p><a href={links.safeguarding.href}>{links.safeguarding.label}</a><p>Built to make access less theoretical.</p></div>
 </footer>
 
 <style>
@@ -46,6 +46,7 @@ const ticker = ['Problem first','Build early','Test impact','Ship Saturday','$5K
   .foot__legal{ display:grid; grid-template-columns:auto 1fr; gap:1rem; align-items:start; padding-block:1.6rem; border-top:1px solid var(--rule); color:var(--ink-400); font-family:var(--font-mono); font-size:.72rem; line-height:1.6; }
   .foot__legal img{ border-radius:7px; opacity:.7; }
   .foot__base{ min-height:70px; display:flex; align-items:center; justify-content:space-between; gap:1rem; border-top:1px solid var(--rule-faint); color:var(--ink-400); font-family:var(--font-mono); font-size:.72rem; }
+  .foot__base > a{ display:inline-flex; align-items:center; min-height:44px; text-decoration:underline; text-underline-offset:.2em; }
   @media (max-width:760px){ .foot__main{ grid-template-columns:1fr 1fr; } .foot__brand{ grid-column:1 / -1; } }
   @media (max-width:480px){ .foot__main{ grid-template-columns:1fr; } .foot__brand{ grid-column:auto; } .foot__legal{ grid-template-columns:1fr; } .foot__base{ align-items:flex-start; flex-direction:column; justify-content:center; } }
   @media (prefers-reduced-motion:reduce){ .foot__ticker > div{ animation:none; } }

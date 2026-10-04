@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import Field from '../components/Field.astro';
 import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
+import { links } from '../data/site.js';
 ---
 
 <Base
@@ -18,6 +19,7 @@ import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
   <section class="section apply" aria-labelledby="apply-title">
     <div class="shell shell--narrow">
       <h2 class="visually-hidden" id="apply-title">Application forms</h2>
+      <p class="apply__policy">For participants, parents, and mentors: <a href={links.safeguarding.href}>read our youth safety and safeguarding policy</a>. Reporting contact details are pending.</p>
 
       <!-- Role switch. A real tablist, so arrow keys work. -->
       <div class="roles" role="tablist" aria-label="Application type" data-roles>
@@ -108,6 +110,8 @@ import { studentFields, mentorFields, WEB_APP_URL } from '../data/forms.js';
 </Base>
 
 <style>
+  .apply__policy{ margin-bottom:var(--s-5); color:var(--ink-300); font-size:var(--t-small); }
+  .apply__policy a{ text-decoration:underline; text-underline-offset:.2em; }
   /* ---------------- Role switch ---------------- */
 
   .roles{
